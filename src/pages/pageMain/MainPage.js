@@ -1,30 +1,27 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { removeUser } from 'store/slices/userSlice';
+import { useSelector } from 'react-redux';
 
 import AppHeader from 'components/appHeader/AppHeader';
 import AppFooter from 'components/appFooter/AppFooter';
 import { ProductCard } from 'components/productCard/ProductCard';
 
-import useAuth from 'hooks/use-auth';
-
 const MainPage = () => {
-  const dispatch = useDispatch();
+  const {deliveryAddress} = useSelector(state => state.user);
   const navigate = useNavigate();
 
-  const { isAuth, email } = useAuth();
-
-  // useEffect(() => {
-  //   if (!isAuth) {
-  //     navigate('/login');
-  //   }
-  // }, [isAuth, navigate]);
+  useEffect(() => {
+    const boolValue = !!deliveryAddress;
+    console.log(deliveryAddress);
+    console.log(boolValue);
+    if (!boolValue) {
+      navigate('/address');
+    }
+  }, [deliveryAddress, navigate]);
 
   return (
     <>
       <AppHeader/>
-      {/* <button onClick={() => dispatch(removeUser())}>Log out from {email}</button> */}
       <AppFooter/>
       <ProductCard/>
     </>

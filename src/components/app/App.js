@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import LoginPage from 'pages/pagesAuthorization/pageLogin/LoginPage';
 import RegisterPage from 'pages/pagesAuthorization/pageRegister/RegisterPage';
 import MainPage from 'pages/pageMain/MainPage';
+import PageChooseAddress from 'pages/pageChooseAddress/PageChooseAddress';
 
 import './app.scss';
 import '../../styles/style.scss';
@@ -16,6 +17,7 @@ function App() {
         <Route path='/login' element={<LoginPage/>}/>
         <Route path='/register' element={<RegisterPage/>}/>
         <Route path='/' element={<MainPage/>}/>
+        <Route path='/address' element={<PageChooseAddress/>}/>
 
       </Routes>
 

@@ -8,7 +8,8 @@ const initialState = {
   city: null,
   gender: null,
   token: null,
-  id: null
+  id: null,
+  deliveryAddress: null
 }
 
 const userSlice = createSlice({
@@ -34,6 +35,9 @@ const userSlice = createSlice({
       state.gender = null;
       state.token = null;
       state.id = null;
+    },
+    setAddress: (state, action) => {
+      state.deliveryAddress = action.payload;
     }
   },
 });
@@ -44,5 +48,6 @@ export default reducer;
 
 export const {
   setUser,
-  removeUser
+  removeUser,
+  setAddress
 } = actions;

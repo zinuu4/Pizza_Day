@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import pageUp from '../../assets/imgFooter/footerPageUp.svg';
-import logo from '../../assets/imgFooter/footerLogo.jpeg';
+import logo from '../../assets/logo/logo.jpeg';
 import masterCard from '../../assets/imgFooter/footerMasterCard.png';
 import visa from '../../assets/imgFooter/footerVisa.png';
 import facebook from '../../assets/imgFooter/footerFacebook.svg';
