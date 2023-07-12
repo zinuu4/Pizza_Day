@@ -1,0 +1,105 @@
+.card {
+  position: relative;
+  display: flex;
+  background-color: var(--primary);
+  border-radius: 8px;
+  overflow: hidden;
+  max-height: 154px;
+  height: 100%;
+  width: 420px;
+  cursor: pointer;
+  &__image-wrapper {
+    position: relative;
+    width: 154px;
+    height: 154px;
+  }
+  &__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  &__grams {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    padding: 0 8px;
+    font-size: 12px;
+    line-height: 1.33;
+    font-size: 8px;
+    line-height: 14px;
+    color: var(--accent);
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1 1;
+    padding: 20px 24px;
+  }
+  &__title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  &__title {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: pre-wrap;
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -.0031em;
+    line-height: 20px;
+  }
+  &__favorite {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 20px;
+    background-color: var(--inputBackground);
+    cursor: pointer;
+    &-img {
+    }
+  }
+  &__descr {
+    font-size: 12px;
+    line-height: 1.33;
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: pre-wrap;
+    color: var(--disabled);
+  }
+  &__price-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 5px;
+  }
+  &__price {
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -.0031em;
+    margin-right: 6px;
+    font-weight: 700;
+  }
+  &__plus-btn {
+    padding: 7px;
+    line-height: 0;
+    background-color: var(--accent);
+    border-radius: 6px;
+    border: none;
+    outline: none;
+  }
+  &__plus-img {
+    width: 11px;
+    height: 11px;
+  }
+}

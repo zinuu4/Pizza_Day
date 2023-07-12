@@ -1,6 +1,7 @@
 .footer {
   display: flex;
   flex-direction: column;
+  background-color: var(--primary);
 }
 .top {
   display: flex;
@@ -91,6 +92,7 @@
   &__payments-mastercard {
     width: 50px;
     height: 32px;
+    margin-right: 10px;
   }
   &__payments-visa {
     width: 50px;

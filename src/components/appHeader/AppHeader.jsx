@@ -7,7 +7,7 @@ import './appHeader.scss';
 
 const AppHeader = () => {
   return (
-    <div className="header">
+    <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <Link to='/'>
@@ -27,7 +27,7 @@ const AppHeader = () => {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   )
 }
 

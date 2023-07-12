@@ -5,6 +5,7 @@ import { removeUser } from 'store/slices/userSlice';
 
 import AppHeader from 'components/appHeader/AppHeader';
 import AppFooter from 'components/appFooter/AppFooter';
+import { ProductCard } from 'components/productCard/ProductCard';
 
 import useAuth from 'hooks/use-auth';
 
@@ -25,6 +26,7 @@ const MainPage = () => {
       <AppHeader/>
       {/* <button onClick={() => dispatch(removeUser())}>Log out from {email}</button> */}
       <AppFooter/>
+      <ProductCard/>
     </>
   );
 };
