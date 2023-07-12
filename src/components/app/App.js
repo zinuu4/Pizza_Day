@@ -5,6 +5,7 @@ import RegisterPage from 'pages/pagesAuthorization/pageRegister/RegisterPage';
 import MainPage from 'pages/pageMain/MainPage';
 
 import './app.scss';
+import '../../styles/style.scss';
 
 function App() {
   return (

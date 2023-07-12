@@ -1,0 +1,135 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+}
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &__logo {
+    width: 190px;
+    height: 72px;
+  }
+  &__btn {
+    font-family: sf-medium,sans-serif;
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -.0015em;
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    color: var(--text);
+    background-color: var(--inputBackground);
+    border-radius: 8px;
+    border: none;
+    outline: none;
+  }
+  &__btn-span {
+    margin-right: 10px;
+  }
+}
+
+.main__wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+  margin-bottom: 30px;
+}
+
+.left-block__wrapper {
+  display: flex;
+  width: 477px;
+  justify-content: space-between;
+}
+
+.pizza {
+  &__title {
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -.0031em;
+    margin-bottom: 8px;
+  }
+  &__nav {
+    display: flex;
+    flex-direction: column;
+  }
+  &__nav-link {
+    color: var(--text);
+    margin-top: 15px;
+  }
+  &__nav-link:hover {
+    color: var(--text);
+  }
+}
+.pickup {
+  &__title {
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -.0031em;
+    margin-bottom: 24px;
+  }
+  &__time {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  &__circle {
+    background-color: #36ce00;
+    display: block;
+    width: 8px;
+    height: 8px;
+    margin-right: 8px;
+    border-radius: 50%;
+  }
+  &__phone {
+    color: #faaf3f;
+    font-weight: 500;
+  }
+  &__payments {
+    margin-top: 40px;
+  }
+  &__payments-mastercard {
+    width: 50px;
+    height: 32px;
+  }
+  &__payments-visa {
+    width: 50px;
+    height: 32px;
+  }
+}
+
+.social {
+  display: flex;
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--inputBackground);
+    border-radius: 8px;
+  }
+  &__link:not(:last-child) {
+    margin-right: 10px;
+  }
+  &__icon {
+    width: 17px;
+    height: 16px;
+  }
+}
+
+.privacy {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .privacy__copyright {
+    font-size: 12px;
+    line-height: 1.33;
+  }
+  .privacy__policy {
+    color: var(--disabled);
+    font-size: 12px;
+    line-height: 1.33;
+  }
+}

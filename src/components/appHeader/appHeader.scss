@@ -1,0 +1,49 @@
+.header {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__logo {
+    width: 190px;
+    height: 72px;
+  }
+}
+.location {
+  display: flex;
+  cursor: pointer;
+  margin-top: 8px;
+  &__img {
+    margin-top: -10px;
+    margin-right: 10px;
+  }
+  &__adress {
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -.0031em;
+    -webkit-box-orient: vertical;
+    display: block;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    white-space: pre-wrap;
+  }
+}
+.options {
+  display: flex;
+  align-items: center;
+  &__languages {
+    border: 0;
+    width: 87px;
+  }
+  &__login {
+    width: auto;
+    padding: 16px 24px;
+    margin-left: 16px;
+    background-color: var(--inputBackground);
+    color: var(--text);
+    border: 0;
+    border-radius: 5px;
+  }
+}

@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { removeUser } from 'store/slices/userSlice';
 
+import AppHeader from 'components/appHeader/AppHeader';
+import AppFooter from 'components/appFooter/AppFooter';
+
 import useAuth from 'hooks/use-auth';
 
 const MainPage = () => {
@@ -11,22 +14,19 @@ const MainPage = () => {
 
   const { isAuth, email } = useAuth();
 
-  useEffect(() => {
-    if (!isAuth) {
-      navigate('/login');
-    }
-  }, [isAuth, navigate]);
+  // useEffect(() => {
+  //   if (!isAuth) {
+  //     navigate('/login');
+  //   }
+  // }, [isAuth, navigate]);
 
-  if (isAuth) {
-    return (
-      <>
-        <h1>Welcome</h1>
-        <button onClick={() => dispatch(removeUser())}>Log out from {email}</button>
-      </>
-    );
-  }
-
-  return null;
+  return (
+    <>
+      <AppHeader/>
+      {/* <button onClick={() => dispatch(removeUser())}>Log out from {email}</button> */}
+      <AppFooter/>
+    </>
+  );
 };
 
 export default MainPage;
