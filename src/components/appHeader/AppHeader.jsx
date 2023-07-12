@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import logo from '../../assets/logo/logo.jpeg';
@@ -6,9 +9,16 @@ import locationYellow from '../../assets/locationImages/locationYellow.svg';
 import './appHeader.scss';
 
 const AppHeader = () => {
-  const isLocationChosen = false;
+  const {deliveryAddress} = useSelector(state => state.user);
+  const navigate = useNavigate();
 
-  if (isLocationChosen) {
+  const [booleanDeliveryAddress, setBooleanDeliveryAddress] = useState(false);
+
+  useEffect(() => {
+    setBooleanDeliveryAddress(!!deliveryAddress);
+  }, [deliveryAddress, navigate]);
+
+  if (booleanDeliveryAddress) {
     return (
       <header className="header">
         <div className="container">

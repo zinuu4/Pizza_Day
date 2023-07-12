@@ -1,0 +1,14 @@
+.products {
+  &__title {
+    font-size: 20px;
+    line-height: 1.25;
+    letter-spacing: -.0045em;
+    margin-bottom: 24px;
+    padding-left: 40px;
+  }
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-gap: 16px;
+  }
+}

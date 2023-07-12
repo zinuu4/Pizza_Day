@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import AppHeader from 'components/appHeader/AppHeader';
 import AppFooter from 'components/appFooter/AppFooter';
-import { ProductCard } from 'components/productCard/ProductCard';
+import Menu from 'components/menu/Menu';
 
 const MainPage = () => {
   const {deliveryAddress} = useSelector(state => state.user);
@@ -22,8 +22,8 @@ const MainPage = () => {
   return (
     <>
       <AppHeader/>
+      <Menu/>
       <AppFooter/>
-      <ProductCard/>
     </>
   );
 };
