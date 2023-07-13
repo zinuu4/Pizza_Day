@@ -1,0 +1,225 @@
+.banner {
+  &__wrapper {
+    position: relative;
+    display: flex;
+    background-color: var(--primary);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  &__delivery-type {
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 8px;
+    margin-bottom: -8px;
+    position: absolute;
+    bottom: 23px;
+    left: 24px;
+    z-index: 2;
+    padding-left: 0;
+  }
+  &__delivery-type-icon {
+    margin-right: 10px;
+  }
+  &__delivery-type-text {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 7px 15px;
+    background-color: var(--primary);
+    border-radius: 61px;
+  }
+  &__img-wrapper {
+    position: relative;
+    flex: 1 1;
+    min-height: 370px;
+  }
+  &__img {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  &__info {
+    align-self: center;
+    width: 50%;
+    max-width: 360px;
+    padding: 32px;
+  }
+  &__info-title-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  &__info-title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: pre-wrap;
+    font-size: 24px;
+    line-height: 1.25;
+    letter-spacing: .0007em;
+    flex: 1 1;
+    margin-right: 24px;
+    color: var(--text);
+  }
+  &__info-logo-wrapper {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    background-color: var(--background);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  &__info-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  &__info-phone {
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -.0015em;
+    color: #faaf3f;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 25px;
+  }
+  &__info-phone:hover {
+    color: #faaf3f;
+  }
+  &__info-about {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 16px;
+    color: var(--text);
+    background-color: var(--primary);
+    border-radius: 8px;
+    border: 1px solid var(--input);
+    outline: none;
+    overflow: hidden;
+    margin-bottom: 15px;
+  }
+  &__info-about-text {
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -.0015em;
+    margin-bottom: 4px;
+    line-height: 1;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  &__info-about-time {
+    font-size: 12px;
+    line-height: 1.33;
+    color: var(--disabled);
+    display: flex;
+    align-items: center;
+  }
+  &__info-about-circle {
+    display: block;
+    width: 8px;
+    height: 8px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background-color: #36ce00;
+  }
+  &__review {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    background-color: var(--inputBackground);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  &__review-text {
+    font-size: 12px;
+    line-height: 1.33;
+    margin-right: 20px;
+    color: var(--text);
+    margin: 0;
+  }
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  overflow: hidden;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal {
+  position: relative !important;
+  width: 100%;
+  background-color: var(--primary);
+  border-radius: 16px;
+  z-index: 10;
+  overflow: hidden;
+  flex-direction: column;
+  max-width: 566px;
+  max-height: 490px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--input);
+  }
+  &__title {
+    font-size: 20px;
+    line-height: 1.25;
+    letter-spacing: -.0045em;
+  }
+  &__close {
+    cursor: pointer;
+  }
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 32px 0;
+  }
+  &__info-subtitle {
+    margin-bottom: 5px;
+    color: var(--disabled);
+  }
+  &__info-time {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  &__info-circle {
+    display: block;
+    width: 8px;
+    height: 8px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background-color: #36ce00;
+  }
+  &__info-phone {
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -.0015em;
+    color: #faaf3f;
+    font-weight: 500;
+  }
+  &__info-phone:hover {
+    color: #faaf3f;
+  }
+  &__map {
+    height: 225px;
+    width: 566px;
+    margin-top: 24px;
+  }
+}

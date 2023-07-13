@@ -12,7 +12,7 @@ const ChooseAddress = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   return (
-    <div className="choose">
+    <section className="choose">
 
       <h3 className="choose__title">Order in Pizza Day</h3>
 
@@ -60,7 +60,7 @@ const ChooseAddress = () => {
         navigate('/')
       }} >Confirm the address</button>
 
-    </div>
+    </section>
   )
 }
 

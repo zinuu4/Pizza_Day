@@ -28,7 +28,7 @@ const AppHeader = () => {
             </Link>
             <div className="location">
               <img className='location__img' src={locationYellow} alt="Location" />
-              <p className="location__adress">З собою, Pizza Day - Berezinska</p>
+              <p className="location__adress">З собою, Pizza Day - Inzhenerna</p>
             </div>
             <div className="options">
               <select className="options__languages">
@@ -36,7 +36,11 @@ const AppHeader = () => {
                 <option value="Ukrainian">Українська</option>
                 <option value="Russian">Русский</option>
               </select>
-              <button className="options__login">Login</button>
+              <button className="options__login">
+                <Link to='/register'>
+                  Login
+                </Link>
+              </button>
             </div>
           </div>
         </div>
