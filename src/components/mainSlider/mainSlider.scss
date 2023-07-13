@@ -1,0 +1,73 @@
+.slider {
+  &__title {
+    margin-bottom: 24px;
+    font-size: 36px;
+    line-height: 1;
+    letter-spacing: .37px;
+    color: var(--text);
+  }
+  &__wrapper {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+  }
+  &__inner {
+    display: flex;
+    width: 200%;
+  }
+  &__slide {
+    width: 364px;
+    height: 215px;
+    margin-right: 16px;
+    cursor: pointer;
+    &-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--input);
+      object-fit: cover;
+    }
+  }
+  &__counter {
+    display: flex;
+    position: absolute;
+    right: 40px;
+    bottom: 15px;
+  }
+  &__counter-btn {
+    transform: none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    border-radius: 4px;
+    z-index: 1;
+    border: none;
+    transition: background-color 0.3s;
+  }
+  &__counter-btn:hover {
+    background-color: var(--accent);
+  }
+  &__counter-btn:not(:last-child) {
+    margin-right: 5px;
+  }
+  &__counter-next-img {
+    transform: rotate(180deg);
+    margin-top: -5px;
+  }
+}
+
+.svg-image {
+  fill: #faaf3f;
+  transition: fill 0.3s;
+}
+
+.slider__counter-btn:hover .svg-image {
+  fill: #fff;
+}
+
+.fix-display {
+  margin-top: 4px;
+}

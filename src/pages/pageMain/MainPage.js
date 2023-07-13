@@ -6,6 +6,7 @@ import AppHeader from 'components/appHeader/AppHeader';
 import AppFooter from 'components/appFooter/AppFooter';
 import Menu from 'components/menu/Menu';
 import Banner from 'components/banner/Banner';
+import MainSlider from 'components/mainSlider/MainSlider';
 
 const MainPage = () => {
   const {deliveryAddress} = useSelector(state => state.user);
@@ -24,6 +25,7 @@ const MainPage = () => {
     <>
       <AppHeader/>
       <Banner/>
+      <MainSlider/>
       <Menu/>
       <AppFooter/>
     </>
