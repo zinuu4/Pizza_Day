@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import pizza from 'assets/productCard/productCardPizza.jpeg';
 import heart from 'assets/productCard/productCardHeart.svg';
 import plusWhite from 'assets/productCard/productCardPlusWhite.svg';
@@ -6,32 +8,32 @@ import minus from 'assets/productCard/minus.svg';
 import close from 'assets/productCard/close.svg';
 
 import './productCard.scss';
-import { useEffect, useState } from 'react';
 
-const ProductCard = () => {
+const ProductCard = ({img, name, weight, volume, price, descr, id}) => {
   const [openModal, setOpenModal] = useState(false);
+
   return (
     <>
       <li onClick={() => setOpenModal(true)} className='card'>
 
         <div className='card__image-wrapper'>
-          <img className='card__image' src={pizza} alt="Pizza" />
-          <span className='card__grams'>430 g</span>
+          <img className='card__image' src={img} alt={name} />
+          <span className='card__grams'>{weight || volume}</span>
         </div>
 
         <div className='card__info'>
 
           <div className='card__title-wrapper'>
-            <h5 className='card__title'>Pepperoni</h5>
+            <h5 className='card__title'>{name}</h5>
             <div className='card__favorite'>
               <img className='card__favorite-img' src={heart} alt='favorite' />
             </div>
           </div>
 
-          <div className='card__descr'>Pepperoni, Italian herbs, mozzarella...</div>
+          <div className='card__descr'>{descr}</div>
 
           <div className='card__price-wrapper'>
-            <div className='card__price'>155 ₴</div>
+            <div className='card__price'>{price}</div>
             <button className='card__plus-btn'>
               <img className='card__plus-img' src={plusWhite} alt="Plus" />
             </button>
@@ -39,12 +41,12 @@ const ProductCard = () => {
 
         </div>
       </li>
-      <ProductCardModal openModal={openModal}/>
+      <ProductCardModal key={id} img={img} name={name} weight={weight} price={price} descr={descr} volume={volume} openModal={openModal}/>
     </>
   )
 }
 
-const ProductCardModal = ({openModal}) => {
+const ProductCardModal = ({openModal, img, name, weight, volume, price, descr}) => {
   const [modal, setModal] = useState(null);
   useEffect(() => {
     setModal(openModal)
@@ -70,16 +72,16 @@ const ProductCardModal = ({openModal}) => {
         className='modal__productCard'
       >
         <img onClick={() => setModal(false)} className='card__close' src={close} alt='close' />
-        <img className='modal__productCard__img' src={pizza} alt="pizza" />
+        <img className='modal__productCard__img' src={img} alt={name} />
         <div className='modal__productCard__title-wrapper'>
-          <div className='modal__productCard__title'>Pepperoni</div>
+          <div className='modal__productCard__title'>{name}</div>
           <div className='card__favorite'>
             <img className='card__favorite-img' src={heart} alt='favorite' />
           </div>
         </div>
-        <div className='modal__productCard__grams'>430 g</div>
-        <div className='modal__productCard__price'>155 ₴</div>
-        <div className='modal__productCard__descr'>Pepperoni, Italian herbs, mozzarella, special sauce</div>
+        <div className='modal__productCard__grams'>{weight || volume}</div>
+        <div className='modal__productCard__price'>{price}</div>
+        <div className='modal__productCard__descr'>{descr}</div>
         <div className='modal__productCard__orderModification-title'>Персональне замовлення до Пепероні</div>
         <ul className='modal__productCard__orderModification-list'>
           <li className='modal__productCard__orderModification-item'>
