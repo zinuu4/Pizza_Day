@@ -37,14 +37,24 @@
   &__languages {
     border: 0;
     width: 87px;
+    cursor: pointer;
   }
   &__login {
     width: auto;
     padding: 16px 24px;
     margin-left: 16px;
     background-color: var(--inputBackground);
-    color: var(--text);
     border: 0;
     border-radius: 5px;
+    transition: all .3s ease-in-out;
+  }
+  &__login a {
+    color: var(--text);
+  }
+  &__login:hover a {
+    color: var(--text);
+  }
+  &__login:hover {
+    transform: scale(1.03);
   }
 }

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -12,4 +12,23 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const db = getFirestore(app);
+
+const GetData = () => {
+  const specialOfTheday = doc(db, 'dailySpecial/2021-09-14')
+
+  function writeDailySpecial() {
+    const docData = {
+      description: 'Vanilla latte',
+      price: 3.99,
+      milk: 'Whole',
+      vegan: false
+    }
+    setDoc(specialOfTheday, docData);
+  }
+  return (
+    <button onClick={writeDailySpecial}>dafwe</button>
+  )
+}
+
+export default GetData;

@@ -1,4 +1,4 @@
-import { ProductCard } from 'components/productCard/ProductCard';
+import ProductCard from 'components/productCard/ProductCard';
 
 import './productsList.scss';
 

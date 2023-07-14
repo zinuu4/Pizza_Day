@@ -1,4 +1,5 @@
 .banner {
+  padding: 30px 0 20px 0;
   &__wrapper {
     position: relative;
     display: flex;
@@ -143,7 +144,7 @@
   }
 }
 
-.modal-wrapper {
+.modal__restaraunt-info-wrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -156,7 +157,7 @@
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.5);
 }
-.modal {
+.modal__restaraunt-info {
   position: relative !important;
   width: 100%;
   background-color: var(--primary);
@@ -170,36 +171,36 @@
   left: 0;
   right: 0;
   bottom: 0;
-  &__top {
+  &-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 24px 32px;
     border-bottom: 1px solid var(--input);
   }
-  &__title {
+  &-title {
     font-size: 20px;
     line-height: 1.25;
     letter-spacing: -.0045em;
   }
-  &__close {
+  &-close {
     cursor: pointer;
   }
-  &__info {
+  &-info {
     display: flex;
     justify-content: space-between;
     padding: 24px 32px 0;
   }
-  &__info-subtitle {
+  &-info-subtitle {
     margin-bottom: 5px;
     color: var(--disabled);
   }
-  &__info-time {
+  &-info-time {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
   }
-  &__info-circle {
+  &-info-circle {
     display: block;
     width: 8px;
     height: 8px;
@@ -207,17 +208,17 @@
     border-radius: 50%;
     background-color: #36ce00;
   }
-  &__info-phone {
+  &-info-phone {
     font-size: 14px;
     line-height: 19px;
     letter-spacing: -.0015em;
     color: #faaf3f;
     font-weight: 500;
   }
-  &__info-phone:hover {
+  &-info-phone:hover {
     color: #faaf3f;
   }
-  &__map {
+  &-map {
     height: 225px;
     width: 566px;
     margin-top: 24px;
