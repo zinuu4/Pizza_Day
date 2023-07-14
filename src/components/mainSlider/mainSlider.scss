@@ -10,6 +10,7 @@
     overflow: hidden;
     width: 100%;
     position: relative;
+    overflow: hidden;
   }
   &__inner {
     display: flex;
@@ -74,4 +75,92 @@
 
 .fix-display {
   margin-top: 4px;
+}
+
+.SliderModal__wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  overflow: hidden;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.SliderModal {
+  position: relative !important;
+  width: 100%;
+  background-color: var(--primary);
+  border-radius: 16px;
+  z-index: 10;
+  overflow: hidden;
+  flex-direction: column;
+  max-width: 566px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  &__time {
+    font-size: 12px;
+    line-height: 1.33;
+    position: absolute;
+    top: 32px;
+    left: 32px;
+    display: block;
+    padding: 7px 8px;
+    background-color: var(--background);
+    border-radius: 4px;
+    z-index: 10;
+  }
+  &__close {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 22px;
+    height: 22px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: opacity .3s ease-in-out;
+    z-index: 10;
+    &-img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
+  }
+  &__img-wrapper {
+    height: 335px;
+    height: 100%;
+    position: relative;
+  }
+  &__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  &__descr-wrapper {
+    padding: 40px 32px;
+  }
+  &__title {
+    font-size: 24px;
+    line-height: 1.25;
+    letter-spacing: .0007em;
+    margin-bottom: 28px;
+    margin-top: 0;
+    padding-right: 12px;
+    font-weight: 700;
+  }
+  &__text {
+    padding-right: 12px;
+    color: var(--darkText);
+    white-space: pre-wrap;
+  }
 }

@@ -14,8 +14,6 @@ const MainPage = () => {
 
   useEffect(() => {
     const boolValue = !!deliveryAddress;
-    console.log(deliveryAddress);
-    console.log(boolValue);
     if (!boolValue) {
       navigate('/address');
     }

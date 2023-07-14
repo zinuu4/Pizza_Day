@@ -1,20 +1,51 @@
 import { useState, useEffect } from 'react';
-import { ReactSVG } from 'react-svg';
+import { useSelector, useDispatch } from 'react-redux';
+import { initializeApp } from "firebase/app";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
+
+import { setNewsAndPromotions } from 'store/slices/dataBaseSlice';
 
 import './mainSlider.scss';
-
-import slide1 from 'assets/mainSlider/slide-1.jpeg';
-import slide2 from 'assets/mainSlider/slide-2.png';
-import slide3 from 'assets/mainSlider/slide-3.png';
-import slide4 from 'assets/mainSlider/slide-4.png';
-import slide5 from 'assets/mainSlider/slide-5.jpeg';
-import slide6 from 'assets/mainSlider/slide-6.jpeg';
+import close from 'assets/mainSlider/close.svg';
 
 const MainSlider = () => {
   const [transform, setTransform] = useState('0');
   const [offset, setOffset] = useState(0);
   const [prevdisabled, setPrevDisabled] = useState(false);
   const [nextdisabled, setNextDisabled] = useState(false);
+
+  const [modal, setModal] = useState(false);
+
+  if (modal) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+
+  const dispatch = useDispatch();
+
+  const {newsAndPromotions} = useSelector(state => state.db);
+  const {firebaseConfig} = useSelector(state => state.firebaseConfig);
+
+  useEffect(() => {
+    const fetchData = async (collectionName, setFunc) => {
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      try {
+        const querySnapshot = await getDocs(collection(db, collectionName));
+        const newData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        dispatch(setFunc(newData));
+      } catch (e) {
+        console.error("Error getting documents:", e);
+      }
+    };
+
+    fetchData("news and promotions", setNewsAndPromotions);
+  }, []);
 
   const plusSlide = () => {
     const maxOffset = 380 * (3);
@@ -46,20 +77,43 @@ const MainSlider = () => {
     }
   };
 
-  const slidesData = [
-    {slide: slide1, title: "delivery"},
-    {slide: slide2, title: "promocode sweet.tv"},
-    {slide: slide3, title: "meat duo"},
-    {slide: slide4, title: "loyalty program"},
-    {slide: slide5, title: "pizza mix"},
-    {slide: slide6, title: "chat bot"}
-  ]
-
-  const slides = slidesData.map(({slide, title}, index) => {
+  const slides = newsAndPromotions.map(({img, id}, index) => {
     return (
-      <div key={index} className="slider__slide">
-        <img className='slider__slide-img' src={slide} alt={title} />
+      <>
+        <div onClick={() => setModal(id)} key={index} className="slider__slide">
+          <img className='slider__slide-img' src={img} alt={id} />
+        </div>
+      </>
+    )
+  })
+  const modals = newsAndPromotions.map(({img, id, time, title, descr}, index) => {
+    return (
+      <div 
+      style={{
+        'display': modal === id ? 'flex' : 'none'
+      }}
+      className='SliderModal__wrapper'
+      key={index}
+    >
+      <div 
+        style={{
+          'display': modal === id ? 'flex' : 'none'
+        }}
+        className='SliderModal'
+      >
+        <div className='SliderModal__time'>{time}</div>
+        <div onClick={() => setModal(null)} className='SliderModal__close'>
+          <img className='SliderModal__close-img' src={close} alt="close" />
+        </div>
+        <div className='SliderModal__img-wrapper'>
+          <img className='SliderModal__img' src={img} alt="" />
+        </div>
+        <div className='SliderModal__descr-wrapper'>
+          <h5 className='SliderModal__title'>{title}</h5>
+          <p className='SliderModal__text'>{descr}</p>
+        </div>
       </div>
+    </div>
     )
   })
 
@@ -81,38 +135,41 @@ const MainSlider = () => {
   );
   
   return (
-    <section className="slider">
-      <div className="container">
-        <h1 className="slider__title">News and promotions</h1>
-        <div className="slider__wrapper">
-          <div
-            style={{
-              width: `${(100 * slidesData.length) / 3}%`,
-              transform: transform
-            }}
-            className="slider__inner"
-          >
-            {slides}
-          </div>
-          <div className="slider__counter">
-            <button
-              disabled={prevdisabled}
-              onClick={minusSlide}
-              className="slider__counter-btn"
+    <>
+      <section className="slider">
+        <div className="container">
+          <h1 className="slider__title">News and promotions</h1>
+          <div className="slider__wrapper">
+            <div
+              style={{
+                width: `${(100 * newsAndPromotions.length) / 3}%`,
+                transform: transform
+              }}
+              className="slider__inner"
             >
-              <span className='fix-display'>{svgCode}</span>
-            </button>
-            <button
-              disabled={nextdisabled}
-              onClick={plusSlide}
-              className="slider__counter-btn"
-            >
-              <span className="slider__counter-next-img">{svgCode}</span>
-            </button>
+              {slides}
+            </div>
+            <div className="slider__counter">
+              <button
+                disabled={prevdisabled}
+                onClick={minusSlide}
+                className="slider__counter-btn"
+              >
+                <span className='fix-display'>{svgCode}</span>
+              </button>
+              <button
+                disabled={nextdisabled}
+                onClick={plusSlide}
+                className="slider__counter-btn"
+              >
+                <span className="slider__counter-next-img">{svgCode}</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+      {modals}
+    </>
   );  
 }
 

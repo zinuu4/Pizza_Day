@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import pizza from 'assets/productCard/productCardPizza.jpeg';
 import heart from 'assets/productCard/productCardHeart.svg';
 import plusWhite from 'assets/productCard/productCardPlusWhite.svg';
 import plusYellow from 'assets/productCard/plusYellow.svg';
@@ -10,11 +9,17 @@ import close from 'assets/productCard/close.svg';
 import './productCard.scss';
 
 const ProductCard = ({img, name, weight, volume, price, descr, id}) => {
-  const [openModal, setOpenModal] = useState(false);
+  const [modal, setModal] = useState(false);
+
+  if (modal) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
 
   return (
     <>
-      <li onClick={() => setOpenModal(true)} className='card'>
+      <li onClick={() => setModal(true)} className='card'>
 
         <div className='card__image-wrapper'>
           <img className='card__image' src={img} alt={name} />
@@ -41,25 +46,8 @@ const ProductCard = ({img, name, weight, volume, price, descr, id}) => {
 
         </div>
       </li>
-      <ProductCardModal key={id} img={img} name={name} weight={weight} price={price} descr={descr} volume={volume} openModal={openModal}/>
-    </>
-  )
-}
 
-const ProductCardModal = ({openModal, img, name, weight, volume, price, descr}) => {
-  const [modal, setModal] = useState(null);
-  useEffect(() => {
-    setModal(openModal)
-  }, [openModal])
-
-  if (modal) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
-
-  return (
-    <div
+      <div
       style={{
         'display': modal ? 'flex' : 'none'
       }}
@@ -82,7 +70,7 @@ const ProductCardModal = ({openModal, img, name, weight, volume, price, descr}) 
         <div className='modal__productCard__grams'>{weight || volume}</div>
         <div className='modal__productCard__price'>{price}</div>
         <div className='modal__productCard__descr'>{descr}</div>
-        <div className='modal__productCard__orderModification-title'>Персональне замовлення до Пепероні</div>
+        <div className='modal__productCard__orderModification-title'>Personal order for {name}</div>
         <ul className='modal__productCard__orderModification-list'>
           <li className='modal__productCard__orderModification-item'>
             <label className='modal__productCard__orderModification-item-label'>
@@ -108,6 +96,8 @@ const ProductCardModal = ({openModal, img, name, weight, volume, price, descr}) 
         </div>
       </div>
     </div>
+
+    </>
   )
 }
 

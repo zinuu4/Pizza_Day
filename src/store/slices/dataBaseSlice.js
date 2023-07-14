@@ -6,7 +6,8 @@ const initialState = {
   pizzaFor155Uah: [],
   pizzaFor129Uah: [],
   pizzaFor115Uah: [],
-  pizzaFor99Uah: []
+  pizzaFor99Uah: [],
+  newsAndPromotions: []
 }
 
 const userSlice = createSlice({
@@ -30,7 +31,10 @@ const userSlice = createSlice({
     },
     setPizzaFor99Uah: (state, action) => {
       state.pizzaFor99Uah = action.payload;
-    }
+    },
+    setNewsAndPromotions: (state, action) => {
+      state.newsAndPromotions = action.payload;
+    },
   },
 });
 
@@ -44,5 +48,6 @@ export const {
   setPizzaFor155Uah,
   setPizzaFor129Uah,
   setPizzaFor115Uah,
-  setPizzaFor99Uah
+  setPizzaFor99Uah,
+  setNewsAndPromotions
 } = actions;
