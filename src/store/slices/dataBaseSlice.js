@@ -7,7 +7,10 @@ const initialState = {
   pizzaFor129Uah: [],
   pizzaFor115Uah: [],
   pizzaFor99Uah: [],
-  newsAndPromotions: []
+  newsAndPromotions: [],
+  cities: [],
+  chosenCity: 'Bila Tserkva',
+  cityRestaurants: [],
 }
 
 const userSlice = createSlice({
@@ -35,6 +38,15 @@ const userSlice = createSlice({
     setNewsAndPromotions: (state, action) => {
       state.newsAndPromotions = action.payload;
     },
+    setCities: (state, action) => {
+      state.cities = action.payload;
+    },
+    setChosenCity: (state, action) => {
+      state.chosenCity = action.payload;
+    },
+    setCityRestaurants: (state, action) => {
+      state.cityRestaurants = action.payload;
+    },
   },
 });
 
@@ -49,5 +61,8 @@ export const {
   setPizzaFor129Uah,
   setPizzaFor115Uah,
   setPizzaFor99Uah,
-  setNewsAndPromotions
+  setNewsAndPromotions,
+  setCities,
+  setCityRestaurants,
+  setChosenCity
 } = actions;

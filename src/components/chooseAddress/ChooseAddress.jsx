@@ -1,7 +1,10 @@
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { setAddress } from 'store/slices/userSlice';
+import { useHttp } from 'hooks/http.hook';
+import { setCities, setCityRestaurants, setChosenCity } from 'store/slices/dataBaseSlice';
 
 import './chooseAddress.scss';
 
@@ -11,6 +14,18 @@ import locationGrey from '../../assets/locationImages/locationGrey.svg';
 const ChooseAddress = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const fetchData = useHttp();
+
+  const {cities} = useSelector(state => state.db);
+  const {cityRestaurants} = useSelector(state => state.db);
+  const {chosenCity} = useSelector(state => state.db);
+
+  useEffect(() => {
+    fetchData('cities', setCities)
+    fetchData(`${chosenCity} restaurants`, setCityRestaurants)
+  }, [chosenCity])
+
   return (
     <section className="choose">
 
@@ -31,29 +46,30 @@ const ChooseAddress = () => {
         </div>
       </div>
 
-      <select className='choose__city'>
-        <option className='choose__city-option'>Dnipro</option>
-        <option className='choose__city-option'>Kyiv</option>
-        <option className='choose__city-option'>Kharkiv</option>
+      <select value={chosenCity} onChange={(e) => dispatch(setChosenCity(e.target.value))} className='choose__city'>
+        {
+          cities.map(({id}) => {
+            return (
+              <option key={id} className='choose__city-option'>{id}</option>
+            )
+          })
+        }
       </select>
 
-      <div className='choose__restaurant selected-restaurant'>
-        <div className='choose__restaurant-address selected-restaurant-address'>Pizza Day № 51,вул. Марії Лисиченко 21</div>
-        <div className='choose__restaurant-clue'>ТК Березинський</div>
-        <p className='choose__restaurant-work-time'>
-          <span className='choose__restaurant-circle'/>
-          Відкрито з 10:00 до 22:00
-        </p>
-      </div>
-
-      <div className='choose__restaurant'>
-        <div className='choose__restaurant-address'>Pizza Day № 51,вул. Марії Лисиченко 21</div>
-        <div className='choose__restaurant-clue'>ТК Березинський</div>
-        <p className='choose__restaurant-work-time'>
-          <span className='choose__restaurant-circle'/>
-          Відкрито з 10:00 до 22:00
-        </p>
-      </div>
+      {
+        cityRestaurants.map(({name, address, timeOpen}) => {
+          return (
+            <div className='choose__restaurant selected-restaurant'>
+              <div className='choose__restaurant-address selected-restaurant-address'>{address}</div>
+              <div className='choose__restaurant-clue'>{name}</div>
+              <p className='choose__restaurant-work-time'>
+                <span className='choose__restaurant-circle'/>
+                {timeOpen}
+              </p>
+            </div>
+          )
+        })
+      }
 
       <button className='choose__btn-confirm' onClick={() => {
         dispatch(setAddress('Dnipro'))

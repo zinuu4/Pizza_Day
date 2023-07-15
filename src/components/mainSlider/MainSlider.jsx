@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { initializeApp } from "firebase/app";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { useSelector } from 'react-redux';
 
 import { setNewsAndPromotions } from 'store/slices/dataBaseSlice';
+import { useHttp } from 'hooks/http.hook';
 
 import './mainSlider.scss';
 import close from 'assets/mainSlider/close.svg';
@@ -22,28 +21,11 @@ const MainSlider = () => {
     document.body.style.overflow = '';
   }
 
-  const dispatch = useDispatch();
+  const {newsAndPromotions} = useSelector(state => state.db);;
 
-  const {newsAndPromotions} = useSelector(state => state.db);
-  const {firebaseConfig} = useSelector(state => state.firebaseConfig);
+  const fetchData = useHttp();
 
   useEffect(() => {
-    const fetchData = async (collectionName, setFunc) => {
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      try {
-        const querySnapshot = await getDocs(collection(db, collectionName));
-        const newData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        dispatch(setFunc(newData));
-      } catch (e) {
-        console.error("Error getting documents:", e);
-      }
-    };
-
     fetchData("news and promotions", setNewsAndPromotions);
   }, []);
 

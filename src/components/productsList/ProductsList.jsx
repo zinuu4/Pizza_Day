@@ -1,6 +1,4 @@
 import { useEffect } from "react";
-import { initializeApp } from "firebase/app";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { 
   setSauces, 
   setDrinks, 
@@ -9,34 +7,16 @@ import {
   setPizzaFor115Uah, 
   setPizzaFor99Uah 
 } from "store/slices/dataBaseSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import ProductCard from 'components/productCard/ProductCard';
+import { useHttp } from "hooks/http.hook";
 import './productsList.scss';
 
 const ProductsList = () => {
-
-  const {firebaseConfig} = useSelector(state => state.firebaseConfig);
-
-  const dispatch = useDispatch();
+  const fetchData = useHttp();
 
   useEffect(() => {
-    const fetchData = async (collectionName, setFunc) => {
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      try {
-        const querySnapshot = await getDocs(collection(db, collectionName));
-        const newData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        dispatch(setFunc(newData));
-      } catch (e) {
-        console.error("Error getting documents:", e);
-      }
-    };
-
     fetchData("sauces", setSauces);
     fetchData("drinks", setDrinks);
     fetchData("pizza for 155 uah", setPizzaFor155Uah);
