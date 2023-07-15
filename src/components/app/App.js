@@ -4,6 +4,7 @@ import LoginPage from 'pages/pagesAuthorization/pageLogin/LoginPage';
 import RegisterPage from 'pages/pagesAuthorization/pageRegister/RegisterPage';
 import MainPage from 'pages/pageMain/MainPage';
 import PageChooseAddress from 'pages/pageChooseAddress/PageChooseAddress';
+import OrderPage from 'pages/pageOrder/OrderPage';
 
 import './app.scss';
 import '../../styles/style.scss';
@@ -18,6 +19,7 @@ function App() {
         <Route path='/register' element={<RegisterPage/>}/>
         <Route path='/' element={<MainPage/>}/>
         <Route path='/address' element={<PageChooseAddress/>}/>
+        <Route path='/order' element={<OrderPage/>}/>
 
       </Routes>
 

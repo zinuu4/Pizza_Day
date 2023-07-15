@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 import heart from 'assets/productCard/productCardHeart.svg';
-import plusWhite from 'assets/productCard/productCardPlusWhite.svg';
-import plusYellow from 'assets/productCard/plusYellow.svg';
-import minus from 'assets/productCard/minus.svg';
-import close from 'assets/productCard/close.svg';
+import plusWhite from 'assets/plus/PlusWhite.svg';
+import plusYellow from 'assets/plus/plusYellow.svg';
+import minus from 'assets/minus/minusYellow.svg';
+import close from 'assets/close/closeGrey.svg';
 
 import './productCard.scss';
 

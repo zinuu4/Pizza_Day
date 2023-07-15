@@ -5,7 +5,7 @@ import { setNewsAndPromotions } from 'store/slices/dataBaseSlice';
 import { useHttp } from 'hooks/http.hook';
 
 import './mainSlider.scss';
-import close from 'assets/mainSlider/close.svg';
+import close from 'assets/close/closeGrey.svg';
 
 const MainSlider = () => {
   const [transform, setTransform] = useState('0');

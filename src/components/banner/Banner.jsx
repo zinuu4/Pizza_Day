@@ -9,7 +9,7 @@ import restarauntPhoto from 'assets/banner/restarauntPhoto.jpeg';
 import forkAndSpoon from 'assets/banner/forkAndSpoon.png';
 import infoCircle from 'assets/banner/infoCircle.svg';
 import review from 'assets/banner/review.svg';
-import close from 'assets/banner/close.svg';
+import close from 'assets/close/closeYellow.svg';
 
 const Banner = () => {
   const dispatch = useDispatch();

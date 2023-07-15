@@ -57,9 +57,9 @@ const ChooseAddress = () => {
       </select>
 
       {
-        cityRestaurants.map(({name, address, timeOpen}) => {
+        cityRestaurants.map(({name, id, address, timeOpen}) => {
           return (
-            <div className='choose__restaurant selected-restaurant'>
+            <div key={id} className='choose__restaurant selected-restaurant'>
               <div className='choose__restaurant-address selected-restaurant-address'>{address}</div>
               <div className='choose__restaurant-clue'>{name}</div>
               <p className='choose__restaurant-work-time'>
@@ -72,7 +72,6 @@ const ChooseAddress = () => {
       }
 
       <button className='choose__btn-confirm' onClick={() => {
-        dispatch(setAddress('Dnipro'))
         navigate('/')
       }} >Confirm the address</button>
 
