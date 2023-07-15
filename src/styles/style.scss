@@ -32,3 +32,33 @@ a {
 ol, ul {
   list-style-type: none;
 }
+
+.circle {
+  background-color: #36ce00;
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+}
+
+.counter__btn {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  background-color: transparent;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  outline: none;
+  border-color: var(--accent);
+}
+.counter {
+  margin: 0 10px;
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: -.0031em;
+  width: 41px;
+  color: var(--disabled);
+  font-weight: 600;
+}

@@ -42,7 +42,7 @@ const AppFooter = () => {
               <h5 className='pickup__title'>Pickup</h5>
               <div className='pickup__info-wrapper'>
                 <div className='pickup__time'>
-                  <span className='pickup__circle'/>
+                  <span className='circle'/>
                   Opened from 10:00 to 22:00
                 </div>
                 <a href='tel:+380730836710' className='pickup__phone'>+380 (73) 083 67 10</a>

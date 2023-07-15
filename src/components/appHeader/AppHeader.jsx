@@ -9,16 +9,16 @@ import locationYellow from '../../assets/locationImages/locationYellow.svg';
 import './appHeader.scss';
 
 const AppHeader = () => {
-  const {chosenCity} = useSelector(state => state.db);
+  const {chosenRestaurant} = useSelector(state => state.db);
   const navigate = useNavigate();
 
   const [booleanDeliveryAddress, setBooleanDeliveryAddress] = useState(false);
 
   useEffect(() => {
-    setBooleanDeliveryAddress(!!chosenCity);
-  }, [chosenCity, navigate]);
+    setBooleanDeliveryAddress(!!chosenRestaurant);
+  }, [chosenRestaurant, navigate]);
 
-  if (chosenCity) {
+  if (booleanDeliveryAddress) {
     return (
       <>
         <header className="header">
@@ -29,7 +29,7 @@ const AppHeader = () => {
               </Link>
               <div className="location">
                 <img className='location__img' src={locationYellow} alt="Location" />
-                <p className="location__adress">З собою, {chosenCity}</p>
+                <p className="location__adress">З собою, {chosenRestaurant}</p>
               </div>
               <div className="options">
                 <select className="options__languages">

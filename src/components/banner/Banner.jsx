@@ -46,7 +46,7 @@ const Banner = () => {
                 <div className='banner__info-about-text-wrapper'>
                   <p className='banner__info-about-text'>Information about the restaurant</p>
                   <div className='banner__info-about-time'>
-                    <span className='banner__info-about-circle'></span>
+                    <span className='circle'></span>
                     Opened from 10:00 to 22:00
                   </div>
                 </div>
@@ -108,7 +108,7 @@ const RestarauntInfoModal = () => {
           <div>
             <p className='modal__restaraunt-info-info-subtitle'>Business hours</p>
             <div className='modal__restaraunt-info-info-time'>
-              <span className='modal__restaraunt-info-info-circle'></span>
+              <span className='circle'></span>
               Opened from 10:00 to 22:00
             </div>
             <a className="modal__restaraunt-info-info-phone" href="tel:+380730836710">+380 (73) 083 67 10</a>

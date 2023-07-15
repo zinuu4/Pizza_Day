@@ -2,9 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { setAddress } from 'store/slices/userSlice';
 import { useHttp } from 'hooks/http.hook';
-import { setCities, setCityRestaurants, setChosenCity } from 'store/slices/dataBaseSlice';
+import { setCities, setCityRestaurants, setChosenCity, setChosenRestaurant } from 'store/slices/dataBaseSlice';
 
 import './chooseAddress.scss';
 
@@ -20,6 +19,7 @@ const ChooseAddress = () => {
   const {cities} = useSelector(state => state.db);
   const {cityRestaurants} = useSelector(state => state.db);
   const {chosenCity} = useSelector(state => state.db);
+  const {chosenRestaurant} = useSelector(state => state.db);
 
   useEffect(() => {
     fetchData('cities', setCities)
@@ -58,9 +58,11 @@ const ChooseAddress = () => {
 
       {
         cityRestaurants.map(({name, id, address, timeOpen}) => {
+          const restaurantClass = name === chosenRestaurant ? 'choose__restaurant selected-restaurant' : 'choose__restaurant';
+          const addressClass = name === chosenRestaurant ? 'choose__restaurant-address selected-restaurant-address' : 'choose__restaurant-address';
           return (
-            <div key={id} className='choose__restaurant selected-restaurant'>
-              <div className='choose__restaurant-address selected-restaurant-address'>{address}</div>
+            <div onClick={() => dispatch(setChosenRestaurant(name))} key={id} className={restaurantClass}>
+              <div className={addressClass}>{address}</div>
               <div className='choose__restaurant-clue'>{name}</div>
               <p className='choose__restaurant-work-time'>
                 <span className='choose__restaurant-circle'/>

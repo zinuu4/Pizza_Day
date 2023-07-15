@@ -10,15 +10,15 @@ import MainSlider from 'components/mainSlider/MainSlider';
 import OrderCart from 'components/orderCart/OrderCart';
 
 const MainPage = () => {
-  const {chosenCity} = useSelector(state => state.db);
+  const {chosenRestaurant} = useSelector(state => state.db);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const boolValue = !!chosenCity;
+    const boolValue = !!chosenRestaurant;
     if (!boolValue) {
       navigate('/address');
     }
-  }, [chosenCity, navigate]);
+  }, [chosenRestaurant, navigate]);
 
   return (
     <>

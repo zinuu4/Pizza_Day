@@ -1,0 +1,214 @@
+.order {
+  padding: 30px 0;
+}
+.form {
+  display: flex;
+  &__data {
+    background-color: var(--primary);
+    border-radius: 8px;
+    padding: 40px 32px;
+    margin-right: 20px;
+    width: 660px;
+  }
+  &__title {
+    font-size: 20px;
+    line-height: 1.25;
+    letter-spacing: -.0045em;
+    font-weight: 700;
+    margin-bottom: 24px;
+    margin-top: 0;
+  }
+  &__title:not(:first-child) {
+    border-top: 1px solid var(--input);
+    padding-top: 40px;
+  }
+  &__subtitle {
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -.0031em;
+    font-weight: 500;
+    margin-bottom: 24px;
+    border-top: 1px solid var(--input);
+    padding-top: 40px;
+  }
+  &__input-text {
+    font-size: 14px;
+    letter-spacing: -.0015em;
+    position: relative;
+    width: 100%;
+    padding: 14px 16px;
+    line-height: 1;
+    color: var(--text);
+    background-color: var(--inputBackground);
+    border-radius: 8px;
+    border: 1px solid var(--inputBackground);
+    outline: none;
+    margin-bottom: 24px;
+  }
+  &__label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--disabled);
+    font-weight: 400;
+    &-checkbox {
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    &-checkbox p {
+      margin: 5px 3px 0 10px;
+    }
+    &-checkbox a {
+      margin-top: 5px;
+      color: var(--accent);
+      font-weight: 400;
+    }
+    &-checkbox a:hover {
+      color: var(--accent);
+    }
+  }
+  &__info {
+    font-size: 12px;
+    line-height: 1.33;
+    margin-bottom: 40px;
+  }
+  &__select-time {
+    max-width: 225px;
+    padding: 13px 14px;
+    background-color: var(--inputBackground);
+    border: 1px solid var(--inputBackground);
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 40px;
+  }
+  &__paymentMethod__wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+  }
+  &__paymentMethod__label {
+    font-weight: 400;
+    display: flex;
+  }
+  &__paymentMethod__label p {
+    margin-top: 6.5px;
+    margin-left: 10px;
+    margin-bottom: 0;
+  }
+  &__counter-wrapper {
+    margin-bottom: 40px;
+  }
+  &__textarea-comment {
+    padding: 16px;
+    resize: none;
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -.0015em;
+    width: 100%;
+    padding: 14px 16px;
+    line-height: 1;
+    color: var(--text);
+    background-color: var(--inputBackground);
+    border-radius: 8px;
+    border: 1px solid var(--inputBackground);
+    outline: none;
+    height: 103.5px;
+  }
+  &__submit {
+    padding: 24px 32px;
+    background-color: var(--primary);
+    border-radius: 8px;
+    width: 420px;
+    height: 100%;
+    position: sticky;
+    top: 10px;
+  }
+  &__submit__item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--input);
+  }
+  &__submit__item-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  &__submit__item-title {
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -.0015em;
+  }
+  &__submit__item-amount {
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -.0015em;
+  }
+  &__submit__item-bottom {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__submit__item-weight {
+    font-size: 12px;
+    line-height: 1.33;
+    color: var(--disabled);
+  }
+  &__submit__item-price {
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -.0015em;
+    white-space: nowrap;
+  }
+  &__submit__orderPrice {
+    display: flex;
+    justify-content: space-between;
+    color: var(--disabled);
+    margin-top: 32px;
+    margin-bottom: 10px;
+  }
+  &__submit__totalPayable {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -.0031em;
+    font-weight: 500;
+    margin-bottom: 32px;
+  }
+  &__submit__btn {
+    width: 100%;
+    padding: 21px 24px;
+    font-size: 16px;
+    letter-spacing: -.0031em;
+    line-height: 1;
+    color: var(--accentContent);
+    background-color: var(--accent);
+    border: none;
+    border-radius: 8px;
+    transition: transform .3s ease-in-out;
+  }
+  &__link-back {
+    display: block;
+    margin-top: 24px;
+    padding: 0;
+    text-align: center;
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -.0031em;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  &__link-back:hover {
+    color: var(--accent);
+  }
+  &__error {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    line-height: 1.33;
+    bottom: 4px;
+    left: 0;
+    color: red;
+    white-space: nowrap;
+    transition: bottom .3s ease-in-out;
+  }
+}

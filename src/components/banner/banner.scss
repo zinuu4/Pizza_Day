@@ -119,14 +119,6 @@
     display: flex;
     align-items: center;
   }
-  &__info-about-circle {
-    display: block;
-    width: 8px;
-    height: 8px;
-    margin-right: 8px;
-    border-radius: 50%;
-    background-color: #36ce00;
-  }
   &__review {
     display: flex;
     align-items: center;
@@ -199,14 +191,6 @@
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-  }
-  &-info-circle {
-    display: block;
-    width: 8px;
-    height: 8px;
-    margin-right: 8px;
-    border-radius: 50%;
-    background-color: #36ce00;
   }
   &-info-phone {
     font-size: 14px;
