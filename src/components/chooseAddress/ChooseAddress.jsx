@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { useHttp } from 'hooks/http.hook';
-import { setCities, setCityRestaurants, setChosenCity, setChosenRestaurant } from 'store/slices/dataBaseSlice';
+import { setCities, setCityRestaurants } from 'store/slices/dataBaseSlice';
+import { setChosenCity, setChosenRestaurant } from 'store/slices/userSlice';
 
 import './chooseAddress.scss';
 
@@ -18,8 +19,8 @@ const ChooseAddress = () => {
 
   const {cities} = useSelector(state => state.db);
   const {cityRestaurants} = useSelector(state => state.db);
-  const {chosenCity} = useSelector(state => state.db);
-  const {chosenRestaurant} = useSelector(state => state.db);
+  const {chosenCity} = useSelector(state => state.user);
+  const {chosenRestaurant} = useSelector(state => state.user);
 
   useEffect(() => {
     fetchData('cities', setCities)

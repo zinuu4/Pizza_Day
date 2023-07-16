@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { setNewsAndPromotions } from 'store/slices/dataBaseSlice';
 import { useHttp } from 'hooks/http.hook';
+import { modalToggleFunctional } from 'services/modalToggleFunctional';
 
 import './mainSlider.scss';
 import close from 'assets/close/closeGrey.svg';
@@ -15,11 +16,8 @@ const MainSlider = () => {
 
   const [modal, setModal] = useState(false);
 
-  if (modal) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
+  const {setScroll, handleWrapperClick} = modalToggleFunctional();
+  setScroll(modal)
 
   const {newsAndPromotions} = useSelector(state => state.db);;
 
@@ -74,6 +72,7 @@ const MainSlider = () => {
       style={{
         'display': modal === id ? 'flex' : 'none'
       }}
+      onClick={(e) => handleWrapperClick(e, setModal)}
       className='SliderModal__wrapper'
       key={index}
     >

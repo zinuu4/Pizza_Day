@@ -1,9 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import { setRestarauntModal } from 'store/slices/modalsSlice';
+import { modalToggleFunctional } from 'services/modalToggleFunctional';
 
 import './banner.scss';
-
 import shoppingBasket from 'assets/banner/shoppingBasket.svg';
 import restarauntPhoto from 'assets/banner/restarauntPhoto.jpeg';
 import forkAndSpoon from 'assets/banner/forkAndSpoon.png';
@@ -12,7 +12,11 @@ import review from 'assets/banner/review.svg';
 import close from 'assets/close/closeYellow.svg';
 
 const Banner = () => {
-  const dispatch = useDispatch();
+  const [modal, setModal] = useState(false);
+  const {chosenRestaurant} = useSelector(state => state.user);
+
+  const {setScroll, handleWrapperClick} = modalToggleFunctional();
+  setScroll(modal)
 
   return (
     <>
@@ -34,7 +38,7 @@ const Banner = () => {
             <div className='banner__info'>
 
               <div className='banner__info-title-wrapper'>
-                <h4 className='banner__info-title'>Pizza Day - Inzhenerna</h4>
+                <h4 className='banner__info-title'>{chosenRestaurant}</h4>
                 <div className='banner__info-logo-wrapper'>
                   <img className='banner__info-logo' src={forkAndSpoon} alt="logo" />
                 </div>
@@ -42,7 +46,7 @@ const Banner = () => {
 
               <a className="banner__info-phone" href="tel:+380730836710">+380 (73) 083 66 91</a>
 
-              <button onClick={() => dispatch(setRestarauntModal(true))} className='banner__info-about'>
+              <button onClick={() => setModal(true)} className='banner__info-about'>
                 <div className='banner__info-about-text-wrapper'>
                   <p className='banner__info-about-text'>Information about the restaurant</p>
                   <div className='banner__info-about-time'>
@@ -65,39 +69,24 @@ const Banner = () => {
 
         </div>
       </section>
-      <RestarauntInfoModal/>
-    </>
-  )
-}
 
-const RestarauntInfoModal = () => {
-  const {restarauntModalOpen} = useSelector(state => state.modals);
-  const dispatch = useDispatch();
-
-  if (restarauntModalOpen) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
-
-  return (
-    <div 
-      style={{
-      'display': restarauntModalOpen ? 'flex' : 'none'
-      }}
-      className='modal__restaraunt-info-wrapper'
-    >
+      <div 
+        style={{
+        'display': modal ? 'flex' : 'none'
+        }}
+        className='modal__restaraunt-info-wrapper'
+        onClick={(e) => handleWrapperClick(e, setModal)}
+      >
       <div  
         style={{
-          'display': restarauntModalOpen ? 'flex' : 'none'
+          'display': modal ? 'flex' : 'none'
         }}
         className='modal__restaraunt-info'
       >
-
         <div className='modal__restaraunt-info-top'>
           <h4 className='modal__restaraunt-info-title'>Information about the restaurant</h4>
           <img 
-            onClick={() => dispatch(setRestarauntModal(false))}  className='modal__restaraunt-info-close' 
+            onClick={() => setModal(false)}  className='modal__restaraunt-info-close' 
             src={close} 
             alt="close" 
           />
@@ -127,7 +116,8 @@ const RestarauntInfoModal = () => {
 
       </div>
     </div>
+    </>
   )
 }
 
-export default Banner
+export default Banner;

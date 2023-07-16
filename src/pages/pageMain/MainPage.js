@@ -10,7 +10,7 @@ import MainSlider from 'components/mainSlider/MainSlider';
 import OrderCart from 'components/orderCart/OrderCart';
 
 const MainPage = () => {
-  const {chosenRestaurant} = useSelector(state => state.db);
+  const {chosenRestaurant} = useSelector(state => state.user);
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -1,0 +1,67 @@
+.orderInfo {
+  width: 100%;
+  max-width: 320px;
+  margin: 22px auto;
+  display: flex;
+  flex-direction: column;
+  &__title {
+    margin-bottom: 18px;
+    font-size: 20px;
+    line-height: 1.25;
+    letter-spacing: -.0045em;
+    text-align: center;
+  }
+  &__info {
+    display: flex;
+    width: 320px;
+    justify-content: space-between;
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -.0031em;
+    color: var(--disabled);
+    font-weight: 500;
+  }
+  &__status {
+    display: flex;
+    align-items: center;
+    margin: 24px 0;
+  }
+  &__status__img-wrapper {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    border-radius: 12px;
+    margin-right: 20px;
+  }
+  &__status__title {
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -.0031em;
+    margin-bottom: 3px;
+    font-weight: 500;
+  }
+  &__status__description {
+    font-size: 12px;
+    line-height: 1.33;
+    color: var(--disabled);
+  }
+  &__status__loading {
+    display: flex;
+    flex-direction: column;
+    margin-left: 28px;
+  }
+  &__status__loading span {
+    width: 4px;
+    height: 4px;
+    margin: 2px 0;
+    background-color: var(--disabled);
+    border-radius: 50%;
+    display: inline-block;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+  }
+}

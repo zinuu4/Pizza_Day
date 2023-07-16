@@ -9,7 +9,7 @@ import locationYellow from '../../assets/locationImages/locationYellow.svg';
 import './appHeader.scss';
 
 const AppHeader = () => {
-  const {chosenRestaurant} = useSelector(state => state.db);
+  const {chosenRestaurant} = useSelector(state => state.user);
   const navigate = useNavigate();
 
   const [booleanDeliveryAddress, setBooleanDeliveryAddress] = useState(false);

@@ -1,13 +1,16 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage, useField } from 'formik';
 import * as Yup from 'yup';
+
+import { setTotalOrderPrice, setOrder } from 'store/slices/userSlice';
 
 import './orderForm.scss';
 import plus from 'assets/plus/plusYellow.svg';
 import minus from 'assets/minus/minusYellow.svg';
-import { Link } from 'react-router-dom';
 
 const MyTextInput = ({label, value, ...props}) => {
-  const [field, meta] = useField(props); // объект field - содержащий значения и обработчики событий, которые нужно присвоить инпуту (value, onChange, onBlur...), а второй элемент - это объект meta, содержащий информацию об ошибке и состоянии поля (touched).
+  const [field, meta] = useField(props);
   return (
       <>
           <label className='form__label' htmlFor={props.name}>{label}</label>
@@ -22,6 +25,34 @@ const MyTextInput = ({label, value, ...props}) => {
 };
 
 const OrderForm = () => {
+  const {order, chosenRestaurant, totalOrderPrice} = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const orderedItems = order.map(({name, weight, price}, index) => {
+    return (
+      <div key={index} className='form__submit__item'>
+        <div className='form__submit__item-top'>
+          <div className='form__submit__item-title'>{name}</div>
+          <div className='form__submit__item-amount'>x 1</div>
+        </div>
+        <div className='form__submit__item-bottom'>
+          <div className='form__submit__item-weight'>{weight}</div>
+          <div className='form__submit__item-price'>{price}</div>
+        </div>
+      </div>
+    )
+  })
+
+  const onSubmit = (values, { resetForm }) => {
+    console.log(JSON.stringify(values, null, 2));
+
+    dispatch(setTotalOrderPrice(0));
+    dispatch(setOrder([]));
+
+    resetForm();
+  };
+
   return (
     <section className='order'>
       <div className='container'>
@@ -30,7 +61,7 @@ const OrderForm = () => {
             name: '',
             phone: '',
             rulesAgreement: false,
-            receivingMethod: 'Take-out, Pizza Day - Inzhenerna',
+            receivingMethod: chosenRestaurant,
             time: '',
             cashPayment: true,
             cardPayment: false,
@@ -49,9 +80,9 @@ const OrderForm = () => {
                 .oneOf([true], 'Сonsent required')
             })
           }
-          onSubmit={ (data) => console.log(data) }
+          onSubmit={onSubmit}
         >
-
+          {({ isValid, dirty, isSubmitting }) => (
           <Form className='form'>
 
             <div className='form__data'>
@@ -145,41 +176,33 @@ const OrderForm = () => {
             </div>
             <div className='form__submit'>
               <h4 className='form__title'>Your order</h4>
-              <div className='form__submit__item'>
-                <div className='form__submit__item-top'>
-                  <div className='form__submit__item-title'>Шинка з Грибами</div>
-                  <div className='form__submit__item-amount'>x 1</div>
-                </div>
-                <div className='form__submit__item-bottom'>
-                  <div className='form__submit__item-weight'>455 g</div>
-                  <div className='form__submit__item-price'>129 ₴</div>
-                </div>
-              </div>
-              <div className='form__submit__item'>
-                <div className='form__submit__item-top'>
-                  <div className='form__submit__item-title'>Шинка з Грибами</div>
-                  <div className='form__submit__item-amount'>x 1</div>
-                </div>
-                <div className='form__submit__item-bottom'>
-                  <div className='form__submit__item-weight'>455 g</div>
-                  <div className='form__submit__item-price'>129 ₴</div>
-                </div>
-              </div>
+              {orderedItems}
               <div className='form__submit__orderPrice'>
                 <span>Order price:</span>
-                <span>373 ₴</span>
+                <span>{totalOrderPrice} ₴</span>
               </div>
               <div className='form__submit__totalPayable'>
                 <span>Total payable:</span>
-                <span>373 ₴</span>
+                <span>{totalOrderPrice} ₴</span>
               </div>
-              <button className='form__submit__btn'>Pay 373 ₴</button>
+              <button 
+              disabled={!isValid || !dirty || isSubmitting} 
+              style={{
+                'backgroundColor': (!isValid || !dirty || isSubmitting) ? 'var(--input)' : 'var(--accent)',
+                'color': (!isValid || !dirty || isSubmitting) ? 'var(--disabled)' : 'var(--accentContent)',
+              }}
+              className='form__submit__btn'
+              onClick={() => {
+                navigate('/order/8573')
+              }}
+              >Pay {totalOrderPrice} ₴</button>
               <Link className='form__link-back' to='/'>
                 Back to menu
               </Link>
             </div>
 
           </Form>
+          )}
 
         </Formik>
       </div>

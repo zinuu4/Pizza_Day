@@ -1,4 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { addItemToOrder } from 'store/slices/userSlice';
+import { modalToggleFunctional } from 'services/modalToggleFunctional';
 
 import heart from 'assets/productCard/productCardHeart.svg';
 import plusWhite from 'assets/plus/PlusWhite.svg';
@@ -10,12 +14,10 @@ import './productCard.scss';
 
 const ProductCard = ({img, name, weight, volume, price, descr, id}) => {
   const [modal, setModal] = useState(false);
+  const dispatch = useDispatch();
 
-  if (modal) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
+  const {setScroll, handleWrapperClick} = modalToggleFunctional();
+  setScroll(modal)
 
   return (
     <>
@@ -51,6 +53,7 @@ const ProductCard = ({img, name, weight, volume, price, descr, id}) => {
       style={{
         'display': modal ? 'flex' : 'none'
       }}
+      onClick={(e) => handleWrapperClick(e, setModal)}
       className='modal__productCard__wrapper'
     >
       <div
@@ -89,9 +92,15 @@ const ProductCard = ({img, name, weight, volume, price, descr, id}) => {
               <img src={plusYellow} alt="counter plus" />
             </button>
           </div>
-          <button className='modal__productCard__add-btn'>
+          <button
+          onClick={async () => {
+            await dispatch(addItemToOrder({img, name, weight, volume, price, descr, id}))
+            await setModal(false)
+          }} 
+          className='modal__productCard__add-btn'
+          >
             <span className='modal__productCard__text'>Add:</span>
-            <span style={{'fontWeight': '500'}}>155 ₴</span>
+            <span style={{'fontWeight': '500'}}>{price}</span>
           </button>
         </div>
       </div>
