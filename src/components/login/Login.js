@@ -1,35 +1,50 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useDispatch } from 'react-redux';
-import { setUser } from 'store/slices/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserAuthData, setBasicUserData } from 'store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 
+import { useHttp } from "hooks/http.hook";
 import LoginForm from '../forms/loginForm/LoginForm';
+import './login.scss';
 
 const Login = () => {
+  const {loginModal} = useSelector(state => state.modals);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {getDataByDocument} = useHttp();
 
-  const handleLogin = (email, password) => {
+  const handleLogin = async (email, password) => {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then(({user}) => {
         console.log(user);
-        dispatch(setUser({
+        dispatch(setUserAuthData({
           email: user.email,
           id: user.uid,
           token: user.accessToken
         }))
-        navigate('/');
+        getDataByDocument('users', setBasicUserData, user.email)
       })
-      .catch((error) => alert('Invalid user!'));
+      .catch((error) => alert(error));
   }
 
   return (
-    <div>
-      <LoginForm
-        title="Sign in"
-        handleClick={handleLogin}
-      />
+    <div
+    style={{
+      'display': loginModal ? 'flex' : 'none'
+    }}
+    className="loginModal__wrapper"
+    >
+      <div
+      style={{
+        'display': loginModal ? 'flex' : 'none'
+      }}
+      className="loginModal"
+      >
+        <LoginForm
+          handleClick={handleLogin}
+        />
+      </div>
     </div>
   )
 }

@@ -1,0 +1,25 @@
+.sideMenu {
+  width: 225px;
+  margin-right: 30px;
+  &__title {
+    font-size: 20px;
+    line-height: 1.25;
+    letter-spacing: -.0045em;
+    margin-bottom: 40px;
+    margin-top: 0;
+  }
+  &__wrapper {
+    padding: 0;
+  }
+  &__item {
+    display: flex;
+    margin-bottom: 24px;
+    cursor: pointer;
+  }
+  &__item__img {
+    margin-right: 10px;
+  }
+  &__itme__title {
+    color: #898989;
+  }
+}

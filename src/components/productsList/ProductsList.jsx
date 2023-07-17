@@ -14,15 +14,15 @@ import { useHttp } from "hooks/http.hook";
 import './productsList.scss';
 
 const ProductsList = () => {
-  const fetchData = useHttp();
+  const { getData } = useHttp();
 
   useEffect(() => {
-    fetchData("sauces", setSauces);
-    fetchData("drinks", setDrinks);
-    fetchData("pizza for 155 uah", setPizzaFor155Uah);
-    fetchData("pizza for 129 uah", setPizzaFor129Uah);
-    fetchData("pizza for 115 uah", setPizzaFor115Uah);
-    fetchData("pizza for 99 uah", setPizzaFor99Uah);
+    getData("sauces", setSauces);
+    getData("drinks", setDrinks);
+    getData("pizza for 155 uah", setPizzaFor155Uah);
+    getData("pizza for 129 uah", setPizzaFor129Uah);
+    getData("pizza for 115 uah", setPizzaFor115Uah);
+    getData("pizza for 99 uah", setPizzaFor99Uah);
   }, []);
 
   const {sauces} = useSelector(state => state.db);

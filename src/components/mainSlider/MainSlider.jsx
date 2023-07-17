@@ -21,10 +21,10 @@ const MainSlider = () => {
 
   const {newsAndPromotions} = useSelector(state => state.db);;
 
-  const fetchData = useHttp();
+  const { getData } = useHttp();
 
   useEffect(() => {
-    fetchData("news and promotions", setNewsAndPromotions);
+    getData("news and promotions", setNewsAndPromotions);
   }, []);
 
   const plusSlide = () => {

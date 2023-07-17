@@ -15,7 +15,7 @@ const ChooseAddress = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const fetchData = useHttp();
+  const { getData } = useHttp();
 
   const {cities} = useSelector(state => state.db);
   const {cityRestaurants} = useSelector(state => state.db);
@@ -23,8 +23,8 @@ const ChooseAddress = () => {
   const {chosenRestaurant} = useSelector(state => state.user);
 
   useEffect(() => {
-    fetchData('cities', setCities)
-    fetchData(`${chosenCity} restaurants`, setCityRestaurants)
+    getData('cities', setCities)
+    getData(`${chosenCity} restaurants`, setCityRestaurants)
   }, [chosenCity])
 
   return (

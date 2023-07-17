@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { addItemToOrder } from 'store/slices/userSlice';
 import { modalToggleFunctional } from 'services/modalToggleFunctional';
 
-import heart from 'assets/productCard/productCardHeart.svg';
+import heart from 'assets/heart/heartYellow.svg';
 import plusWhite from 'assets/plus/PlusWhite.svg';
 import plusYellow from 'assets/plus/plusYellow.svg';
 import minus from 'assets/minus/minusYellow.svg';

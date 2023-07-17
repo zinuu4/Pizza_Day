@@ -50,6 +50,8 @@ const OrderForm = () => {
     dispatch(setTotalOrderPrice(0));
     dispatch(setOrder([]));
 
+    navigate('/order/8573')
+
     resetForm();
   };
 
@@ -192,9 +194,6 @@ const OrderForm = () => {
                 'color': (!isValid || !dirty || isSubmitting) ? 'var(--disabled)' : 'var(--accentContent)',
               }}
               className='form__submit__btn'
-              onClick={() => {
-                navigate('/order/8573')
-              }}
               >Pay {totalOrderPrice} ₴</button>
               <Link className='form__link-back' to='/'>
                 Back to menu
