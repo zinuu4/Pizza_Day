@@ -10,6 +10,7 @@ const initialState = {
   id: null,
   chosenCity: '',
   chosenRestaurant: '',
+  favouriteProducts: [],
   order: [],
   totalOrderPrice: 0
 }
@@ -52,10 +53,13 @@ const userSlice = createSlice({
       state.totalOrderPrice = action.payload;
     },
     addItemToOrder: (state, action) => {
-      state.order = [...state.order, action.payload];
+      state.order = [...state.order, ...action.payload];
     },
     deleteItemFromOrder: (state, action) => {
       state.order = state.order.filter(item => item.name !== action.payload);
+    },
+    setFavouriteProducts: (state, action) => {
+      state.favouriteProducts = action.payload;
     },
   },
 });
@@ -73,5 +77,6 @@ export const {
   addItemToOrder,
   setTotalOrderPrice,
   setOrder,
-  deleteItemFromOrder
+  deleteItemFromOrder,
+  setFavouriteProducts
 } = actions;

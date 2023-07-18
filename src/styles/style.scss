@@ -4,7 +4,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 body {
@@ -42,6 +42,13 @@ ol, ul {
   border-radius: 50%;
 }
 
+.counter__wrapper {
+  display: flex;
+  width: 129px;
+  justify-content: center;
+  align-items: center;
+}
+
 .counter__btn {
   position: relative;
   width: 44px;
@@ -51,11 +58,10 @@ ol, ul {
   border-width: 1px;
   border-style: solid;
   outline: none;
-  border-color: var(--accent);
 }
 .counter {
-  margin: 0 10px;
   font-size: 16px;
+  text-align: center;
   line-height: 21px;
   letter-spacing: -.0031em;
   width: 41px;

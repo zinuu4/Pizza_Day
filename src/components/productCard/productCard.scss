@@ -6,7 +6,6 @@
   overflow: hidden;
   max-height: 154px;
   height: 100%;
-  width: 420px;
   cursor: pointer;
   transition: all .3s ease-in-out;
   &__image-wrapper {
@@ -202,10 +201,14 @@
   &__orderModification-item-label {
     font-weight: 400;
   }
-  // &__orderModification-checkbox {
-  // }
   &__orderModification-type {
     margin-left: 13px;
+  }
+  &__orderModification-price {
+    position: absolute;
+    right: 37px;
+    color: var(--accent);
+    font-weight: 500;
   }
   &__bottom {
     display: flex;
@@ -220,28 +223,6 @@
     width: calc(100% - 48px);
     height: 1px;
     background-color: var(--input);
-  }
-  // &__counter-wrapper {
-  // }
-  &__counter-btn {
-    position: relative;
-    width: 44px;
-    height: 44px;
-    background-color: transparent;
-    border-radius: 8px;
-    border-width: 1px;
-    border-style: solid;
-    outline: none;
-    border-color: var(--accent);
-  }
-  &__counter {
-    margin: 0 10px;
-    font-size: 16px;
-    line-height: 21px;
-    letter-spacing: -.0031em;
-    width: 41px;
-    color: var(--disabled);
-    font-weight: 600;
   }
   &__add-btn {
     padding: 15px 16px;

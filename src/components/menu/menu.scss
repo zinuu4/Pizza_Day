@@ -25,9 +25,11 @@
     line-height: 21px;
     letter-spacing: -.0031em;
     margin-bottom: 16px;
+    cursor: pointer;
     &-link {
       display: block;
       color: var(--text);
+      transition: all .3s ease-in-out;
     }
     &-link:hover {
       color: var(--text);

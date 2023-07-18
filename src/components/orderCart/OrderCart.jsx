@@ -31,7 +31,24 @@ const OrderCart = () => {
     setTotalPriceFunc();
   }, [order]);
 
-  const orderItems = order.map(({img, name, price, weight, descr, volume, id}, index) => {
+  let additivesPrice = 0;
+
+  const orderItems = order.map(({img, name, price, weight, descr, volume, id, additives}, index) => {
+    let currentAdditivesPrice = 0;
+    const renderAdditivesFunc = () => {
+      if (additives) {
+        currentAdditivesPrice += additives.reduce((total, { price }) => total + parseInt(price), 0);
+        additivesPrice += additives.reduce((total, { price }) => total + parseInt(price), 0);
+        return (
+          additives.map(({ title, price }) => (
+            <div key={title}>{title}</div>
+          ))
+        );
+      } else {
+        return null;
+      }
+    }
+    const renderAdditives = renderAdditivesFunc();
     return (
       <div key={index} className='cart__content-item'>
         <img className='cart__content-item-img' src={img} alt={name} />
@@ -40,8 +57,9 @@ const OrderCart = () => {
             <div className='cart__content-item-title'>{name}</div>
             <img onClick={() => dispatch(deleteItemFromOrder(name))} className='cart__content-item-delete' src={closeGrey} alt="delete" />
           </div>
+          {renderAdditives}
           <div className='cart__content-item-bottom'>
-            <div className='cart__content-item-price'>{price}</div>
+            <div className='cart__content-item-price'>{parseInt(price.replace(/\D/g, "")) + currentAdditivesPrice} ₴</div>
             <div className='cart__content-item-counter-wrapper'>
               <button className='cart__content-item-counter-btn'>
                 <img className='cart__content-item-counter-img' src={minus} alt="counter minus" />
@@ -72,13 +90,13 @@ const OrderCart = () => {
           onClick={() => setModal(true)} 
           className='cart__button'>
           <span>Place and order for:</span>
-          <span>{totalPrice} ₴</span>
+          <span>{totalPrice + additivesPrice} ₴</span>
         </button>
       </div>
 
       <div 
         style={{
-          'display': modal && order.length !== 0 ? 'flex' : 'none'
+          'display': modal ? 'flex' : 'none'
         }}
         onClick={(e) => handleWrapperClick(e, setModal)}
         className='cart__wrapper'
@@ -86,7 +104,7 @@ const OrderCart = () => {
 
         <section
           style={{
-            'display': modal && order.length !== 0 ? 'flex' : 'none'
+            'display': modal ? 'flex' : 'none'
           }}
           className='cart'
         >
@@ -100,14 +118,14 @@ const OrderCart = () => {
           <div className='cart__order'>
             <div className='cart__order-price'>
               <span className='cart__order-price-text'>Order price:</span>
-              <span className='cart__order-price-text'>{totalPrice} ₴</span>
+              <span className='cart__order-price-text'>{totalPrice + additivesPrice} ₴</span>
             </div>
             <div className='cart__order-payable'>
               <span className='cart__order-payable-text'>Total payable:</span>
-              <span className='cart__order-payable-text'>{totalPrice} ₴</span>
+              <span className='cart__order-payable-text'>{totalPrice + additivesPrice} ₴</span>
             </div>
             <button onClick={async () => {
-              await dispatch(setTotalOrderPrice(totalPrice));
+              await dispatch(setTotalOrderPrice(totalPrice + additivesPrice));
               await setModal(false);
               navigate('/order')
             }} className='cart__order-btn'>Order</button>

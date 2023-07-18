@@ -11,6 +11,12 @@ import tiktok from '../../assets/imgFooter/footerTikTok.svg';
 import './appFooter.scss';
 
 const AppFooter = () => {
+  const handlePageUp = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
   return (
     <footer className='footer'>
       <div className='container'>
@@ -19,7 +25,7 @@ const AppFooter = () => {
           <Link to='/'>
             <img className='top__logo' src={logo} alt="logo" />
           </Link>
-          <button className='top__btn' >
+          <button onClick={handlePageUp} className='top__btn' >
             <span className='top__btn-span' >Back to top</span>
             <img src={pageUp} alt="pageup" />
           </button>

@@ -12,7 +12,7 @@ const SignUp = () => {
   const [authentication, setAuthentication] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const dispatch = useDispatch();
-  const {postData} = useHttp();
+  const {postUserData} = useHttp();
 
   const handleAuthentication = (email, password) => {
     const auth = getAuth();
@@ -69,7 +69,7 @@ const SignUp = () => {
         className="signUpModal"
         >
           <RegisterForm
-            handleClick={postData}
+            handleClick={postUserData}
           />
         </div>
       </div>

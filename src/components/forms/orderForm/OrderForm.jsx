@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage, useField } from 'formik';
+import { useState } from 'react';
 import * as Yup from 'yup';
 
 import { setTotalOrderPrice, setOrder } from 'store/slices/userSlice';
@@ -29,7 +30,21 @@ const OrderForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const orderedItems = order.map(({name, weight, price}, index) => {
+  const orderedItems = order.map(({name, weight, price, additives}, index) => {
+    const renderAdditivesFunc = () => {
+      if (additives) {
+        return (
+          additives.map(({title, price}) => {
+            return (
+              <div>{title}</div>
+            )
+          })
+        )
+      } else {
+        return null;
+      }
+    }
+    const renderAdditives = renderAdditivesFunc();
     return (
       <div key={index} className='form__submit__item'>
         <div className='form__submit__item-top'>
@@ -40,6 +55,7 @@ const OrderForm = () => {
           <div className='form__submit__item-weight'>{weight}</div>
           <div className='form__submit__item-price'>{price}</div>
         </div>
+        {renderAdditives}
       </div>
     )
   })
