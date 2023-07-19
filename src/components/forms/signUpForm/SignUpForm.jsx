@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage, useField } from 'formik';
@@ -6,6 +5,7 @@ import * as Yup from 'yup';
 
 import { setBasicUserData } from 'store/slices/userSlice';
 import { setSignUpModal, setLoginModal } from 'store/slices/modalsSlice';
+import { useHttp } from 'hooks/http.hook';
 
 import './signUpForm.scss';
 import close from 'assets/close/closeYellow.svg';
@@ -96,6 +96,7 @@ const RegisterForm = ({handleClick}) => {
   const {email} = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {postUserData} = useHttp();
   return (
     <Formik
       initialValues = {{
@@ -116,7 +117,7 @@ const RegisterForm = ({handleClick}) => {
             .required('Required')
         })
       }      
-      onSubmit = { ({name, surname, birthday, gender}) => handleClick('users', setBasicUserData, name, surname, birthday, gender, email) }
+      onSubmit = { ({name, surname, birthday, gender}) => postUserData('users', setBasicUserData, name, surname, birthday, gender, email) }
     >
       <Form className='signUp__fields'>
         <h5 className='signUp__title'>Registration</h5>

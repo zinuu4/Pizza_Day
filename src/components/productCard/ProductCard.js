@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 import { addItemToOrder } from 'store/slices/userSlice';
 import { modalToggleFunctional } from 'services/modalToggleFunctional';
 import { useHttp } from 'hooks/http.hook';
 import { setFavouriteProducts } from 'store/slices/userSlice';
+import { setLoginModal } from 'store/slices/modalsSlice';
 
 import plusWhite from 'assets/plus/PlusWhite.svg';
 import plusYellow from 'assets/plus/plusYellow.svg';
@@ -35,15 +37,19 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
     setCounter(counter => counter - 1)
   }
 
-  const handleClick = () => {
-    if (!isItFavProducts) {
-      const volumeOrWeight = volume || weight;
-      const isDescr = descr || null;
-      postFavouriteProduct('users', email, {img, name, volumeOrWeight, price, isDescr})
-      setIsItFavProducts(true);
-    } else if (isItFavProducts) {
-      deleteFavouriteProduct('users', email, setFavouriteProducts, name)
-      setIsItFavProducts(false);
+  const handleFavouriteClick = () => {
+    if ((!!email)) {
+      if (!isItFavProducts) {
+        const volumeOrWeight = volume || weight;
+        const isDescr = descr || null;
+        postFavouriteProduct('users', email, {img, name, volumeOrWeight, price, isDescr})
+        setIsItFavProducts(true);
+      } else if (isItFavProducts) {
+        deleteFavouriteProduct('users', email, setFavouriteProducts, name)
+        setIsItFavProducts(false);
+      }
+    } else {
+      dispatch(setLoginModal(true));
     }
   };
 
@@ -112,13 +118,28 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
   };  
 
   const renderAdditives = renderAdditivesFunc();
+  const checkAdditivesFunc = () => {
+    if (additives) {
+      return (
+        <>
+          <div className='modal__productCard__orderModification-title'>Additives to {name}</div>
+          <ul className='modal__productCard__orderModification-list'>
+            {renderAdditives}
+          </ul>
+        </>
+      )
+    } else {
+      return null;
+    }
+  }
+  const checkAdditives = checkAdditivesFunc();
 
   return (
     <>
       <li onClick={() => setModal(true)} className='card'>
 
         <div className='card__image-wrapper'>
-          <img onClick={() => console.log(choosenAdditives)}  className='card__image' src={img} alt={name} />
+          <img className='card__image' src={img} alt={name} />
           <span className='card__grams'>{weight || volume}</span>
         </div>
 
@@ -162,7 +183,7 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
           <div className='modal__productCard__title'>{name}</div>
           <div 
             onClick={() => {
-              handleClick();
+              handleFavouriteClick();
             }} 
             className='card__favorite'
           >
@@ -172,10 +193,7 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
         <div className='modal__productCard__grams'>{weight || volume}</div>
         <div className='modal__productCard__price'>{price}</div>
         <div className='modal__productCard__descr'>{descr}</div>
-        <div className='modal__productCard__orderModification-title'>Additives to {name}</div>
-        <ul className='modal__productCard__orderModification-list'>
-          {renderAdditives}
-        </ul>
+        {checkAdditives}
         <div className='modal__productCard__bottom'>
           <div className='counter__wrapper'>
             <button 
@@ -207,7 +225,7 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
           onClick={async () => {
             const items = [];
             for (let i = 0; i < counter; i++) {
-              items.push({ img, name, weight, volume, price, descr, id, additives: choosenAdditives });
+              items.push({ img, name, weight, volume, price: `${totalPrice}`, descr, id, additives: choosenAdditives, uuid: uuidv4() });
             }
             console.log(items);
             await dispatch(addItemToOrder(items))

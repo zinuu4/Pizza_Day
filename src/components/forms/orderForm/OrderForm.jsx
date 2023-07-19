@@ -8,7 +8,6 @@ import { setTotalOrderPrice, setOrder } from 'store/slices/userSlice';
 
 import './orderForm.scss';
 import plus from 'assets/plus/plusYellow.svg';
-import minus from 'assets/minus/minusYellow.svg';
 
 const MyTextInput = ({label, value, ...props}) => {
   const [field, meta] = useField(props);
@@ -26,11 +25,12 @@ const MyTextInput = ({label, value, ...props}) => {
 };
 
 const OrderForm = () => {
-  const {order, chosenRestaurant, totalOrderPrice} = useSelector(state => state.user);
+  const {mergedOrder, chosenRestaurant, totalOrderPrice} = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [numberOfPersons, setNumberOfPersons] = useState(1);
 
-  const orderedItems = order.map(({name, weight, price, additives}, index) => {
+  const orderedItems = mergedOrder.map(({name, weight, price, quantity, additives}, index) => {
     const renderAdditivesFunc = () => {
       if (additives) {
         return (
@@ -49,7 +49,7 @@ const OrderForm = () => {
       <div key={index} className='form__submit__item'>
         <div className='form__submit__item-top'>
           <div className='form__submit__item-title'>{name}</div>
-          <div className='form__submit__item-amount'>x 1</div>
+          <div className='form__submit__item-amount'>x {quantity}</div>
         </div>
         <div className='form__submit__item-bottom'>
           <div className='form__submit__item-weight'>{weight}</div>
@@ -61,7 +61,7 @@ const OrderForm = () => {
   })
 
   const onSubmit = (values, { resetForm }) => {
-    console.log(JSON.stringify(values, null, 2));
+    console.log(JSON.stringify(values, null, 2), `numberOfPersons: ${numberOfPersons}`);
 
     dispatch(setTotalOrderPrice(0));
     dispatch(setOrder([]));
@@ -70,6 +70,20 @@ const OrderForm = () => {
 
     resetForm();
   };
+
+  const minusStrokeColor = numberOfPersons == 1 ? '#f0f0f0' : '#faaf3f';
+
+  const svgMinus = (
+    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+    <g id="SVGRepo_bgCarrier" strokeWidth="0"/>
+
+    <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"/>
+
+    <g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="white"/> <path d="M6 12H18" stroke={minusStrokeColor} strokeLinecap="round" strokeLinejoin="round"/> </g>
+
+    </svg>
+  );
 
   return (
     <section className='order'>
@@ -173,12 +187,31 @@ const OrderForm = () => {
             </div>
 
             <h4 className='form__title'>Number of persons</h4>
-            <div className='form__counter-wrapper'>
-              <button className='counter__btn'>
-                <img src={minus} alt="counter minus" />
+            <div className='counter__wrapper'>
+              <button
+              disabled={numberOfPersons == 1}
+              onClick={() => {
+                setNumberOfPersons(prev => prev - 1);
+              }} 
+              className='counter__btn'
+              style={{
+                'borderColor': numberOfPersons == 1 ? 'var(--input)' : 'var(--accent)'
+              }}
+              type='button'
+              >
+                <span>{svgMinus}</span>
               </button>
-              <span className='counter'>1</span>
-              <button className='counter__btn'>
+              <span className='counter'>{numberOfPersons}</span>
+              <button
+              onClick={() => {
+                setNumberOfPersons(prev => prev + 1);
+              }} 
+              className='counter__btn'
+              style={{
+                'borderColor': 'var(--accent)'
+              }}
+              type='button'
+              >
                 <img src={plus} alt="counter plus" />
               </button>
             </div>

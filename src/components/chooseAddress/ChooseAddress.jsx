@@ -17,10 +17,8 @@ const ChooseAddress = () => {
 
   const { getData } = useHttp();
 
-  const {cities} = useSelector(state => state.db);
-  const {cityRestaurants} = useSelector(state => state.db);
-  const {chosenCity} = useSelector(state => state.user);
-  const {chosenRestaurant} = useSelector(state => state.user);
+  const {cities, cityRestaurants} = useSelector(state => state.db);
+  const {chosenCity, chosenRestaurant} = useSelector(state => state.user);
 
   useEffect(() => {
     getData('cities', setCities)

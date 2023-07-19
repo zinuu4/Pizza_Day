@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { initializeApp } from "firebase/app";
 import { collection, getDocs, setDoc, doc, getDoc, getFirestore, updateDoc, arrayUnion } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export const useHttp = () => {
   const {firebaseConfig} = useSelector(state => state.firebaseConfig);
@@ -8,6 +9,7 @@ export const useHttp = () => {
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const storage = getStorage();
 
 
   const getData = async (collectionName, setFunc) => {
@@ -55,11 +57,50 @@ export const useHttp = () => {
   
       await setDoc(userDocRef, userData);
       dispatch(setFunc(userData));
-      console.log("Document written with name: ", email);
+      console.log(email, "user data posted");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   }
+
+  const changeUserData = async (collectionName, setFunc, name, surname, birthday, city, gender, email) => {
+    try {
+      const userDocRef = doc(db, collectionName, email);
+      const userDataToUpdate = {
+        name,
+        surname,
+        birthday,
+        city,
+        gender,
+      };
+
+      await updateDoc(userDocRef, userDataToUpdate);
+      dispatch(setFunc(userDataToUpdate));
+      console.log(email, "user data changed");
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  };
+
+  const changeUserAvatar = async (file, collectionName, setFunc, email) => {
+    const fileRef = ref(storage, `users/${email}.avatar`);
+    
+    const snapshot = await uploadBytes(fileRef, file);
+    const avatar = await getDownloadURL(fileRef);
+
+    try {
+      const userDocRef = doc(db, collectionName, email);
+      const userDataToUpdate = {
+        avatar
+      };
+
+      await updateDoc(userDocRef, userDataToUpdate);
+      dispatch(setFunc(userDataToUpdate));
+      console.log(email, "user avatar changed");
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  };
 
   const postFavouriteProduct = async (collectionName, email, obj) => {
     try {
@@ -69,7 +110,7 @@ export const useHttp = () => {
         favouriteProducts: arrayUnion(obj),
       });
 
-      console.log("Document written with name: ", email);
+      console.log(email, "favourite products posted");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -121,5 +162,5 @@ export const useHttp = () => {
     }
   };
 
-  return { getData, postUserData, getDataByDocument, postFavouriteProduct, getDocumentFieldItem, deleteFavouriteProduct };
+  return { getData, postUserData, getDataByDocument, postFavouriteProduct, getDocumentFieldItem, deleteFavouriteProduct, changeUserData, changeUserAvatar };
 }

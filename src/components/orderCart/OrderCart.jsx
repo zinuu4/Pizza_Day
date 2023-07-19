@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4, v4 } from 'uuid';
 
-import { setTotalOrderPrice, deleteItemFromOrder } from 'store/slices/userSlice';
+import { setTotalOrderPrice, deleteItemFromOrder, setMergedOrder, deleteItemsFromOrder, addItemToOrder } from 'store/slices/userSlice';
 import { modalToggleFunctional } from 'services/modalToggleFunctional';
 
 import './orderCart.scss';
@@ -17,7 +18,24 @@ const OrderCart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {order} = useSelector(state => state.user);
+  const {order, mergedOrder} = useSelector(state => state.user);
+
+  useEffect(() => {
+    const mergeDuplicateItems = () => {
+      const mergedOrder = {};
+      order.forEach((item) => {
+        const { name } = item;
+        const key = name;
+        if (key in mergedOrder) {
+          mergedOrder[key].quantity += 1;
+        } else {
+          mergedOrder[key] = { ...item, quantity: 1 };
+        }
+      });
+      dispatch(setMergedOrder(Object.values(mergedOrder)));
+    };
+    mergeDuplicateItems();
+  }, [order])
 
   const {setScroll, handleWrapperClick} = modalToggleFunctional();
   useEffect(() => {
@@ -31,14 +49,10 @@ const OrderCart = () => {
     setTotalPriceFunc();
   }, [order]);
 
-  let additivesPrice = 0;
-
-  const orderItems = order.map(({img, name, price, weight, descr, volume, id, additives}, index) => {
+  const orderItems = mergedOrder.map(({img, name, price, weight, descr, volume, id, quantity, additives}, index) => {
     let currentAdditivesPrice = 0;
     const renderAdditivesFunc = () => {
       if (additives) {
-        currentAdditivesPrice += additives.reduce((total, { price }) => total + parseInt(price), 0);
-        additivesPrice += additives.reduce((total, { price }) => total + parseInt(price), 0);
         return (
           additives.map(({ title, price }) => (
             <div key={title}>{title}</div>
@@ -55,17 +69,27 @@ const OrderCart = () => {
         <div className='cart__content-item-rightBlock'>
           <div className='cart__content-item-top'>
             <div className='cart__content-item-title'>{name}</div>
-            <img onClick={() => dispatch(deleteItemFromOrder(name))} className='cart__content-item-delete' src={closeGrey} alt="delete" />
+            <img onClick={() => dispatch(deleteItemsFromOrder(name))} className='cart__content-item-delete' src={closeGrey} alt="delete" />
           </div>
           {renderAdditives}
           <div className='cart__content-item-bottom'>
-            <div className='cart__content-item-price'>{parseInt(price.replace(/\D/g, "")) + currentAdditivesPrice} ₴</div>
+            <div className='cart__content-item-price'>{price} ₴</div>
             <div className='cart__content-item-counter-wrapper'>
-              <button className='cart__content-item-counter-btn'>
+              <button
+              onClick={() => {
+                dispatch(deleteItemFromOrder(order[quantity - 1].uuid))
+              }}
+              className='cart__content-item-counter-btn'
+              >
                 <img className='cart__content-item-counter-img' src={minus} alt="counter minus" />
               </button>
-              <span className='cart__content-item-counter'>1</span>
-              <button className='cart__content-item-counter-btn'>
+              <span className='cart__content-item-counter'>{quantity}</span>
+              <button 
+              onClick={() => {
+                dispatch(addItemToOrder({img, name, price, weight, descr, volume, id, additives, uuid: uuidv4()}))
+              }}
+              className='cart__content-item-counter-btn'
+              >
                 <img className='cart__content-item-counter-img' src={plus} alt="counter plus" />
               </button>
             </div>
@@ -90,13 +114,13 @@ const OrderCart = () => {
           onClick={() => setModal(true)} 
           className='cart__button'>
           <span>Place and order for:</span>
-          <span>{totalPrice + additivesPrice} ₴</span>
+          <span>{totalPrice} ₴</span>
         </button>
       </div>
 
       <div 
         style={{
-          'display': modal ? 'flex' : 'none'
+          'display': modal == true && order.length !== 0 ? 'flex' : 'none'
         }}
         onClick={(e) => handleWrapperClick(e, setModal)}
         className='cart__wrapper'
@@ -104,9 +128,10 @@ const OrderCart = () => {
 
         <section
           style={{
-            'display': modal ? 'flex' : 'none'
+            'display': modal == true && order.length !== 0 ? 'flex' : 'none'
           }}
           className='cart'
+          onClick={() => console.log(order)}
         >
           <div className='cart__top'>
             <h5 className='cart__title'>Cart</h5>
@@ -118,14 +143,14 @@ const OrderCart = () => {
           <div className='cart__order'>
             <div className='cart__order-price'>
               <span className='cart__order-price-text'>Order price:</span>
-              <span className='cart__order-price-text'>{totalPrice + additivesPrice} ₴</span>
+              <span className='cart__order-price-text'>{totalPrice} ₴</span>
             </div>
             <div className='cart__order-payable'>
               <span className='cart__order-payable-text'>Total payable:</span>
-              <span className='cart__order-payable-text'>{totalPrice + additivesPrice} ₴</span>
+              <span className='cart__order-payable-text'>{totalPrice} ₴</span>
             </div>
             <button onClick={async () => {
-              await dispatch(setTotalOrderPrice(totalPrice + additivesPrice));
+              await dispatch(setTotalOrderPrice(totalPrice));
               await setModal(false);
               navigate('/order')
             }} className='cart__order-btn'>Order</button>

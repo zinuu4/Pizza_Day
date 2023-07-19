@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 import AppHeader from 'components/appHeader/AppHeader';
 import AppFooter from 'components/appFooter/AppFooter';
@@ -22,6 +23,13 @@ const MainPage = () => {
 
   return (
     <>
+      <Helmet>
+        <meta
+          name="description"
+          content="Pizza Day"
+        />
+        <title>Pizza Day</title>
+      </Helmet>
       <AppHeader/>
       <Banner/>
       <MainSlider/>

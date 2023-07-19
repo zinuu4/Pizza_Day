@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import AppHeader from "components/appHeader/AppHeader"
 import AppFooter from "components/appFooter/AppFooter"
@@ -19,6 +20,13 @@ const OrderPage = () => {
 
   return (
     <>
+      <Helmet>
+        <meta
+          name="description"
+          content="Order page"
+        />
+        <title>Order</title>
+      </Helmet>
       <AppHeader/>
       <OrderForm/>
       <AppFooter/>

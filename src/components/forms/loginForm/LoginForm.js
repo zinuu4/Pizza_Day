@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 
 import { setLoginModal, setSignUpModal } from 'store/slices/modalsSlice';
 import close from 'assets/close/closeYellow.svg';
+import './loginForm.scss';
 
 const LoginForm = ({handleClick}) => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const LoginForm = ({handleClick}) => {
       initialValues = {{
         email: '',
         password: '',
+        agreement: false
       }}
       validationSchema={
         Yup.object({
@@ -29,13 +31,16 @@ const LoginForm = ({handleClick}) => {
           password: Yup.string()
             .min(8, 'Minimum 8 symbols')
             .required('Required'),
+          agreement:  Yup.boolean()
+            .required('Сonsent required')
+            .oneOf([true], 'Сonsent required')
         })
       }
       onSubmit={ handleSubmit }
     >
       {({isValid, dirty, isSubmitting}) => (
       <Form>
-        <h5 className='login__title'>Sign in</h5>
+        <h5 className='login__title'>Login to the site</h5>
         <img onClick={() => dispatch(setLoginModal(false))} className='signUp__close' src={close} alt="close modal" />
         <div className='signUp__descr'>Give a birthday present, save the shipping address and talk about promotions</div>
 
@@ -58,6 +63,15 @@ const LoginForm = ({handleClick}) => {
           className="login__input"
         />
         <ErrorMessage className='login__error' name="password" component="div" />
+
+        <label className='login__input__label'>
+          <Field
+            id="agreement"
+            name="agreement"
+            type="checkbox"
+          />
+          <span className='login__input__span'>By clicking Continue, you agree to <a href='https://www.eatery.club/privacy_policy.pdf'>collection and processing of personal data</a></span>
+        </label>
 
         <button  
           className='login__btn' 

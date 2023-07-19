@@ -1,0 +1,13 @@
+.login__input__label {
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+}
+.login__input__span {
+  font-size: 12px;
+  line-height: 1.33;
+  margin-left: 10px;
+}
+.login__input__span a {
+  color: var(--accent);
+}
