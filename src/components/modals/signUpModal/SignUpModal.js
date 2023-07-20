@@ -3,15 +3,22 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserAuthData } from 'store/slices/userSlice';
 
-import { Authentication, RegisterForm } from "../forms/signUpForm/SignUpForm";
+import { Authentication, RegisterForm } from "../../forms/signUpForm/SignUpForm";
+import { setSignUpModal } from "store/slices/modalsSlice";
 import { useHttp } from "hooks/http.hook";
-import './signUp.scss';
+import useModalToggle from 'hooks/modalToggleFunctionality';
 
-const SignUp = () => {
+import './signUpModal.scss';
+
+const SignUpModal = () => {
   const {signUpModal} = useSelector(state => state.modals);
+
   const [authentication, setAuthentication] = useState(false);
   const [submitError, setSubmitError] = useState('');
+
   const dispatch = useDispatch();
+  
+  const {postUserData} = useHttp();
 
   const handleAuthentication = (email, password) => {
     const auth = getAuth();
@@ -31,6 +38,9 @@ const SignUp = () => {
       })
       .catch((error) => setSubmitError('User already exists'));
   };
+
+  const {setScroll, handleWrapperClickDispatch} = useModalToggle();
+  setScroll(signUpModal)
   
   if (!authentication) {
     return (
@@ -38,13 +48,14 @@ const SignUp = () => {
       style={{
         'display': signUpModal ? 'flex' : 'none'
       }}
-      className="signUpModal__wrapper"
+      className="modal__wrapper"
+      onClick={(e) => handleWrapperClickDispatch(e, setSignUpModal)}
       >
         <div
         style={{
           'display': signUpModal ? 'flex' : 'none'
         }}
-        className="signUpModal"
+        className="modal signUpModal"
         >
           <Authentication
             handleClick={handleAuthentication}
@@ -59,19 +70,20 @@ const SignUp = () => {
       style={{
         'display': signUpModal ? 'flex' : 'none'
       }}
-      className="signUpModal__wrapper"
+      className="modal__wrapper"
       >
         <div
         style={{
           'display': signUpModal ? 'flex' : 'none'
         }}
-        className="signUpModal"
+        className="modal signUpModal"
         >
-          <RegisterForm/>
+          <RegisterForm
+          handleClick={postUserData}/>
         </div>
       </div>
     )
   }
 }
 
-export default SignUp;
+export default SignUpModal;

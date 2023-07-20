@@ -1,0 +1,47 @@
+.modal__restaraunt-info {
+  width: 566px !important;
+  &-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--input);
+  }
+  &-title {
+    font-size: 20px;
+    line-height: 1.25;
+    letter-spacing: -.0045em;
+  }
+  &-close {
+    cursor: pointer;
+  }
+  &-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 32px 0;
+  }
+  &-info-subtitle {
+    margin-bottom: 5px;
+    color: var(--disabled);
+  }
+  &-info-time {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  &-info-phone {
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -.0015em;
+    color: #faaf3f;
+    font-weight: 500;
+  }
+  &-info-phone:hover {
+    color: #faaf3f;
+  }
+  &-map {
+    height: 225px;
+    width: 566px;
+    margin-top: 24px;
+  }
+}

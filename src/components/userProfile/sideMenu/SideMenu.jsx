@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { setChoosenMenuItem } from 'store/slices/profileSlice';
 
@@ -13,9 +14,9 @@ import deleteProfile from 'assets/userProfile/sideMenu/delete.svg';
 
 const SideMenu = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const menuData = [
-    {title: "Come back", img: back},
     {title: "Profile", img: pencil},
     {title: "Favourite products", img: heart},
     {title: "History of orders", img: check},
@@ -27,6 +28,10 @@ const SideMenu = () => {
     <div className='sideMenu'>
       <h5 className='sideMenu__title'>Personal area</h5>
       <ul className='sideMenu__wrapper'>
+        <li key='Come back' onClick={() => navigate('/')} className='sideMenu__item'>
+          <img className='sideMenu__item__img' src={back} alt='Come back' />
+          <div className='sideMenu__itme__title'>Come back</div>
+        </li>
         {
           menuData.map(({title, img}) => {
             return (

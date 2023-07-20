@@ -11,7 +11,7 @@ const initialState = {
   token: null,
   id: null,
   chosenCity: '',
-  chosenRestaurant: '',
+  chosenRestaurant: {name: '', id: '', address: '', timeOpen: '', lat: 1, lng: 1},
   favouriteProducts: [],
   order: [],
   mergedOrder: [],

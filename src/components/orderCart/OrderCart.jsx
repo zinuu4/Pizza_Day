@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4, v4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import { setTotalOrderPrice, deleteItemFromOrder, setMergedOrder, deleteItemsFromOrder, addItemToOrder } from 'store/slices/userSlice';
-import { modalToggleFunctional } from 'services/modalToggleFunctional';
+import useModalToggle from 'hooks/modalToggleFunctionality';
 
 import './orderCart.scss';
 import closeYellow from 'assets/close/closeYellow.svg';
@@ -13,12 +13,14 @@ import minus from 'assets/minus/minusYellow.svg';
 import plus from 'assets/plus/plusYellow.svg';
 
 const OrderCart = () => {
+  const {order, mergedOrder} = useSelector(state => state.user);
+
   const [modal, setModal] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {order, mergedOrder} = useSelector(state => state.user);
 
   useEffect(() => {
     const mergeDuplicateItems = () => {
@@ -37,7 +39,7 @@ const OrderCart = () => {
     mergeDuplicateItems();
   }, [order])
 
-  const {setScroll, handleWrapperClick} = modalToggleFunctional();
+  const {setScroll, handleWrapperClick} = useModalToggle();
   useEffect(() => {
     setScroll(modal)
   }, [modal])
@@ -50,11 +52,10 @@ const OrderCart = () => {
   }, [order]);
 
   const orderItems = mergedOrder.map(({img, name, price, weight, descr, volume, id, quantity, additives}, index) => {
-    let currentAdditivesPrice = 0;
     const renderAdditivesFunc = () => {
       if (additives) {
         return (
-          additives.map(({ title, price }) => (
+          additives.map(({ title }) => (
             <div key={title}>{title}</div>
           ))
         );
@@ -112,7 +113,7 @@ const OrderCart = () => {
             'display': order.length !== 0 ? 'flex' : 'none'
           }}
           onClick={() => setModal(true)} 
-          className='cart__button'>
+          className='cart__button animate__animated animate__fadeInRight custom-animation'>
           <span>Place and order for:</span>
           <span>{totalPrice} ₴</span>
         </button>
@@ -123,14 +124,14 @@ const OrderCart = () => {
           'display': modal == true && order.length !== 0 ? 'flex' : 'none'
         }}
         onClick={(e) => handleWrapperClick(e, setModal)}
-        className='cart__wrapper'
+        className='rightSideModal__wrapper'
       >
 
         <section
           style={{
             'display': modal == true && order.length !== 0 ? 'flex' : 'none'
           }}
-          className='cart'
+          className='rightSideModal cart animate__animated animate__fadeInRight custom-animation'
           onClick={() => console.log(order)}
         >
           <div className='cart__top'>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import { addItemToOrder } from 'store/slices/userSlice';
-import { modalToggleFunctional } from 'services/modalToggleFunctional';
+import useModalToggle from 'hooks/modalToggleFunctionality';
 import { useHttp } from 'hooks/http.hook';
 import { setFavouriteProducts } from 'store/slices/userSlice';
 import { setLoginModal } from 'store/slices/modalsSlice';
@@ -16,26 +16,21 @@ import './productCard.scss';
 
 const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) => {
   const {email, favouriteProducts} = useSelector(state => state.user);
+
+  const [totalPrice, setTotalPrice] = useState(parseInt(price.replace(/[^\d]/g, "")));
+  const [choosenAdditives, setChoosenAdditives] = useState([]);
+  const [counter, setCounter] = useState(1);
   const [modal, setModal] = useState(false);
   const [isItFavProducts, setIsItFavProducts] = useState(false);
-  const [counter, setCounter] = useState(1);
+
   const dispatch = useDispatch();
+
   const {postFavouriteProduct, deleteFavouriteProduct} = useHttp();
-  const [choosenAdditives, setChoosenAdditives] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(parseInt(price.replace(/[^\d]/g, "")));
 
   useEffect(() => {
     const isProductInFavourites = favouriteProducts.some((product) => product.name === name);
     setIsItFavProducts(isProductInFavourites);
   }, [favouriteProducts, name]);
-
-  const plusCounter = () => {
-    setCounter(counter => counter + 1)
-  }
-
-  const minusCounter = () => {
-    setCounter(counter => counter - 1)
-  }
 
   const handleFavouriteClick = () => {
     if ((!!email)) {
@@ -54,20 +49,16 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
   };
 
 
-  const {setScroll, handleWrapperClick} = modalToggleFunctional();
+  const {setScroll, handleWrapperClick} = useModalToggle();
   setScroll(modal)
 
   const minusStrokeColor = counter == 1 ? '#f0f0f0' : '#faaf3f';
 
   const svgMinus = (
     <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-
     <g id="SVGRepo_bgCarrier" strokeWidth="0"/>
-
     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"/>
-
     <g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="white"/> <path d="M6 12H18" stroke={minusStrokeColor} strokeLinecap="round" strokeLinejoin="round"/> </g>
-
     </svg>
   );
 
@@ -75,13 +66,9 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
 
   const svgHeart = (
     <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#faaf3f">
-
     <g id="SVGRepo_bgCarrier" strokeWidth="0"/>
-
     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"/>
-
     <g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill={heartFill}/> </g>
-
     </svg>
   )
 
@@ -169,13 +156,13 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
         'display': modal ? 'flex' : 'none'
       }}
       onClick={(e) => handleWrapperClick(e, setModal)}
-      className='modal__productCard__wrapper'
+      className='modal__wrapper'
     >
       <div
         style={{
           'display': modal ? 'flex' : 'none'
         }}
-        className='modal__productCard'
+        className='modal modal__productCard animate__animated animate__fadeInUp custom-animation'
       >
         <img onClick={() => setModal(false)} className='card__close' src={close} alt='close' />
         <img className='modal__productCard__img' src={img} alt={name} />
@@ -197,9 +184,7 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
         <div className='modal__productCard__bottom'>
           <div className='counter__wrapper'>
             <button 
-              onClick={() => {
-                minusCounter()
-              }} 
+              onClick={() => setCounter(prev => prev - 1)} 
               disabled={counter == 1}
               style={{
                 'borderColor': counter == 1 ? 'var(--input)' : 'var(--accent)'
@@ -210,9 +195,7 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
             </button>
             <span className='counter'>{counter}</span>
             <button
-              onClick={() => {
-                plusCounter()
-              }} 
+              onClick={() => setCounter(prev => prev + 1)} 
               className='counter__btn'
               style={{
                 'borderColor': 'var(--accent)'
@@ -227,7 +210,6 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
             for (let i = 0; i < counter; i++) {
               items.push({ img, name, weight, volume, price: `${totalPrice}`, descr, id, additives: choosenAdditives, uuid: uuidv4() });
             }
-            console.log(items);
             await dispatch(addItemToOrder(items))
             await setModal(false)
           }} 

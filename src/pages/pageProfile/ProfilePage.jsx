@@ -19,18 +19,20 @@ import close from 'assets/close/closeYellow.svg';
 
 const ProfilePage = () => {
   const {choosenMenuItem} = useSelector(state => state.profile);
+  const {name} = useSelector(state => state.user);
+
   const [logoutModal, setLogoutModal] = useState(false);
   const [deleteAccountModal, setDeleteAccountModal] = useState(false);
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {email, name} = useSelector(state => state.user);
 
   useEffect(() => {
-    if (!(!!email)) {
+    if (!(!!name)) {
       navigate('/')
     }
-  }, [email])
+  }, [name])
 
   useEffect(() => {
     if (choosenMenuItem == 'Logout') {
@@ -54,18 +56,16 @@ const ProfilePage = () => {
 
   const switchMenu = (MenuItem) => {
     switch (MenuItem) {
-      case 'Come back':
-        return navigate('/');
       case 'Profile':
-        return <Profile/>
+        return <Profile />;
       case 'Favourite products':
-        return <FavouriteProducts/>
+        return <FavouriteProducts />;
       case 'History of orders':
-        return <HistoryOfOrders/>
+        return <HistoryOfOrders />;
       case 'Download personal data':
-        return <div>In process</div>
+        return <div>In process</div>;
       default:
-        return <Profile/>
+        return <Profile />;
     }
   }
   const renderChoosenMenuItem = switchMenu(choosenMenuItem);
@@ -76,7 +76,7 @@ const ProfilePage = () => {
           name="description"
           content="Profile page"
         />
-        <title>{name} profile</title>
+        <title>Profile</title>
       </Helmet>
       <AppHeader/>
       <div className="profilePage">
@@ -95,7 +95,7 @@ const ProfilePage = () => {
               style={{
                 'display': logoutModal ? 'flex' : 'none'
               }}
-              className="basicProfileModal"
+              className="basicProfileModal animate__animated animate__fadeInUp custom-animation"
               >
                 <img className="basicProfileModal__close" onClick={() => {
                   setLogoutModal(false)
@@ -123,7 +123,7 @@ const ProfilePage = () => {
               style={{
                 'display': deleteAccountModal ? 'flex' : 'none'
               }}
-              className="basicProfileModal"
+              className="basicProfileModal animate__animated animate__fadeInUp custom-animation"
               >
                 <img className="basicProfileModal__close" onClick={() => {
                   setDeleteAccountModal(false)

@@ -15,7 +15,7 @@ const MainPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const boolValue = !!chosenRestaurant;
+    const boolValue = !!chosenRestaurant.name;
     if (!boolValue) {
       navigate('/address');
     }

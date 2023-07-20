@@ -2,7 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   signUpModal: false,
-  loginModal: false
+  loginModal: false,
+  deliveryModal: false,
+  notificationsModal: false,
+  bannerInfoModal: false,
+  reviewModal: false
 }
 
 const userSlice = createSlice({
@@ -15,6 +19,18 @@ const userSlice = createSlice({
     setLoginModal: (state, action) => {
       state.loginModal = action.payload;
     },
+    setDeliveryModal: (state, action) => {
+      state.deliveryModal = action.payload;
+    },
+    setNotificationsModal: (state, action) => {
+      state.notificationsModal = action.payload;
+    },
+    setBannerInfoModal: (state, action) => {
+      state.bannerInfoModal = action.payload;
+    },
+    setReviewModal: (state, action) => {
+      state.reviewModal = action.payload;
+    },
   },
 });
 
@@ -24,5 +40,9 @@ export default reducer;
 
 export const {
   setSignUpModal,
-  setLoginModal
+  setLoginModal,
+  setDeliveryModal,
+  setNotificationsModal,
+  setBannerInfoModal,
+  setReviewModal
 } = actions;

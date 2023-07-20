@@ -3,58 +3,40 @@ import { useSelector } from 'react-redux';
 
 import { setNewsAndPromotions } from 'store/slices/dataBaseSlice';
 import { useHttp } from 'hooks/http.hook';
-import { modalToggleFunctional } from 'services/modalToggleFunctional';
+import useModalToggle from 'hooks/modalToggleFunctionality';
 
 import './mainSlider.scss';
 import close from 'assets/close/closeGrey.svg';
 
 const MainSlider = () => {
+  const {newsAndPromotions} = useSelector(state => state.db);;
+
+  const [modal, setModal] = useState(false);
   const [transform, setTransform] = useState('0');
   const [offset, setOffset] = useState(0);
   const [prevdisabled, setPrevDisabled] = useState(false);
   const [nextdisabled, setNextDisabled] = useState(false);
 
-  const [modal, setModal] = useState(false);
-
-  const {setScroll, handleWrapperClick} = modalToggleFunctional();
-  setScroll(modal)
-
-  const {newsAndPromotions} = useSelector(state => state.db);;
-
   const { getData } = useHttp();
+
+  useEffect(() => {
+    setTransform(`translateX(-${offset}px)`);
+  }, [offset]);
+
+  const {setScroll, handleWrapperClick} = useModalToggle();
+  setScroll(modal)
 
   useEffect(() => {
     getData("news and promotions", setNewsAndPromotions);
   }, []);
 
-  const plusSlide = () => {
-    const maxOffset = 380 * (3);
+  const handleSlide = (increment) => {
+    const maxOffset = 380 * 3;
+    const newOffset = offset + 380 * increment;
   
-    if (offset === maxOffset) {
-      setNextDisabled(true);
-      setPrevDisabled(false);
-    } else {
-      setOffset(prevOffset => {
-        const newOffset = prevOffset + 380;
-        setPrevDisabled(false);
-        setNextDisabled(newOffset === maxOffset);
-        return newOffset;
-      });
-    }
-  };
-  
-  const minusSlide = () => {
-    if (offset === 0) {
-      setPrevDisabled(true);
-      setNextDisabled(false);
-    } else {
-      setOffset(prevOffset => {
-        const newOffset = prevOffset - 380;
-        setPrevDisabled(newOffset === 0);
-        setNextDisabled(false);
-        return newOffset;
-      });
-    }
+    setOffset(newOffset);
+    setPrevDisabled(newOffset === 0);
+    setNextDisabled(newOffset === maxOffset);
   };
 
   const slides = newsAndPromotions.map(({img, id, descr}) => {
@@ -78,7 +60,7 @@ const MainSlider = () => {
         style={{
           'display': modal === id ? 'flex' : 'none'
         }}
-        className='SliderModal'
+        className='SliderModal animate__animated animate__fadeInUp custom-animation'
       >
         <div className='SliderModal__time'>{time}</div>
         <div onClick={() => setModal(null)} className='SliderModal__close'>
@@ -95,10 +77,6 @@ const MainSlider = () => {
     </div>
     )
   })
-
-  useEffect(() => {
-    setTransform(`translateX(-${offset}px)`);
-  }, [offset]);
 
   const svgCode = (
     <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -129,16 +107,13 @@ const MainSlider = () => {
               {slides}
             </div>
             <div className="slider__counter">
-              <button
-                disabled={prevdisabled}
-                onClick={minusSlide}
-                className="slider__counter-btn"
+              <button disabled={prevdisabled} onClick={() => handleSlide(-1)} className="slider__counter-btn"
               >
                 <span className='fix-display'>{svgCode}</span>
               </button>
               <button
                 disabled={nextdisabled}
-                onClick={plusSlide}
+                onClick={() => handleSlide(1)}
                 className="slider__counter-btn"
               >
                 <span className="slider__counter-next-img">{svgCode}</span>

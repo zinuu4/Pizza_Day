@@ -1,0 +1,26 @@
+.counter__wrapper {
+  display: flex;
+  width: 129px;
+  justify-content: center;
+  align-items: center;
+}
+
+.counter__btn {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  background-color: transparent;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  outline: none;
+}
+.counter {
+  font-size: 16px;
+  text-align: center;
+  line-height: 21px;
+  letter-spacing: -.0031em;
+  width: 41px;
+  color: var(--disabled);
+  font-weight: 600;
+}

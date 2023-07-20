@@ -1,10 +1,23 @@
 @import './libs/bootstrap';
 @import './variables';
+@import 'animate.css';
+@import './components/counter.scss';
+@import './components/modals.scss';
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 * {
   font-family: 'Roboto', sans-serif !important;
+}
+
+:root {
+  --animate-duration: .3s;
+  --animate-delay: 0s;
+}
+
+.custom-animation {
+  animation-duration: var(--animate-duration);
+  animation-delay: var(--animate-delay);
 }
 
 body {
@@ -22,15 +35,15 @@ a {
   text-decoration: none !important;
 }
 
+ol, ul {
+  list-style-type: none;
+}
+
 .divider {
   height: 0.3px;
   width: 100%;
   background-color: gray;
   opacity: .2;
-}
-
-ol, ul {
-  list-style-type: none;
 }
 
 .circle {
@@ -40,59 +53,6 @@ ol, ul {
   height: 8px;
   margin-right: 8px;
   border-radius: 50%;
-}
-
-.counter__wrapper {
-  display: flex;
-  width: 129px;
-  justify-content: center;
-  align-items: center;
-}
-
-.counter__btn {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  background-color: transparent;
-  border-radius: 8px;
-  border-width: 1px;
-  border-style: solid;
-  outline: none;
-}
-.counter {
-  font-size: 16px;
-  text-align: center;
-  line-height: 21px;
-  letter-spacing: -.0031em;
-  width: 41px;
-  color: var(--disabled);
-  font-weight: 600;
-}
-
-.emptyProfile {
-  background-color: var(--primary);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 885px;
-  height: 430px;
-  &__img {
-    margin-bottom: 24px;
-  }
-  &__title {
-    font-size: 20px;
-    line-height: 1.25;
-    letter-spacing: -.0045em;
-    margin-bottom: 12px;
-    font-weight: 500;
-  }
-  &__text {
-    color: #898989;
-    text-align: center;
-    max-width: 255px;
-  }
 }
 
 .visually-hidden {

@@ -54,9 +54,9 @@ export const useHttp = () => {
         email,
         favouriteProducts: []
       };
-  
+      console.log('lol');
       await setDoc(userDocRef, userData);
-      dispatch(setFunc(userData));
+      await dispatch(setFunc(userData));
       console.log(email, "user data posted");
     } catch (e) {
       console.error("Error adding document: ", e);

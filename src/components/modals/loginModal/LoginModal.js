@@ -4,13 +4,14 @@ import { setUserAuthData, setBasicUserData } from 'store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 import { useHttp } from "hooks/http.hook";
-import LoginForm from '../forms/loginForm/LoginForm';
-import './login.scss';
+import LoginForm from '../../forms/loginForm/LoginForm';
+import useModalToggle from 'hooks/modalToggleFunctionality';
+import { setLoginModal } from "store/slices/modalsSlice";
+import './loginModal.scss';
 
-const Login = () => {
+const LoginModal = () => {
   const {loginModal} = useSelector(state => state.modals);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const {getDataByDocument} = useHttp();
 
   const handleLogin = async (email, password) => {
@@ -28,18 +29,22 @@ const Login = () => {
       .catch((error) => alert(error));
   }
 
+  const {setScroll, handleWrapperClickDispatch} = useModalToggle();
+  setScroll(loginModal)
+
   return (
     <div
     style={{
       'display': loginModal ? 'flex' : 'none'
     }}
-    className="loginModal__wrapper"
+    className="modal__wrapper loginModal__wrapper"
+    onClick={(e) => handleWrapperClickDispatch(e, setLoginModal)}
     >
       <div
       style={{
         'display': loginModal ? 'flex' : 'none'
       }}
-      className="loginModal"
+      className="modal loginModal"
       >
         <LoginForm
           handleClick={handleLogin}
@@ -49,4 +54,4 @@ const Login = () => {
   )
 }
 
-export default Login;
+export default LoginModal;

@@ -1,0 +1,35 @@
+.notifications__modal {
+  &__close {
+    cursor: pointer;
+  }
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--input);
+  }
+  &__title {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.25;
+    letter-spacing: -.0045em;
+  }
+  &__content-empty {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 45px;
+    text-align: center;
+  }
+  &__subtitle {
+    margin-top: 23px;
+    margin-bottom: 12px;
+    font-size: 20px;
+    line-height: 1.25;
+    letter-spacing: -.0045em;
+    font-weight: 500;
+  }
+}

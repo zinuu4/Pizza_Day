@@ -73,8 +73,6 @@
     border-radius: 20px;
     background-color: var(--inputBackground);
     cursor: pointer;
-    // &-img {
-    // }
   }
   &__descr {
     font-size: 12px;
@@ -116,31 +114,8 @@
   transform: scale(1.03);
 }
 
-.modal__productCard__wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 24px;
-  overflow: hidden;
-  z-index: 5;
-  background-color: rgba(0, 0, 0, 0.5);
-}
 .modal__productCard {
-  position: relative !important;
-  width: 400px;
-  background-color: var(--primary);
-  border-radius: 16px;
-  z-index: 5;
-  overflow: hidden;
-  flex-direction: column;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  width: 400px !important;
   padding: 24px;
   &__img {
     width: 100%;

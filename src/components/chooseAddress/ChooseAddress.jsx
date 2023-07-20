@@ -6,8 +6,8 @@ import { useHttp } from 'hooks/http.hook';
 import { setCities, setCityRestaurants } from 'store/slices/dataBaseSlice';
 import { setChosenCity, setChosenRestaurant } from 'store/slices/userSlice';
 
-import './chooseAddress.scss';
 
+import './chooseAddress.scss';
 import locationYellow from '../../assets/locationImages/locationYellow.svg';
 import locationGrey from '../../assets/locationImages/locationGrey.svg';
 
@@ -56,11 +56,11 @@ const ChooseAddress = () => {
       </select>
 
       {
-        cityRestaurants.map(({name, id, address, timeOpen}) => {
-          const restaurantClass = name === chosenRestaurant ? 'choose__restaurant selected-restaurant' : 'choose__restaurant';
-          const addressClass = name === chosenRestaurant ? 'choose__restaurant-address selected-restaurant-address' : 'choose__restaurant-address';
+        cityRestaurants.map(({name, id, address, timeOpen, lat, lng}) => {
+          const restaurantClass = name === chosenRestaurant.name ? 'choose__restaurant selected-restaurant' : 'choose__restaurant';
+          const addressClass = name === chosenRestaurant.name ? 'choose__restaurant-address selected-restaurant-address' : 'choose__restaurant-address';
           return (
-            <div onClick={() => dispatch(setChosenRestaurant(name))} key={id} className={restaurantClass}>
+            <div onClick={() => dispatch(setChosenRestaurant({name, id, address, timeOpen, lat, lng}))} key={id} className={restaurantClass}>
               <div className={addressClass}>{address}</div>
               <div className='choose__restaurant-clue'>{name}</div>
               <p className='choose__restaurant-work-time'>

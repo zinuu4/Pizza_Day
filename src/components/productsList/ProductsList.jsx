@@ -1,5 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import ProductCard from 'components/productCard/ProductCard';
+
 import { 
   setSauces, 
   setDrinks, 
@@ -8,8 +11,6 @@ import {
   setPizzaFor115Uah, 
   setPizzaFor99Uah 
 } from "store/slices/dataBaseSlice";
-
-import ProductCard from 'components/productCard/ProductCard';
 import { useHttp } from "hooks/http.hook";
 import { setProductsTop } from "store/slices/menuSlice";
 
@@ -18,16 +19,19 @@ import search from 'assets/productsList/magnifyingGlass.svg';
 import cart from 'assets/productsList/emptyCart.svg';
 
 const ProductsList = () => {
-  const { getData } = useHttp();
-  const dispatch = useDispatch();
-  const [visibleData, setVisibleData] = useState([]);
   const [term, setTerm] = useState('');
+  const [visibleData, setVisibleData] = useState([]);
+  
   const pizzaFor155UahRef = useRef(null);
   const pizzaFor129UahRef = useRef(null);
   const pizzaFor115UahRef = useRef(null);
   const pizzaFor99UahRef = useRef(null);
   const saucesRef = useRef(null);
   const drinksRef = useRef(null);
+
+  const dispatch = useDispatch();
+
+  const { getData } = useHttp();
 
   const handleGetElementPosition = () => {
     const refs = [

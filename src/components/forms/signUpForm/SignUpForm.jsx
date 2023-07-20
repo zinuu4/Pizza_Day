@@ -96,7 +96,12 @@ const RegisterForm = ({handleClick}) => {
   const {email} = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {postUserData} = useHttp();
+
+  const handleSubmit = ({name, surname, birthday, gender}) => {
+    handleClick('users', setBasicUserData, name, surname, birthday, gender, email)
+    dispatch(setSignUpModal(false));
+  }
+
   return (
     <Formik
       initialValues = {{
@@ -117,7 +122,7 @@ const RegisterForm = ({handleClick}) => {
             .required('Required')
         })
       }      
-      onSubmit = { ({name, surname, birthday, gender}) => postUserData('users', setBasicUserData, name, surname, birthday, gender, email) }
+      onSubmit={handleSubmit}
     >
       <Form className='signUp__fields'>
         <h5 className='signUp__title'>Registration</h5>
@@ -167,10 +172,7 @@ const RegisterForm = ({handleClick}) => {
         </Field>
         <ErrorMessage className='signUp__error' name="gender" component="div" />
 
-        <button className="signUp__btn" onClick={() => {
-          navigate('/profile');
-          dispatch(setSignUpModal(false));
-          }} type='submit'>Register</button>
+        <button className="signUp__btn" type='submit'>Register</button>
 
       </Form>
     </Formik>
