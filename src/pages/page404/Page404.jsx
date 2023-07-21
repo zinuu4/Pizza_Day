@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import errorImg from 'assets/404/404.png';
+import errorImg from 'assets/errors/404.png';
 
 const Page404 = () => {
   return (

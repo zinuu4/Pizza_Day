@@ -1,5 +1,6 @@
-import './orderInfo.scss';
+import { useSelector } from 'react-redux';
 
+import './orderInfo.scss';
 import check from 'assets/orderInfo/check.svg';
 import pencil from 'assets/orderInfo/pencilEdit.svg';
 import dish from 'assets/orderInfo/dish.svg';
@@ -7,9 +8,10 @@ import bicycle from 'assets/orderInfo/bicycleMan.svg';
 import checked from 'assets/orderInfo/checked.svg'
 
 const OrderInfo = () => {
+  const { orderNumber } = useSelector(state => state.user);
   return (
     <section className="orderInfo">
-      <h5 className="orderInfo__title">Order No. 38099 in processing!</h5>
+      <h5 className="orderInfo__title">Order {orderNumber} in processing!</h5>
       <div className="orderInfo__info">
         <div >16.07.2023 at 10:37</div>
         <div >Sum 12 ₴</div>

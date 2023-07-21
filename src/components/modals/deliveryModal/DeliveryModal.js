@@ -9,6 +9,9 @@ import { setChosenCity, setChosenRestaurant } from 'store/slices/userSlice';
 import { useHttp } from "hooks/http.hook";
 import useModalToggle from "hooks/modalToggleFunctionality";
 
+import Spinner from 'components/userAlerts/spinner/Spinner';
+import ErrorMessage from 'components/userAlerts/errorMessage/ErrorMessage';
+
 import close from 'assets/close/closeYellow.svg';
 import './deliveryModal.scss';
 
@@ -17,7 +20,7 @@ const DeliveryModal = () => {
   const {deliveryModal} = useSelector(state => state.modals);
   const {cities, cityRestaurants} = useSelector(state => state.db);
 
-  const {getData} = useHttp();
+  const {getData, getDataLoading, getDataError} = useHttp();
 
   const dispatch = useDispatch();
 
@@ -27,6 +30,41 @@ const DeliveryModal = () => {
 
   const {setScroll, handleWrapperClickDispatch} = useModalToggle();
   setScroll(deliveryModal)
+
+  const renderedRestaurants = cityRestaurants.map(({name, img, id, address, timeOpen, lat, lng}) => {
+    const restaurantClass = name === chosenRestaurant.name ? 'choose__restaurant selected-restaurant' : 'choose__restaurant';
+    const addressClass = name === chosenRestaurant.name ? 'choose__restaurant-address selected-restaurant-address' : 'choose__restaurant-address';
+    return (
+      <div onClick={() => dispatch(setChosenRestaurant({name, img, id, address, timeOpen, lat, lng}))} key={id} className={restaurantClass}>
+        <div className={addressClass}>{address}</div>
+        <div className='choose__restaurant-clue'>{name}</div>
+        <p className='choose__restaurant-work-time'>
+          <span className='choose__restaurant-circle'/>
+          {timeOpen}
+        </p>
+      </div>
+    )
+  })
+
+  const errorMessage = getDataError ? (
+    <ErrorMessage
+      styles={{
+        width: '100px', 
+        height: '100px',
+        display: 'block',
+        margin: '0 auto'
+      }}
+    />
+    ) : null;
+    const loadingMessage = getDataLoading ? (
+      <Spinner
+        styles={{
+          display: 'block',
+          margin: '0 auto'
+        }}
+      />
+    ) : null;
+    const content = !(getDataError || getDataLoading) ? renderedRestaurants : null;
 
   return (
     <div
@@ -53,7 +91,6 @@ const DeliveryModal = () => {
           <div className='deliveryModal__content__left'>
             <div className='deliveryModal__choose__btns'>
               <button className='deliveryModal__choose__btn'>Take-out</button>
-              <button className='deliveryModal__choose__btn'>Delivery</button>
             </div>
 
             <select value={chosenCity} onChange={(e) => dispatch(setChosenCity(e.target.value))} className='choose__city'>
@@ -66,23 +103,11 @@ const DeliveryModal = () => {
             }
           </select>
 
-          {
-            cityRestaurants.map(({name, id, address, timeOpen, lat, lng}) => {
-              const restaurantClass = name === chosenRestaurant.name ? 'choose__restaurant selected-restaurant' : 'choose__restaurant';
-              const addressClass = name === chosenRestaurant.name ? 'choose__restaurant-address selected-restaurant-address' : 'choose__restaurant-address';
-              return (
-                <div onClick={() => dispatch(setChosenRestaurant({name, id, address, timeOpen, lat, lng}))} key={id} className={restaurantClass}>
-                  <div className={addressClass}>{address}</div>
-                  <div className='choose__restaurant-clue'>{name}</div>
-                  <p className='choose__restaurant-work-time'>
-                    <span className='choose__restaurant-circle'/>
-                    {timeOpen}
-                  </p>
-                </div>
-              )
-            })
-          }
-          <button onClick={() => dispatch(setDeliveryModal(false))} className='choose__btn-confirm'>Confirm address</button>
+          {loadingMessage}
+          {errorMessage}
+          {content}
+
+          <button type='button' onClick={() => dispatch(setDeliveryModal(false))} className='choose__btn-confirm'>Confirm address</button>
           </div>
 
           <div className='deliveryModal__content__right'>

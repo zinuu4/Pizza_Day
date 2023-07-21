@@ -88,8 +88,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 885px;
-  height: 430px;
+  width: 100%;
+  min-height: 430px;
   &__img {
     margin-bottom: 24px;
   }

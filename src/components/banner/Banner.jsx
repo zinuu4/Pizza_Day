@@ -7,7 +7,6 @@ import { setBannerInfoModal, setReviewModal } from "store/slices/modalsSlice";
 
 import './banner.scss';
 import shoppingBasket from 'assets/banner/shoppingBasket.svg';
-import restarauntPhoto from 'assets/banner/restarauntPhoto.jpeg';
 import forkAndSpoon from 'assets/banner/forkAndSpoon.png';
 import infoCircle from 'assets/banner/infoCircle.svg';
 import review from 'assets/banner/review.svg';
@@ -16,10 +15,6 @@ const Banner = () => {
   const {chosenRestaurant} = useSelector(state => state.user);
 
   const dispatch = useDispatch();
-
-  if (!chosenRestaurant) {
-    return <div>Loading...</div>
-  }
 
   return (
     <>
@@ -35,7 +30,7 @@ const Banner = () => {
             </ul>
 
             <div className='banner__img-wrapper'>
-              <img src={restarauntPhoto} alt="restaraunt photo" className='banner__img' />
+              <img src={chosenRestaurant.img} alt="restaraunt photo" className='banner__img' />
             </div>
 
             <div className='banner__info'>

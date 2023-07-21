@@ -1,7 +1,7 @@
 .order {
   padding: 30px 0;
 }
-.form {
+.orderForm {
   display: flex;
   &__data {
     background-color: var(--primary);
@@ -184,6 +184,9 @@
     border-radius: 8px;
     transition: transform .3s ease-in-out;
   }
+  &__submit__btn:hover {
+    transform: scale(1.05);
+  }
   &__link-back {
     display: block;
     margin-top: 24px;
@@ -194,9 +197,11 @@
     letter-spacing: -.0031em;
     color: var(--accent);
     font-weight: 500;
+    transition: transform .3s ease-in-out;
   }
   &__link-back:hover {
     color: var(--accent);
+    transform: scale(1.05);
   }
   &__error {
     margin-top: -10px;
@@ -208,5 +213,22 @@
     color: red;
     white-space: nowrap;
     transition: bottom .3s ease-in-out;
+  }
+  &__paymentError {
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    padding: 12px;
+    background-color: var(--inputBackground);
+    border-radius: 8px;
+    font-weight: 500;
+  }
+  &__paymentError p {
+    margin-left: 13px;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -.0015em;
   }
 }

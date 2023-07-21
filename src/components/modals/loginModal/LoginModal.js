@@ -1,7 +1,6 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserAuthData, setBasicUserData } from 'store/slices/userSlice';
-import { useNavigate } from 'react-router-dom';
 
 import { useHttp } from "hooks/http.hook";
 import LoginForm from '../../forms/loginForm/LoginForm';

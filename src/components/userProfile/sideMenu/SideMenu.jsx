@@ -20,7 +20,6 @@ const SideMenu = () => {
     {title: "Profile", img: pencil},
     {title: "Favourite products", img: heart},
     {title: "History of orders", img: check},
-    {title: "Download personal data", img: download},
     {title: "Logout", img: logout},
     {title: "Delete account", img: deleteProfile},
   ]

@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeApp } from "firebase/app";
-import { collection, getDocs, setDoc, doc, getDoc, getFirestore, updateDoc, arrayUnion } from "firebase/firestore";
+import { collection, getDocs, setDoc, doc, getDoc, getFirestore, updateDoc, arrayUnion, deleteDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export const useHttp = () => {
@@ -11,8 +12,11 @@ export const useHttp = () => {
   const db = getFirestore(app);
   const storage = getStorage();
 
+  const [getDataLoading, setGetDataLoading] = useState(false);
+  const [getDataError, setGetDataError] = useState(false);
 
   const getData = async (collectionName, setFunc) => {
+    setGetDataLoading(true)
     try {
       const querySnapshot = await getDocs(collection(db, collectionName));
       const newData = querySnapshot.docs.map((doc) => ({
@@ -20,7 +24,10 @@ export const useHttp = () => {
         ...doc.data(),
       }));
       dispatch(setFunc(newData));
+      setGetDataLoading(false)
     } catch (e) {
+      setGetDataLoading(false)
+      setGetDataError(true)
       console.error("Error getting documents:", e);
     }
   };
@@ -79,6 +86,20 @@ export const useHttp = () => {
       console.log(email, "user data changed");
     } catch (e) {
       console.error("Error updating document: ", e);
+    }
+  };
+
+  const deleteUserData = async (collectionName, setFunc, email) => {
+    try {
+      const userDocRef = doc(db, collectionName, email);
+      
+      await deleteDoc(userDocRef);
+  
+      dispatch(setFunc());
+  
+      console.log(email, "user data deleted");
+    } catch (e) {
+      console.error("Error deleting document: ", e);
     }
   };
 
@@ -143,9 +164,12 @@ export const useHttp = () => {
       console.error("Error updating document: ", e);
     }
   };
-  
+
+  const [getDocumentFieldItemLoading, setgetDocumentFieldItemLoading] = useState(false);
+  const [getDocumentFieldItemError, setgetDocumentFieldItemError] = useState(false);
 
   const getDocumentFieldItem = async (collectionName, setFunc, email, itemName) => {
+    setgetDocumentFieldItemLoading(true);
     try {
       const userDocRef = doc(db, collectionName, email);
   
@@ -155,12 +179,86 @@ export const useHttp = () => {
       const items = existingData[itemName] || [];
 
       dispatch(setFunc(items))
+      setgetDocumentFieldItemLoading(false);
       return items;
     } catch (e) {
+      setgetDocumentFieldItemLoading(false);
+      setgetDocumentFieldItemError(true);
       console.error("Error fetching 'favouriteProducts' array data: ", e);
       return [];
     }
   };
 
-  return { getData, postUserData, getDataByDocument, postFavouriteProduct, getDocumentFieldItem, deleteFavouriteProduct, changeUserData, changeUserAvatar };
+  const postReview = async (collectionName, name, email, review) => {
+    try {
+      const userDocRef = doc(db, collectionName, email);
+      const reviewData = {
+        name,
+        email,
+        review
+      };
+
+      await setDoc(userDocRef, reviewData);
+      console.log(email, "Review posted");
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
+  const postOrder = async ({collectionName, email, receivingMethod, time, cashPayment, cardPayment, numberOfPerson, comment, order, date, orderPrice, id}) => {
+    try {
+        const userDocRef = doc(db, collectionName, email);
+
+        const removeUndefined = (obj) => {
+            const result = {};
+            Object.entries(obj).forEach(([key, value]) => {
+                if (value !== undefined) {
+                    if (typeof value === 'object' && !Array.isArray(value)) {
+                        result[key] = removeUndefined(value);
+                    } else if (Array.isArray(value)) {
+                        result[key] = value.map((item) =>
+                            typeof item === 'object' ? removeUndefined(item) : item
+                        );
+                    } else {
+                        result[key] = value;
+                    }
+                }
+            });
+            return result;
+        };
+
+        const filteredOrder = removeUndefined(order);
+
+        const orderData = {
+            receivingMethod,
+            time,
+            cashPayment,
+            cardPayment,
+            numberOfPerson,
+            comment,
+            date,
+            orderPrice,
+            id,
+            ...filteredOrder,
+        };
+
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            if (!userData.orders) {
+                userData.orders = [];
+            }
+            userData.orders.push(orderData);
+            await updateDoc(userDocRef, userData);
+        } else {
+            await setDoc(userDocRef, { orders: [orderData] });
+        }
+        console.log(email, "order posted");
+    } catch (e) {
+        console.error("Error adding order: ", e);
+    }
+}
+
+
+  return { getData, getDataLoading, getDataError, postUserData, getDataByDocument, postFavouriteProduct, getDocumentFieldItem, getDocumentFieldItemLoading, getDocumentFieldItemError, deleteFavouriteProduct, changeUserData, changeUserAvatar, deleteUserData, postReview, postOrder };
 }

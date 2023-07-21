@@ -20,7 +20,6 @@ const Profile = () => {
       changeUserAvatar(selectedPhoto, 'users', setBasicUserData, email);
     }
   };
-  
 
   return (
     <div className="profile">

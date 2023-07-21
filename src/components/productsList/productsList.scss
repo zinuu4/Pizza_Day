@@ -1,5 +1,8 @@
 .products {
   position: relative;
+  width: 896px;
+  min-height: 500px;
+  align-items: center;
   &__img-search {
     position: absolute;
     z-index: 2;

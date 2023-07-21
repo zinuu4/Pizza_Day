@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet";
 
 import { removeUser } from "store/slices/userSlice"
 import { setChoosenMenuItem } from "store/slices/profileSlice"
+import { useHttp } from "hooks/http.hook";
 
 import AppFooter from "components/appFooter/AppFooter"
 import AppHeader from "components/appHeader/AppHeader"
@@ -19,10 +20,12 @@ import close from 'assets/close/closeYellow.svg';
 
 const ProfilePage = () => {
   const {choosenMenuItem} = useSelector(state => state.profile);
-  const {name} = useSelector(state => state.user);
+  const {email, name} = useSelector(state => state.user);
 
   const [logoutModal, setLogoutModal] = useState(false);
   const [deleteAccountModal, setDeleteAccountModal] = useState(false);
+
+  const { deleteUserData } = useHttp();
   
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -48,6 +51,7 @@ const ProfilePage = () => {
     const user = auth.currentUser;
 
     deleteUser(user).then(() => {
+      deleteUserData('users', removeUser, email)
       console.log('user deleted');
     }).catch((error) => {
       console.log(error);
@@ -62,8 +66,6 @@ const ProfilePage = () => {
         return <FavouriteProducts />;
       case 'History of orders':
         return <HistoryOfOrders />;
-      case 'Download personal data':
-        return <div>In process</div>;
       default:
         return <Profile />;
     }
@@ -136,7 +138,6 @@ const ProfilePage = () => {
                   onClick={() => {
                     deleteUserFunc();
                     dispatch(setChoosenMenuItem('Profile'));
-                    dispatch(removeUser());
                     setDeleteAccountModal(false)
                   }} 
                   className="basicProfileModal__btn"

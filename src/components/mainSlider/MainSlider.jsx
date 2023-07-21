@@ -5,6 +5,9 @@ import { setNewsAndPromotions } from 'store/slices/dataBaseSlice';
 import { useHttp } from 'hooks/http.hook';
 import useModalToggle from 'hooks/modalToggleFunctionality';
 
+import Spinner from 'components/userAlerts/spinner/Spinner';
+import ErrorMessage from 'components/userAlerts/errorMessage/ErrorMessage';
+
 import './mainSlider.scss';
 import close from 'assets/close/closeGrey.svg';
 
@@ -17,7 +20,7 @@ const MainSlider = () => {
   const [prevdisabled, setPrevDisabled] = useState(false);
   const [nextdisabled, setNextDisabled] = useState(false);
 
-  const { getData } = useHttp();
+  const { getData, getDataLoading, getDataError } = useHttp();
 
   useEffect(() => {
     setTransform(`translateX(-${offset}px)`);
@@ -90,6 +93,52 @@ const MainSlider = () => {
       </g>
     </svg>
   );
+
+  const errorMessage = getDataError ? (
+  <ErrorMessage
+    styles={{
+      width: '250px', 
+      height: '250px',
+      display: 'block',
+      margin: '0 auto'
+    }}
+  />
+  ) : null;
+  const loadingMessage = getDataLoading ? (
+    <Spinner
+      styles={{
+        display: 'block',
+        margin: '0 auto'
+      }}
+    />
+  ) : null;
+  const slidesContent = !(getDataError || getDataLoading) ? (
+    <>
+      <div
+        style={{
+          width: `${(100 * newsAndPromotions.length) / 3}%`,
+          transform: transform
+        }}
+        className="slider__inner"
+      >
+        {slides}
+      </div>
+      <div className="slider__counter">
+        <button disabled={prevdisabled} onClick={() => handleSlide(-1)} className="slider__counter-btn"
+        >
+          <span className='fix-display'>{svgCode}</span>
+        </button>
+        <button
+          disabled={nextdisabled}
+          onClick={() => handleSlide(1)}
+          className="slider__counter-btn"
+        >
+          <span className="slider__counter-next-img">{svgCode}</span>
+        </button>
+      </div>
+    </>
+  ) : null;
+  const modalsContent = !(getDataError || getDataLoading) ? modals : null;
   
   return (
     <>
@@ -97,32 +146,15 @@ const MainSlider = () => {
         <div className="container">
           <h1 className="slider__title">News and promotions</h1>
           <div className="slider__wrapper">
-            <div
-              style={{
-                width: `${(100 * newsAndPromotions.length) / 3}%`,
-                transform: transform
-              }}
-              className="slider__inner"
-            >
-              {slides}
-            </div>
-            <div className="slider__counter">
-              <button disabled={prevdisabled} onClick={() => handleSlide(-1)} className="slider__counter-btn"
-              >
-                <span className='fix-display'>{svgCode}</span>
-              </button>
-              <button
-                disabled={nextdisabled}
-                onClick={() => handleSlide(1)}
-                className="slider__counter-btn"
-              >
-                <span className="slider__counter-next-img">{svgCode}</span>
-              </button>
-            </div>
+
+            {loadingMessage}
+            {errorMessage}
+            {slidesContent}
+
           </div>
         </div>
       </section>
-      {modals}
+      {modalsContent}
     </>
   );  
 }

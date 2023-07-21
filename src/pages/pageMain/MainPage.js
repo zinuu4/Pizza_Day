@@ -12,6 +12,7 @@ import OrderCart from 'components/orderCart/OrderCart';
 
 const MainPage = () => {
   const {chosenRestaurant} = useSelector(state => state.user);
+
   const navigate = useNavigate();
 
   useEffect(() => {
