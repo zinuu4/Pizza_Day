@@ -21,7 +21,6 @@ const OrderCart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     const mergeDuplicateItems = () => {
       const mergedOrder = {};
@@ -45,25 +44,13 @@ const OrderCart = () => {
   }, [modal])
 
   useEffect(() => {
-    const setTotalPriceFunc = async () => {
-      await setTotalPrice(order.reduce((total, { price }) => total + parseInt(price.replace(/\D/g, "")), 0))
+    const setTotalPriceFunc = () => {
+      setTotalPrice(order.reduce((total, { price }) => total + parseInt(price.replace(/\D/g, "")), 0))
     }
     setTotalPriceFunc();
   }, [order]);
 
   const orderItems = mergedOrder.map(({img, name, price, weight, descr, volume, id, quantity, additives}, index) => {
-    const renderAdditivesFunc = () => {
-      if (additives) {
-        return (
-          additives.map(({ title }) => (
-            <div key={title}>{title}</div>
-          ))
-        );
-      } else {
-        return null;
-      }
-    }
-    const renderAdditives = renderAdditivesFunc();
     return (
       <div key={index} className='cart__content-item'>
         <img className='cart__content-item-img' src={img} alt={name} />
@@ -72,7 +59,7 @@ const OrderCart = () => {
             <div className='cart__content-item-title'>{name}</div>
             <img onClick={() => dispatch(deleteItemsFromOrder(name))} className='cart__content-item-delete' src={closeGrey} alt="delete" />
           </div>
-          {renderAdditives}
+          {additives && additives.map(({ title }) => <div key={title}>{title}</div>)}
           <div className='cart__content-item-bottom'>
             <div className='cart__content-item-price'>{price} ₴</div>
             <div className='cart__content-item-counter-wrapper'>
@@ -150,9 +137,9 @@ const OrderCart = () => {
               <span className='cart__order-payable-text'>Total payable:</span>
               <span className='cart__order-payable-text'>{totalPrice} ₴</span>
             </div>
-            <button onClick={async () => {
-              await dispatch(setTotalOrderPrice(totalPrice));
-              await setModal(false);
+            <button onClick={() => {
+              dispatch(setTotalOrderPrice(totalPrice));
+              setModal(false);
               navigate('/order')
             }} className='cart__order-btn'>Order</button>
           </div>

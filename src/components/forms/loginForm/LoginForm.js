@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage, useField } from 'formik';
-import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { setLoginModal, setSignUpModal } from 'store/slices/modalsSlice';
@@ -9,7 +8,6 @@ import './loginForm.scss';
 
 const LoginForm = ({handleClick}) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = ({email, password}) => {
     dispatch(setLoginModal(false));

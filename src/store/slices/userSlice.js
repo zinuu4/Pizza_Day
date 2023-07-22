@@ -17,8 +17,7 @@ const initialState = {
   order: [],
   mergedOrder: [],
   totalOrderPrice: 0,
-  orderNumber: null,
-
+  doneOrderInfo: {time: '', id: '', date: '', orderPrice: ''},
 }
 
 const userSlice = createSlice({
@@ -106,6 +105,9 @@ const userSlice = createSlice({
     setHistoryOfOrders: (state, action) => {
       state.historyOfOrders = action.payload;
     },
+    setDoneOrderInfo: (state, action) => {
+      state.doneOrderInfo = action.payload;
+    }
   },
 });
 
@@ -126,6 +128,6 @@ export const {
   setFavouriteProducts,
   setMergedOrder,
   deleteItemsFromOrder,
-  setOrderNumber,
-  setHistoryOfOrders
+  setHistoryOfOrders,
+  setDoneOrderInfo
 } = actions;

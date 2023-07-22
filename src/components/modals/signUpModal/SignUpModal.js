@@ -11,14 +11,14 @@ import useModalToggle from 'hooks/modalToggleFunctionality';
 import './signUpModal.scss';
 
 const SignUpModal = () => {
-  const {signUpModal} = useSelector(state => state.modals);
+  const { signUpModal } = useSelector(state => state.modals);
 
   const [authentication, setAuthentication] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
   const dispatch = useDispatch();
   
-  const {postUserData} = useHttp();
+  const { postUserData } = useHttp();
 
   const handleAuthentication = (email, password) => {
     const auth = getAuth();
@@ -44,44 +44,31 @@ const SignUpModal = () => {
   
   if (!authentication) {
     return (
-      <div
-      style={{
-        'display': signUpModal ? 'flex' : 'none'
-      }}
-      className="modal__wrapper"
-      onClick={(e) => handleWrapperClickDispatch(e, setSignUpModal)}
-      >
-        <div
-        style={{
-          'display': signUpModal ? 'flex' : 'none'
-        }}
-        className="modal signUpModal"
-        >
-          <Authentication
-            handleClick={handleAuthentication}
-            error={submitError}
-          />
-        </div>
-      </div>
+      <>
+        {signUpModal && (
+          <div className="modal__wrapper" onClick={(e) => handleWrapperClickDispatch(e, setSignUpModal)}>
+            <div className="modal signUpModal">
+              <Authentication
+                handleClick={handleAuthentication}
+                error={submitError}
+              />
+            </div>
+          </div>
+        )}
+      </>
     )
   } else {
     return (
-      <div
-      style={{
-        'display': signUpModal ? 'flex' : 'none'
-      }}
-      className="modal__wrapper"
-      >
-        <div
-        style={{
-          'display': signUpModal ? 'flex' : 'none'
-        }}
-        className="modal signUpModal"
-        >
-          <RegisterForm
-          handleClick={postUserData}/>
-        </div>
-      </div>
+      <>
+        {signUpModal && (
+          <div className="modal__wrapper">
+            <div className="modal signUpModal">
+              <RegisterForm
+              handleClick={postUserData}/>
+            </div>
+          </div>
+        )}
+      </>
     )
   }
 }

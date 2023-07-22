@@ -95,7 +95,6 @@ const Authentication = ({error, handleClick}) => {
 const RegisterForm = ({handleClick}) => {
   const {email} = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = ({name, surname, birthday, gender}) => {
     handleClick('users', setBasicUserData, name, surname, birthday, gender, email)

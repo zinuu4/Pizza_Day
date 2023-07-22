@@ -12,9 +12,16 @@ import infoCircle from 'assets/banner/infoCircle.svg';
 import review from 'assets/banner/review.svg';
 
 const Banner = () => {
-  const {chosenRestaurant} = useSelector(state => state.user);
-
+  const { chosenRestaurant } = useSelector(state => state.user);
   const dispatch = useDispatch();
+
+  const handleInfoButtonClick = () => {
+    dispatch(setBannerInfoModal(true));
+  };
+
+  const handleReviewClick = () => {
+    dispatch(setReviewModal(true));
+  };
 
   return (
     <>
@@ -44,7 +51,7 @@ const Banner = () => {
 
               <a className="banner__info-phone" href="tel:+380730836710">+380 (73) 083 66 91</a>
 
-              <button onClick={() => dispatch(setBannerInfoModal(true))} className='banner__info-about'>
+              <button onClick={handleInfoButtonClick} className='banner__info-about'>
                 <div className='banner__info-about-text-wrapper'>
                   <p className='banner__info-about-text'>Information about the restaurant</p>
                   <div className='banner__info-about-time'>
@@ -55,7 +62,7 @@ const Banner = () => {
                 <img src={infoCircle} alt="info" />
               </button>
 
-              <div onClick={() => dispatch(setReviewModal(true))} className='banner__review'>
+              <div onClick={handleReviewClick} className='banner__review'>
                 <p className='banner__review-text'>
                   Leave a review about the work of the institution or your recent delivery.
                 </p>

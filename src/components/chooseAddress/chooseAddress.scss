@@ -87,24 +87,22 @@
     display: flex;
     align-items: center;
   }
-  &__restaurant-circle {
-    background-color: #36ce00;
-    display: block;
-    width: 8px;
-    height: 8px;
-    margin-right: 8px;
-    border-radius: 50%;
-  }
-  &__btn-confirm {
+  &__btn-confirm, &__btn-confirm-disabled {
     padding: 15px 16px;
     font-size: 14px;
     line-height: 19px;
     letter-spacing: -.0015em;
-    color: var(--accentContent);
-    background-color: var(--accent);
     border: none;
     border-radius: 8px;
     width: 100%;
+  }
+  &__btn-confirm {
+    color: var(--accentContent);
+    background-color: var(--accent);
+  }
+  &__btn-confirm-disabled {
+    background-color: var(--input);
+    color: var(--disabled);
   }
 }
 

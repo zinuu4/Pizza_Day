@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -11,31 +11,27 @@ import DeliveryModal from 'components/modals/deliveryModal/DeliveryModal';
 import { setLoginModal, setDeliveryModal, setNotificationsModal } from 'store/slices/modalsSlice';
 import { setChoosenMenuItem } from 'store/slices/profileSlice';
 
+import './appHeader.scss';
 import logo from '../../assets/logo/logo.jpeg';
 import locationYellow from '../../assets/locationImages/locationYellow.svg';
 import heart from 'assets/heart/heartBlack.svg';
 import bell from 'assets/imgHeader/bell.svg';
 
-import './appHeader.scss';
 
 const AppHeader = () => {
-  const {name, avatar, chosenRestaurant} = useSelector(state => state.user);
-
-  const [booleanDeliveryAddress, setBooleanDeliveryAddress] = useState(false);
-  const [booleanName, setBooleanName] = useState(false);
-
+  const { name, avatar, chosenRestaurant } = useSelector(state => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setBooleanDeliveryAddress(!!chosenRestaurant.name);
-  }, [chosenRestaurant, navigate]);
+  const booleanDeliveryAddress = useMemo(() => !!chosenRestaurant.name, [chosenRestaurant])
+  const booleanName = useMemo(() => !!name, [name])
 
-  useEffect(() => {
-    setBooleanName(!!name);
-  }, [name, navigate]);
+  const handleProfileClick = () => {
+    navigate('/profile')
+    dispatch(setChoosenMenuItem('Favourite products'))
+  }
 
-  const rightContentGenerator = () => {
+  const rightContent = useMemo(() => {
     if (booleanName) {
       return (
         <>
@@ -57,10 +53,7 @@ const AppHeader = () => {
               </div>
               </div>
             </div>
-            <img className='header__profile__icon' onClick={() => {
-              navigate('/profile')
-              dispatch(setChoosenMenuItem('Favourite products'))
-            }} src={heart} alt="favourites products" />
+            <img className='header__profile__icon' onClick={handleProfileClick} src={heart} alt="favourites products" />
             <img onClick={() => dispatch(setNotificationsModal(true))} className='header__profile__icon' src={bell} alt="notifications" />
             <Link to='/profile'>
               <img className='header__profile__avatar' src={avatar} alt="profile" />
@@ -83,54 +76,36 @@ const AppHeader = () => {
         </div>
       )
     }
-  }
+  }, [booleanName]);
 
-  const rightContent = rightContentGenerator();
-
-  if (booleanDeliveryAddress) {
-    return (
-      <>
-        <header className="header">
-          <div className="container">
-            <div className="header__wrapper">
-              <Link to='/'>
-                <img className='header__logo' src={logo} alt="Logo" />
-              </Link>
+  
+  return (
+    <>
+      <header className="header">
+        <div className="container">
+          <div className="header__wrapper">
+            <Link to='/'>
+              <img className='header__logo' src={logo} alt="Logo" />
+            </Link>
+            {booleanDeliveryAddress && (
               <div onClick={() => dispatch(setDeliveryModal(true))} className="location">
                 <img className='location__img' src={locationYellow} alt="Location" />
                 <p className="location__adress">З собою, {chosenRestaurant.name}</p>
               </div>
-              {rightContent}
-            </div>
+            )}
+            {rightContent}
           </div>
-        </header>
-        <DeliveryModal/>
-        <SignUpModal/>
-        <LoginModal/>
-      </>
-    )
-  } else {
-    return (
-      <>
-        <header className="header">
-          <div className="container">
-            <div className="header__wrapper">
-              <Link to='/'>
-                <img className='header__logo' src={logo} alt="Logo" />
-              </Link>
-              <div className="options">
-                <select className="options__languages">
-                  <option value="English">English</option>
-                  <option value="Ukrainian">Українська</option>
-                  <option value="Russian">Русский</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </header>
-      </>
-    )
-  }
+        </div>
+      </header>
+      {booleanDeliveryAddress && (
+        <>
+          <DeliveryModal />
+          <SignUpModal />
+          <LoginModal />
+        </>
+      )}
+    </>
+  )
 }
 
 export default AppHeader

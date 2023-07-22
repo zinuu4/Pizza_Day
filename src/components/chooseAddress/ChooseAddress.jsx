@@ -38,7 +38,7 @@ const ChooseAddress = () => {
         <div className={addressClass}>{address}</div>
         <div className='choose__restaurant-clue'>{name}</div>
         <p className='choose__restaurant-work-time'>
-          <span className='choose__restaurant-circle'/>
+          <span className='circle'/>
           {timeOpen}
         </p>
       </div>
@@ -124,9 +124,13 @@ const ChooseAddress = () => {
       {citiesErrorMessage}
       {citiesContent}
 
-      <button className='choose__btn-confirm' onClick={() => {
+      <button 
+      className={chosenRestaurant.name ? 'choose__btn-confirm' : 'choose__btn-confirm-disabled'}
+      disabled={chosenRestaurant.name ? false : true}
+      onClick={() => {
         navigate('/')
-      }} >Confirm the address</button>
+      }} 
+      >Confirm the address</button>
 
     </section>
   )

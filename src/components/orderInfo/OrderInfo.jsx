@@ -8,13 +8,14 @@ import bicycle from 'assets/orderInfo/bicycleMan.svg';
 import checked from 'assets/orderInfo/checked.svg'
 
 const OrderInfo = () => {
-  const { orderNumber } = useSelector(state => state.user);
+  const { doneOrderInfo } = useSelector(state => state.user);
+
   return (
     <section className="orderInfo">
-      <h5 className="orderInfo__title">Order {orderNumber} in processing!</h5>
+      <h5 className="orderInfo__title">Order {doneOrderInfo.id.substring(0, 8)}... in processing!</h5>
       <div className="orderInfo__info">
-        <div >16.07.2023 at 10:37</div>
-        <div >Sum 12 ₴</div>
+        <div>{doneOrderInfo.date} at {doneOrderInfo.time}</div>
+        <div>Sum {doneOrderInfo.orderPrice} ₴</div>
       </div>
 
       <div className="orderInfo__status">
@@ -23,7 +24,7 @@ const OrderInfo = () => {
         </div>
         <div className="orderInfo__status__text">
           <div style={{'color': 'var(--accent)'}} className="orderInfo__status__title">New</div>
-          <div className="orderInfo__status__description">Order № 38099</div>
+          <div className="orderInfo__status__description">Order № {doneOrderInfo.id.substring(0, 8)}...</div>
         </div>
       </div>
       <p className='orderInfo__status__loading'>
@@ -39,7 +40,7 @@ const OrderInfo = () => {
         </div>
         <div className="orderInfo__status__text">
           <div className="orderInfo__status__title">Accepted</div>
-          <div className="orderInfo__status__description">Order № 38492</div>
+          <div className="orderInfo__status__description">Order № {doneOrderInfo.id.substring(0, 8)}...</div>
         </div>
       </div>
       <p className='orderInfo__status__loading'>

@@ -1,6 +1,3 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 
 import AppHeader from 'components/appHeader/AppHeader';
@@ -11,17 +8,6 @@ import MainSlider from 'components/mainSlider/MainSlider';
 import OrderCart from 'components/orderCart/OrderCart';
 
 const MainPage = () => {
-  const {chosenRestaurant} = useSelector(state => state.user);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const boolValue = !!chosenRestaurant.name;
-    if (!boolValue) {
-      navigate('/address');
-    }
-  }, [chosenRestaurant, navigate]);
-
   return (
     <>
       <Helmet>

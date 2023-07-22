@@ -6,12 +6,15 @@ import { useHttp } from "hooks/http.hook";
 import LoginForm from '../../forms/loginForm/LoginForm';
 import useModalToggle from 'hooks/modalToggleFunctionality';
 import { setLoginModal } from "store/slices/modalsSlice";
+import { setFavouriteProducts } from "store/slices/userSlice";
+
 import './loginModal.scss';
 
 const LoginModal = () => {
-  const {loginModal} = useSelector(state => state.modals);
+  const { loginModal } = useSelector(state => state.modals);
+
   const dispatch = useDispatch();
-  const {getDataByDocument} = useHttp();
+  const { getDataByDocument, getDocumentFieldItem } = useHttp();
 
   const handleLogin = async (email, password) => {
     const auth = getAuth();
@@ -24,6 +27,7 @@ const LoginModal = () => {
           token: user.accessToken
         }))
         getDataByDocument('users', setBasicUserData, user.email)
+        getDocumentFieldItem("users", setFavouriteProducts, user.email, 'favouriteProducts');
       })
       .catch((error) => alert(error));
   }
@@ -32,24 +36,17 @@ const LoginModal = () => {
   setScroll(loginModal)
 
   return (
-    <div
-    style={{
-      'display': loginModal ? 'flex' : 'none'
-    }}
-    className="modal__wrapper loginModal__wrapper"
-    onClick={(e) => handleWrapperClickDispatch(e, setLoginModal)}
-    >
-      <div
-      style={{
-        'display': loginModal ? 'flex' : 'none'
-      }}
-      className="modal loginModal"
-      >
-        <LoginForm
-          handleClick={handleLogin}
-        />
-      </div>
-    </div>
+    <>
+      {loginModal && (
+        <div className="modal__wrapper loginModal__wrapper" onClick={(e) => handleWrapperClickDispatch(e, setLoginModal)}>
+          <div className="modal loginModal">
+            <LoginForm
+              handleClick={handleLogin}
+            />
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 

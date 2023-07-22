@@ -18,52 +18,45 @@ const BannerInfoModal = () => {
   setScroll(bannerInfoModal)
 
   return (
-    <div 
-        style={{
-        'display': bannerInfoModal ? 'flex' : 'none'
-        }}
-        className='modal__wrapper'
-        onClick={(e) => handleWrapperClickDispatch(e, setBannerInfoModal)}
-      >
-      <div  
-        style={{
-          'display': bannerInfoModal ? 'flex' : 'none'
-        }}
-        className='modal modal__restaraunt-info animate__animated animate__fadeInUp custom-animation'
-      >
-        <div className='modal__restaraunt-info-top'>
-          <h4 className='modal__restaraunt-info-title'>Information about the restaurant</h4>
-          <img 
-            onClick={() => dispatch(setBannerInfoModal(false))}  className='modal__restaraunt-info-close' 
-            src={close} 
-            alt="close" 
-          />
-        </div>
-
-        <div className='modal__restaraunt-info-info'>
-
-          <div>
-            <p className='modal__restaraunt-info-info-subtitle'>Business hours</p>
-            <div className='modal__restaraunt-info-info-time'>
-              <span className='circle'></span>
-              {chosenRestaurant.timeOpen}
+    <>
+      {bannerInfoModal && (
+        <div className='modal__wrapper' onClick={(e) => handleWrapperClickDispatch(e, setBannerInfoModal)}>
+        <div className='modal modal__restaraunt-info animate__animated animate__fadeInUp custom-animation'>
+          <div className='modal__restaraunt-info-top'>
+            <h4 className='modal__restaraunt-info-title'>Information about the restaurant</h4>
+            <img 
+              onClick={() => dispatch(setBannerInfoModal(false))}  className='modal__restaraunt-info-close' 
+              src={close} 
+              alt="close" 
+            />
+          </div>
+  
+          <div className='modal__restaraunt-info-info'>
+  
+            <div>
+              <p className='modal__restaraunt-info-info-subtitle'>Business hours</p>
+              <div className='modal__restaraunt-info-info-time'>
+                <span className='circle'></span>
+                {chosenRestaurant.timeOpen}
+              </div>
+              <a className="modal__restaraunt-info-info-phone" href="tel:+380730836710">+380 (73) 083 67 10</a>
             </div>
-            <a className="modal__restaraunt-info-info-phone" href="tel:+380730836710">+380 (73) 083 67 10</a>
+  
+            <div>
+              <p className='modal__restaraunt-info-info-subtitle'>Address</p>
+              <p>{chosenRestaurant.address}</p>
+            </div>
+  
           </div>
-
-          <div>
-            <p className='modal__restaraunt-info-info-subtitle'>Address</p>
-            <p>{chosenRestaurant.address}</p>
+  
+          <div className='modal__restaraunt-info-map'>
+            <Map lat={chosenRestaurant.lat} lng={chosenRestaurant.lng} />
           </div>
-
+  
         </div>
-
-        <div className='modal__restaraunt-info-map'>
-          <Map lat={chosenRestaurant.lat} lng={chosenRestaurant.lng} />
-        </div>
-
       </div>
-    </div>
+      )}
+    </>
   )
 }
 

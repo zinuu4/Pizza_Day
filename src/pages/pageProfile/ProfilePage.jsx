@@ -19,23 +19,15 @@ import './profilePage.scss';
 import close from 'assets/close/closeYellow.svg';
 
 const ProfilePage = () => {
-  const {choosenMenuItem} = useSelector(state => state.profile);
-  const {email, name} = useSelector(state => state.user);
+  const { choosenMenuItem } = useSelector(state => state.profile);
+  const { email } = useSelector(state => state.user);
 
   const [logoutModal, setLogoutModal] = useState(false);
   const [deleteAccountModal, setDeleteAccountModal] = useState(false);
 
   const { deleteUserData } = useHttp();
   
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-
-  useEffect(() => {
-    if (!(!!name)) {
-      navigate('/')
-    }
-  }, [name])
 
   useEffect(() => {
     if (choosenMenuItem == 'Logout') {

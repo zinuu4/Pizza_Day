@@ -5,62 +5,52 @@ import { Formik, Form, Field, ErrorMessage, useField } from 'formik';
 import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
 
-import { setTotalOrderPrice, setOrder } from 'store/slices/userSlice';
+import { setTotalOrderPrice, setOrder, setDoneOrderInfo } from 'store/slices/userSlice';
 import { setDeliveryModal } from 'store/slices/modalsSlice';
 import { useHttp } from 'hooks/http.hook';
+import { generateTimeOptions } from 'utils/utils';
 
 import './orderForm.scss';
 import plus from 'assets/plus/plusYellow.svg';
 import infoCircle from 'assets/infoCircle/infoCircle.svg';
 
-const MyTextInput = ({label, value, ...props}) => {
+const MyTextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
+  const showError = meta.error && meta.touched;
   return (
-      <>
-          <label className='orderForm__label' htmlFor={props.name}>{label}</label>
-          <input readOnly={label === 'Receiving method*'} style={{
-            'border': meta.error && meta.error ? '1px solid red' : 'none'
-          }} {...props} {...field}/>
-          {meta.error && meta.error ? (
-              <div className='orderForm__error'>{meta.error}</div>
-          ) : null}
-      </>
-  )
+    <>
+      <label className='orderForm__label' htmlFor={props.name}>
+        {label}
+      </label>
+      <input
+        style={{
+          border: showError ? '1px solid red' : 'none',
+        }}
+        {...props}
+        {...field}
+      />
+      {showError ? (
+        <div className='orderForm__error'>{meta.error}</div>
+      ) : null}
+    </>
+  );
 };
+
 
 const OrderForm = () => {
   const {email, name, mergedOrder, chosenRestaurant, totalOrderPrice} = useSelector(state => state.user);
 
   const [numberOfPersons, setNumberOfPersons] = useState(1);
+  const [selectedCheckbox, setSelectedCheckbox] = useState({ name: '', value: false });
 
   const { postOrder } = useHttp();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!(!!chosenRestaurant.address)) {
-      navigate('/address')
-    }
-  }, [chosenRestaurant.address])
-
-  const orderedItems = mergedOrder.map(({name, weight, price, quantity, additives}, index) => {
-    const renderAdditivesFunc = () => {
-      if (additives) {
-        return (
-          additives.map(({title}) => {
-            return (
-              <div>{title}</div>
-            )
-          })
-        )
-      } else {
-        return null;
-      }
-    }
-    const renderAdditives = renderAdditivesFunc();
+  const orderedItems = mergedOrder.map(({name, weight, price, quantity, additives, uuid}, index) => {
     return (
-      <div key={index} className='orderForm__submit__item'>
+      <div key={uuid} className='orderForm__submit__item'>
         <div className='orderForm__submit__item-top'>
           <div className='orderForm__submit__item-title'>{name}</div>
           <div className='orderForm__submit__item-amount'>x {quantity}</div>
@@ -69,7 +59,7 @@ const OrderForm = () => {
           <div className='orderForm__submit__item-weight'>{weight}</div>
           <div className='orderForm__submit__item-price'>{price}</div>
         </div>
-        {renderAdditives}
+        {additives && additives.map(({ title }) => <div key={title}>{title}</div>)}
       </div>
     )
   })
@@ -78,44 +68,26 @@ const OrderForm = () => {
 
   const svgMinus = (
     <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-
     <g id="SVGRepo_bgCarrier" strokeWidth="0"/>
-
     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"/>
-
     <g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="white"/> <path d="M6 12H18" stroke={minusStrokeColor} strokeLinecap="round" strokeLinejoin="round"/> </g>
-
     </svg>
   );
 
-  const [timeOptions, setTimeOptions] = useState(generateTimeOptions());
+  const timeOptions = generateTimeOptions();
 
-  function generateTimeOptions() {
-    const interval = 15;
-    const startTime = new Date();
-    startTime.setMinutes(Math.ceil(startTime.getMinutes() / interval) * interval);
-    const endTime = new Date(startTime);
-    endTime.setHours(21, 59, 59, 999);
-
-    const options = [];
-    while (startTime <= endTime) {
-      const formattedTime = startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-      const nextTime = new Date(startTime);
-      nextTime.setTime(nextTime.getTime() + interval * 60000);
-      const formattedNextTime = nextTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-      options.push({ value: `${formattedTime} - ${formattedNextTime}`, label: `${formattedTime} - ${formattedNextTime}` });
-      startTime.setTime(startTime.getTime() + interval * 60000);
-    }
-
-    return options;
-  }
+  const handleCheckboxClick = (fieldName) => {
+    setSelectedCheckbox({
+      name: fieldName,
+      value: !selectedCheckbox.value,
+    });
+  };
 
   const onSubmit = ({email, receivingMethod, time, cashPayment, cardPayment, numberOfPerson, comment}, { resetForm }) => {
     const currentDate = new Date();
     const date = currentDate.toISOString().slice(0, 10);
 
-    postOrder({collectionName: 'orders', email, date, receivingMethod, time, cashPayment, cardPayment, numberOfPerson, comment, order: mergedOrder, id: uuidv4(), orderPrice: totalOrderPrice});
+    postOrder({collectionName: 'orders', setFunc: setDoneOrderInfo, email, date, receivingMethod, time, cashPayment, cardPayment, numberOfPerson, comment, order: mergedOrder, id: uuidv4(), orderPrice: totalOrderPrice});
 
     dispatch(setTotalOrderPrice(0));
     dispatch(setOrder([]));
@@ -134,8 +106,8 @@ const OrderForm = () => {
             email: email || '',
             rulesAgreement: false,
             receivingMethod: chosenRestaurant.address,
-            time: "",
-            cashPayment: true,
+            time: timeOptions[0].value || '',
+            cashPayment: false,
             cardPayment: false,
             numberOfPerson: 1,
             comment: ""
@@ -196,6 +168,7 @@ const OrderForm = () => {
                   name="receivingMethod"
                   type="text"
                   className="orderForm__input-text"
+                  readOnly
                   value={chosenRestaurant?.address || ""}
                 />
               </div>
@@ -220,6 +193,8 @@ const OrderForm = () => {
                   <Field 
                       name="cashPayment" 
                       type="checkbox"
+                      checked={selectedCheckbox.name === 'cashPayment' && selectedCheckbox.value === true}
+                      onClick={() => handleCheckboxClick('cashPayment')}
                   />
                   <p>Cash</p>
               </label>
@@ -227,13 +202,15 @@ const OrderForm = () => {
                   <Field 
                       name="cardPayment" 
                       type="checkbox"
+                      checked={selectedCheckbox.name === 'cardPayment' && selectedCheckbox.value === true}
+                      onClick={() => handleCheckboxClick('cardPayment')}
                   />
                   <p>By card upon receipt</p>
               </label>
             </div>
 
             <h4 className='orderForm__title'>Number of persons</h4>
-            <div className='counter__wrapper'>
+            <div className='counter__wrapper orderForm__counter-wrapper'>
               <button
               disabled={numberOfPersons == 1}
               onClick={() => {

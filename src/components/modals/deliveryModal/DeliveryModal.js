@@ -16,11 +16,11 @@ import close from 'assets/close/closeYellow.svg';
 import './deliveryModal.scss';
 
 const DeliveryModal = () => {
-  const {chosenRestaurant, chosenCity} = useSelector(state => state.user);
-  const {deliveryModal} = useSelector(state => state.modals);
-  const {cities, cityRestaurants} = useSelector(state => state.db);
+  const { chosenRestaurant, chosenCity } = useSelector(state => state.user);
+  const { deliveryModal } = useSelector(state => state.modals);
+  const { cities, cityRestaurants } = useSelector(state => state.db);
 
-  const {getData, getDataLoading, getDataError} = useHttp();
+  const { getData, getDataLoading, getDataError } = useHttp();
 
   const dispatch = useDispatch();
 
@@ -67,59 +67,52 @@ const DeliveryModal = () => {
     const content = !(getDataError || getDataLoading) ? renderedRestaurants : null;
 
   return (
-    <div
-      style={{
-        'display': deliveryModal ? 'flex' : 'none'
-      }}
-      className='modal__wrapper'
-      onClick={(e) => handleWrapperClickDispatch(e, setDeliveryModal)}
-    >
-      <div
-      style={{
-        'display': deliveryModal ? 'flex' : 'none'
-      }}
-      className='modal deliveryModal'
-      >
+    <>
+     {deliveryModal && (
+      <div className='modal__wrapper' onClick={(e) => handleWrapperClickDispatch(e, setDeliveryModal)}>
+        <div className='modal deliveryModal'>
 
-        <div className='deliveryModal__top'>
-          <div className='deliveryModal__title'>How to receive an order</div>
-          <img onClick={() => dispatch(setDeliveryModal(false))} className='deliveryModal__close' src={close} alt="close modal" />
-        </div>
-
-        <div className='deliveryModal__content'>
-
-          <div className='deliveryModal__content__left'>
-            <div className='deliveryModal__choose__btns'>
-              <button className='deliveryModal__choose__btn'>Take-out</button>
-            </div>
-
-            <select value={chosenCity} onChange={(e) => dispatch(setChosenCity(e.target.value))} className='choose__city'>
-            {
-              cities.map(({id}) => {
-                return (
-                  <option key={id} className='choose__city-option'>{id}</option>
-                )
-              })
-            }
-          </select>
-
-          {loadingMessage}
-          {errorMessage}
-          {content}
-
-          <button type='button' onClick={() => dispatch(setDeliveryModal(false))} className='choose__btn-confirm'>Confirm address</button>
+          <div className='deliveryModal__top'>
+            <div className='deliveryModal__title'>How to receive an order</div>
+            <img onClick={() => dispatch(setDeliveryModal(false))} className='deliveryModal__close' src={close} alt="close modal" />
           </div>
 
-          <div className='deliveryModal__content__right'>
-            <div className='deliveryModal__map__wrapper'>
-              <Map lat={chosenRestaurant.lat} lng={chosenRestaurant.lng} />
-            </div>
-            <p className='deliveryModal__info'>Pin your exact location to help the courier find your address</p>
-          </div>
+          <div className='deliveryModal__content'>
 
+            <div className='deliveryModal__content__left'>
+              <div className='deliveryModal__choose__btns'>
+                <button className='deliveryModal__choose__btn'>Take-out</button>
+              </div>
+
+              <select value={chosenCity} onChange={(e) => dispatch(setChosenCity(e.target.value))} className='choose__city'>
+              {
+                cities.map(({id}) => {
+                  return (
+                    <option key={id} className='choose__city-option'>{id}</option>
+                  )
+                })
+              }
+            </select>
+
+            {loadingMessage}
+            {errorMessage}
+            {content}
+
+            <button type='button' onClick={() => dispatch(setDeliveryModal(false))} className='choose__btn-confirm'>Confirm address</button>
+            </div>
+
+            <div className='deliveryModal__content__right'>
+              <div className='deliveryModal__map__wrapper'>
+                <Map lat={chosenRestaurant.lat} lng={chosenRestaurant.lng} />
+              </div>
+              <p className='deliveryModal__info'>Pin your exact location to help the courier find your address</p>
+            </div>
+
+          </div>
         </div>
       </div>
-    </div>
+     )}
+    </>
   )
 }
 

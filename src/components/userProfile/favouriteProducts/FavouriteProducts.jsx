@@ -12,7 +12,7 @@ import './favouriteProducts.scss';
 import box from 'assets/userProfile/favouriteProducts/box.svg';
 
 const FavouriteProducts = () => {
-  const {favouriteProducts, email} = useSelector(state => state.user);
+  const { favouriteProducts, email } = useSelector(state => state.user);
   const { getDocumentFieldItem, getDocumentFieldItemLoading, getDocumentFieldItemError } = useHttp();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const FavouriteProducts = () => {
   const renderContentFunc = () => {
     if (favouriteProducts.length >= 1) {
       return (
-        <>
+        <ul className='favouriteProducts'>
           {
             favouriteProducts.map(({img, name, volumeOrWeight, price, isDescr}) => {
               return (
@@ -30,7 +30,7 @@ const FavouriteProducts = () => {
               )
             })
           }
-        </>
+        </ul>
       )
     } else {
       return (
@@ -64,11 +64,11 @@ const FavouriteProducts = () => {
   const content = !(getDocumentFieldItemError || getDocumentFieldItemLoading) ? renderContent : null;
 
   return (
-    <ul className='favouriteProducts'>
+    <>
       {loadingMessage}
       {errorMessage}
       {content}
-    </ul>
+    </>
   )
 
 }

@@ -54,13 +54,12 @@
       font-weight: 400;
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 16px;
     }
     &-checkbox p {
-      margin: 5px 3px 0 10px;
+      margin: 0px 3px 0 10px;
     }
     &-checkbox a {
-      margin-top: 5px;
       color: var(--accent);
       font-weight: 400;
     }
@@ -90,9 +89,12 @@
   &__paymentMethod__label {
     font-weight: 400;
     display: flex;
+    margin-bottom: 0;
+  }
+  &__paymentMethod__label:first-child {
+    margin-bottom: 15px;
   }
   &__paymentMethod__label p {
-    margin-top: 6.5px;
     margin-left: 10px;
     margin-bottom: 0;
   }

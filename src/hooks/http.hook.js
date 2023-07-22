@@ -32,7 +32,11 @@ export const useHttp = () => {
     }
   };
 
+  const [getDataByDocumentLoading, setGetDataByDocumentLoading] = useState(false);
+  const [getDataByDocumentError, setGetDataByDocumentError] = useState(false);
+
   const getDataByDocument = async (collectionName, setFunc, documentId) => {
+    setGetDataByDocumentLoading(true)
     try {
       const docRef = doc(collection(db, collectionName), documentId);
       const docSnapshot = await getDoc(docRef);
@@ -42,10 +46,14 @@ export const useHttp = () => {
           ...docSnapshot.data()
         };
         dispatch(setFunc(newData));
+        setGetDataByDocumentLoading(false)
       } else {
+        setGetDataByDocumentLoading(false)
         console.log("Document does not exist");
       }
     } catch (e) {
+      setGetDataByDocumentLoading(false)
+      setGetDataByDocumentError(true)
       console.error("Error getting document:", e);
     }
   };
@@ -205,7 +213,7 @@ export const useHttp = () => {
     }
   }
 
-  const postOrder = async ({collectionName, email, receivingMethod, time, cashPayment, cardPayment, numberOfPerson, comment, order, date, orderPrice, id}) => {
+  const postOrder = async ({collectionName, setFunc, email, receivingMethod, time, cashPayment, cardPayment, numberOfPerson, comment, order, date, orderPrice, id}) => {
     try {
         const userDocRef = doc(db, collectionName, email);
 
@@ -253,12 +261,12 @@ export const useHttp = () => {
         } else {
             await setDoc(userDocRef, { orders: [orderData] });
         }
-        console.log(email, "order posted");
+        dispatch(setFunc({time, id, date, orderPrice}))
     } catch (e) {
         console.error("Error adding order: ", e);
     }
 }
 
 
-  return { getData, getDataLoading, getDataError, postUserData, getDataByDocument, postFavouriteProduct, getDocumentFieldItem, getDocumentFieldItemLoading, getDocumentFieldItemError, deleteFavouriteProduct, changeUserData, changeUserAvatar, deleteUserData, postReview, postOrder };
+  return { getData, getDataLoading, getDataError, postUserData, getDataByDocument, getDataByDocumentLoading, getDataByDocumentError, postFavouriteProduct, getDocumentFieldItem, getDocumentFieldItemLoading, getDocumentFieldItemError, deleteFavouriteProduct, changeUserData, changeUserAvatar, deleteUserData, postReview, postOrder };
 }

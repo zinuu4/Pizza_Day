@@ -1,5 +1,6 @@
+import { useSelector } from 'react-redux';
 import {lazy, Suspense} from 'react';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
 import { LoadScript } from '@react-google-maps/api';
 
 import Spinner from 'components/userAlerts/spinner/Spinner';
@@ -15,6 +16,8 @@ const ProfilePage = lazy(() => import('pages/pageProfile/ProfilePage'));
 const Page404 = lazy(() => import('pages/page404/Page404'));
 
 const App = () => {
+  const { chosenRestaurant, name } = useSelector(state => state.user);
+
   return (
     <Router>
       <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
@@ -36,11 +39,11 @@ const App = () => {
 
         <Routes>
 
-          <Route path='/' element={<MainPage />} />
+          <Route path='/' element={chosenRestaurant.name ? <MainPage /> : <Navigate to='/address'/>} />
           <Route path='/address' element={<PageChooseAddress />} />
-          <Route path='/order' element={<OrderPage />} />
+          <Route path='/order' element={chosenRestaurant.name ? <OrderPage /> : <Navigate to='/address'/>} />
           <Route path='/order/:orderId' element={<OrderInfoPage />} />
-          <Route path='/profile' element={<ProfilePage />} />
+          <Route path='/profile' element={(!!name) ? <ProfilePage /> : <Navigate to='/'/>} />
           <Route path='*' element={<Page404 />} />
 
         </Routes>

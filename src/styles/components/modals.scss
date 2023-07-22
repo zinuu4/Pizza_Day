@@ -1,5 +1,6 @@
 .modal {
   position: relative !important;
+  display: flex;
   width: 100%;
   background-color: var(--primary);
   border-radius: 16px;
@@ -13,6 +14,7 @@
 }
 .modal__wrapper {
   position: fixed;
+  display: flex;
   top: 0;
   left: 0;
   justify-content: center;
