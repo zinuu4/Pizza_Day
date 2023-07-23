@@ -28,10 +28,10 @@ const MainSlider = () => {
   }, [offset]);
 
   const {setScroll, handleWrapperClick} = useModalToggle();
-  setScroll(modal)
+  setScroll(modal);
 
   useEffect(() => {
-    getData("news and promotions", setNewsAndPromotions);
+    getData('news and promotions', setNewsAndPromotions);
   }, []);
 
   const handleSlide = (increment) => {
@@ -48,49 +48,44 @@ const MainSlider = () => {
       <div onClick={() => setModal(id)} key={id} className="slider__slide">
         <img className='slider__slide-img' src={img} alt={id} />
       </div>
-    )
-  })
+    );
+  });
   const modals = newsAndPromotions.map(({img, id, time, title, descr}) => {
     return (
-      <div 
-      style={{
-        'display': modal === id ? 'flex' : 'none'
-      }}
-      onClick={(e) => handleWrapperClick(e, setModal)}
-      className='SliderModal__wrapper'
-      key={title}
-    >
-      <div 
-        style={{
-          'display': modal === id ? 'flex' : 'none'
-        }}
-        className='SliderModal animate__animated animate__fadeInUp custom-animation'
-      >
-        <div className='SliderModal__time'>{time}</div>
-        <div onClick={() => setModal(null)} className='SliderModal__close'>
-          <img className='SliderModal__close-img' src={close} alt="close" />
-        </div>
-        <div className='SliderModal__img-wrapper'>
-          <img className='SliderModal__img' src={img} alt="" />
-        </div>
-        <div className='SliderModal__descr-wrapper'>
-          <h5 className='SliderModal__title'>{title}</h5>
-          <p className='SliderModal__text'>{descr}</p>
-        </div>
+      <div key={title}>
+        {modal === id && (
+          <div
+            onClick={(e) => handleWrapperClick(e, setModal)}
+            className='modal__wrapper'
+          >
+            <div className='modal SliderModal animate__animated animate__fadeInUp custom-animation'>
+              <div className='SliderModal__time'>{time}</div>
+              <button onClick={() => setModal(null)} className='SliderModal__close'>
+                <img className='SliderModal__close-img' src={close} alt="close" />
+              </button>
+              <div className='SliderModal__img-wrapper'>
+                <img className='SliderModal__img' src={img} alt="" />
+              </div>
+              <div className='SliderModal__descr-wrapper'>
+                <h5 className='SliderModal__title'>{title}</h5>
+                <p className='SliderModal__text'>{descr}</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
-    )
-  })
+    );
+  });
 
   const errorMessage = getDataError ? (
-  <ErrorMessage
-    styles={{
-      width: '250px', 
-      height: '250px',
-      display: 'block',
-      margin: '0 auto'
-    }}
-  />
+    <ErrorMessage
+      styles={{
+        width: '250px', 
+        height: '250px',
+        display: 'block',
+        margin: '0 auto'
+      }}
+    />
   ) : null;
   const loadingMessage = getDataLoading ? (
     <Spinner
@@ -145,6 +140,6 @@ const MainSlider = () => {
       {modalsContent}
     </>
   );  
-}
+};
 
-export default MainSlider
+export default MainSlider;

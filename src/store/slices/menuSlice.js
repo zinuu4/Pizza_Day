@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   pizzaFor155UahTop: '',
@@ -7,7 +7,7 @@ const initialState = {
   pizzaFor99UahTop: '',
   saucesTop: '',
   drinksTop: '',
-}
+};
 
 const userSlice = createSlice({
   name: 'menu',
@@ -24,7 +24,7 @@ const userSlice = createSlice({
   },
 });
 
-const {actions, reducer} = userSlice;
+const { actions, reducer } = userSlice;
 
 export default reducer;
 

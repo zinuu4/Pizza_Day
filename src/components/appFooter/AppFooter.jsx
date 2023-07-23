@@ -16,7 +16,7 @@ const AppFooter = () => {
       top: 0,
       behavior: 'smooth'
     });
-  }
+  };
   return (
     <footer className='footer'>
       <div className='container'>
@@ -37,10 +37,10 @@ const AppFooter = () => {
             <div className='pizza'>
               <h5 className='pizza__title'>Pizza Day</h5>
               <nav className='pizza__nav'>
-                <a className='pizza__nav-link' href="#">Work</a>
-                <a className='pizza__nav-link' href="#">Suppliers</a>
+                <a className='pizza__nav-link' href="google.com">Work</a>
+                <a className='pizza__nav-link' href="google.com">Suppliers</a>
                 <a className='pizza__nav-link' href="tel:+380961781818">Hotline +380 (96) 178 18 18</a>
-                <a className='pizza__nav-link' href="#">manager@pizzaday.com.ua</a>
+                <a className='pizza__nav-link' href="google.com">manager@pizzaday.com.ua</a>
               </nav>
             </div>
 
@@ -62,13 +62,13 @@ const AppFooter = () => {
           </div>
 
           <div className='social'>
-            <a className='social__link'>
+            <a href="google.com" className='social__link'>
               <img className='social__icon' src={facebook} alt="Facebook" />
             </a>
-            <a className='social__link'>
+            <a href="google.com" className='social__link'>
               <img className='social__icon' src={instagram} alt="Instagram" />
             </a>
-            <a className='social__link'>
+            <a href="google.com" className='social__link'>
               <img className='social__icon' src={tiktok} alt="Tiktok" />
             </a>
           </div>
@@ -81,12 +81,18 @@ const AppFooter = () => {
           <p className='privacy__copyright'>
             © 2023 Pizza Day
           </p>
-          <a className='privacy__policy' href="https://www.eatery.club/privacy_policy.pdf" target="_blank">Privacy policies and processing of personal data</a>
+          <a 
+            className='privacy__policy' 
+            href="https://www.eatery.club/privacy_policy.pdf" 
+            target="_blank" 
+            rel="noreferrer">
+            Privacy policies and processing of personal data
+          </a>
         </div>
 
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default AppFooter
+export default AppFooter;

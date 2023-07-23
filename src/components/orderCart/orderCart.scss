@@ -5,6 +5,10 @@
     bottom: 32px;
     width: 360px;
     z-index: 3;
+    transition: transform .3s ease-in-out;
+  }
+  &__button-wrapper:hover {
+    transform: scale(1.03);
   }
   &__button {
     font-size: 16px;
@@ -22,7 +26,7 @@
     transition: transform .3s ease-in-out;
   }
   &__button:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
   }
   &__top {
     display: flex;
@@ -84,8 +88,6 @@
     justify-content: space-between;
     align-items: center;
   }
-  // &__content-item-price {
-  // }
   &__content-item-counter-wrapper {
     display: flex;
   }
@@ -151,5 +153,8 @@
     border: none;
     border-radius: 8px;
     transition: transform .3s ease-in-out;
+  }
+  &__order-btn:hover {
+    transform: scale(1.05);
   }
 }

@@ -99,6 +99,10 @@
   &__btn-confirm {
     color: var(--accentContent);
     background-color: var(--accent);
+    transition: all .3s ease-in-out;
+  }
+  &__btn-confirm:hover {
+    transform: scale(1.05);
   }
   &__btn-confirm-disabled {
     background-color: var(--input);

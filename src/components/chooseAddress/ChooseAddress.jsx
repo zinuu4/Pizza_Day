@@ -16,25 +16,40 @@ const ChooseAddress = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { getData: getCities, getDataLoading: getCitiesLoading, getDataError: getCitiesError } = useHttp();
-  const { getData: getCityRestaurants, getDataLoading: getCityRestaurantsLoading, getDataError: getCityRestaurantsError } = useHttp();
+  const { 
+    getData: getCities, 
+    getDataLoading: getCitiesLoading, 
+    getDataError: getCitiesError 
+  } = useHttp();
+
+  const { 
+    getData: getCityRestaurants, 
+    getDataLoading: getCityRestaurantsLoading, 
+    getDataError: getCityRestaurantsError 
+  } = useHttp();
 
   const { cities, cityRestaurants } = useSelector(state => state.db);
   const { chosenCity, chosenRestaurant } = useSelector(state => state.user);
 
   useEffect(() => {
     getCities('cities', setCities);
-  }, [])
+  }, []);
 
   useEffect(() => {
     getCityRestaurants(`${chosenCity} restaurants`, setCityRestaurants);
   }, [chosenCity]);
 
   const renderedRestaurants = cityRestaurants.map(({name, img, id, address, timeOpen, lat, lng}) => {
-    const restaurantClass = name === chosenRestaurant.name ? 'choose__restaurant selected-restaurant' : 'choose__restaurant';
-    const addressClass = name === chosenRestaurant.name ? 'choose__restaurant-address selected-restaurant-address' : 'choose__restaurant-address';
+    const restaurantClass = name === chosenRestaurant.name ? 
+      'choose__restaurant selected-restaurant' : 'choose__restaurant';
+    const addressClass = name === chosenRestaurant.name ? 
+      'choose__restaurant-address selected-restaurant-address' : 'choose__restaurant-address';
     return (
-      <div onClick={() => dispatch(setChosenRestaurant({name, img, id, address, timeOpen, lat, lng}))} key={id} className={restaurantClass}>
+      <div 
+        onClick={() => dispatch(setChosenRestaurant({name, img, id, address, timeOpen, lat, lng}))} 
+        key={id} 
+        className={restaurantClass}
+      >
         <div className={addressClass}>{address}</div>
         <div className='choose__restaurant-clue'>{name}</div>
         <p className='choose__restaurant-work-time'>
@@ -42,8 +57,8 @@ const ChooseAddress = () => {
           {timeOpen}
         </p>
       </div>
-    )
-  })
+    );
+  });
 
   const restaurantsErrorMessage = getCityRestaurantsError ? (
     <ErrorMessage
@@ -54,26 +69,26 @@ const ChooseAddress = () => {
         margin: '0 auto'
       }}
     />
-    ) : null;
-    const restaurantsLoadingMessage = getCityRestaurantsLoading ? (
-      <Spinner
-        styles={{
-          display: 'block',
-          margin: '0 auto'
-        }}
-      />
-    ) : null;
-    const restaurantsContent = !(getCityRestaurantsError || getCityRestaurantsLoading) ? renderedRestaurants : null;
+  ) : null;
+  const restaurantsLoadingMessage = getCityRestaurantsLoading ? (
+    <Spinner
+      styles={{
+        display: 'block',
+        margin: '0 auto'
+      }}
+    />
+  ) : null;
+  const restaurantsContent = !(getCityRestaurantsError || getCityRestaurantsLoading) ? renderedRestaurants : null;
 
   const citiesErrorMessage = getCitiesError ? (
-  <ErrorMessage
-    styles={{
-      width: '100px', 
-      height: '100px',
-      display: 'block',
-      margin: '0 auto'
-    }}
-  />
+    <ErrorMessage
+      styles={{
+        width: '100px', 
+        height: '100px',
+        display: 'block',
+        margin: '0 auto'
+      }}
+    />
   ) : null;
   const citiesLoadingMessage = getCitiesLoading ? (
     <Spinner
@@ -90,7 +105,7 @@ const ChooseAddress = () => {
           cities.map(({id}) => {
             return (
               <option key={id} className='choose__city-option'>{id}</option>
-            )
+            );
           })
         }
       </select>
@@ -125,15 +140,15 @@ const ChooseAddress = () => {
       {citiesContent}
 
       <button 
-      className={chosenRestaurant.name ? 'choose__btn-confirm' : 'choose__btn-confirm-disabled'}
-      disabled={chosenRestaurant.name ? false : true}
-      onClick={() => {
-        navigate('/')
-      }} 
+        className={chosenRestaurant.name ? 'choose__btn-confirm' : 'choose__btn-confirm-disabled'}
+        disabled={chosenRestaurant.name ? false : true}
+        onClick={() => {
+          navigate('/');
+        }} 
       >Confirm the address</button>
 
     </section>
-  )
-}
+  );
+};
 
 export default ChooseAddress;

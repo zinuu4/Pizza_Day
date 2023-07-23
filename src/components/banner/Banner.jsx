@@ -37,7 +37,7 @@ const Banner = () => {
             </ul>
 
             <div className='banner__img-wrapper'>
-              <img src={chosenRestaurant.img} alt="restaraunt photo" className='banner__img' />
+              <img src={chosenRestaurant.img} alt="restaraunt" className='banner__img' />
             </div>
 
             <div className='banner__info'>

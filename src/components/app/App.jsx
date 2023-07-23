@@ -22,33 +22,33 @@ const App = () => {
     <Router>
       <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
 
-      <Suspense
-        fallback={
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '100vh',
-            }}
-          >
-            <Spinner/>
-          </div>
-        }
-      >
+        <Suspense
+          fallback={
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: '100vh',
+              }}
+            >
+              <Spinner/>
+            </div>
+          }
+        >
 
-        <Routes>
+          <Routes>
 
-          <Route path='/' element={chosenRestaurant.name ? <MainPage /> : <Navigate to='/address'/>} />
-          <Route path='/address' element={<PageChooseAddress />} />
-          <Route path='/order' element={chosenRestaurant.name ? <OrderPage /> : <Navigate to='/address'/>} />
-          <Route path='/order/:orderId' element={<OrderInfoPage />} />
-          <Route path='/profile' element={(!!name) ? <ProfilePage /> : <Navigate to='/'/>} />
-          <Route path='*' element={<Page404 />} />
+            <Route path='/' element={chosenRestaurant.name ? <MainPage /> : <Navigate to='/address'/>} />
+            <Route path='/address' element={<PageChooseAddress />} />
+            <Route path='/order' element={chosenRestaurant.name ? <OrderPage /> : <Navigate to='/address'/>} />
+            <Route path='/order/:orderId' element={<OrderInfoPage />} />
+            <Route path='/profile' element={(!!name) ? <ProfilePage /> : <Navigate to='/'/>} />
+            <Route path='*' element={<Page404 />} />
 
-        </Routes>
+          </Routes>
 
-      </Suspense>
+        </Suspense>
         
 
       </LoadScript>

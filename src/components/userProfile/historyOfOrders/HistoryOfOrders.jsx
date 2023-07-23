@@ -1,5 +1,5 @@
+import { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 
 import { setHistoryOfOrders } from 'store/slices/userSlice';
 import { useHttp } from 'hooks/http.hook';
@@ -16,10 +16,10 @@ const HistoryOfOrders = () => {
   const { getDataByDocument, getDataByDocumentLoading, getDataByDocumentError } = useHttp();
 
   useEffect(() => {
-    getDataByDocument("orders", setHistoryOfOrders, email);
-  }, [email])
+    getDataByDocument('orders', setHistoryOfOrders, email);
+  }, [email]);
 
-  const renderContentFunc = () => {
+  const renderContentFunc = useMemo(() => {
     if (historyOfOrders.orders?.length >= 1) {
       return (
         <ul className='ordersHistory'>
@@ -34,8 +34,8 @@ const HistoryOfOrders = () => {
                     <div className='ordersHistory__fields-wrapper'>
   
                       <div className='ordersHistory__id-wrapper'>
-                      <span className='circle ordersHistory__circle'></span>
-                      <div className='ordersHistory__info ordersHistory__id'>Order №: {id.substring(0, 12)}...</div>
+                        <span className='circle ordersHistory__circle'></span>
+                        <div className='ordersHistory__info ordersHistory__id'>Order №: {id.substring(0, 12)}...</div>
                       </div>
   
                       <div className='ordersHistory__info ordersHistory__date'>Date {date} at {time}</div>
@@ -49,11 +49,11 @@ const HistoryOfOrders = () => {
   
   
                 </div>
-              )
+              );
             })
           }
         </ul>
-      )
+      );
     } else {
       return (
         <div className="emptyProfile">
@@ -61,11 +61,9 @@ const HistoryOfOrders = () => {
           <div className="emptyProfile__title">While it's empty here</div>
           <p className="emptyProfile__text">Go to the menu to place your first order.</p>
         </div>
-      )
+      );
     }
-  }
-
-  const renderedContent = renderContentFunc();
+  }, [historyOfOrders]);
 
   const errorMessage = getDataByDocumentError ? (
     <ErrorMessage
@@ -75,7 +73,7 @@ const HistoryOfOrders = () => {
         margin: 'auto auto'
       }}
     />
-    ) : null;
+  ) : null;
   const loadingMessage = getDataByDocumentLoading ? (
     <Spinner
       styles={{
@@ -83,7 +81,7 @@ const HistoryOfOrders = () => {
       }}
     />
   ) : null;
-  const content = !(getDataByDocumentError || getDataByDocumentLoading) ? renderedContent : null;
+  const content = !(getDataByDocumentError || getDataByDocumentLoading) ? renderContentFunc : null;
 
   return (
     <>
@@ -91,7 +89,7 @@ const HistoryOfOrders = () => {
       {errorMessage}
       {content}
     </>
-  )
-}
+  );
+};
 
 export default HistoryOfOrders;

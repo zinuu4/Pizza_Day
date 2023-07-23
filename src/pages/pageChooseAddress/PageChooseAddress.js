@@ -1,7 +1,7 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 
-import AppHeader from "components/appHeader/AppHeader"
-import ChooseAddress from "components/chooseAddress/ChooseAddress"
+import AppHeader from 'components/appHeader/AppHeader';
+import ChooseAddress from 'components/chooseAddress/ChooseAddress';
 
 import './pageChooseAdress.scss';
 
@@ -22,7 +22,7 @@ const PageChooseAddress = () => {
         <ChooseAddress/>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default PageChooseAddress
+export default PageChooseAddress;

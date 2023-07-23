@@ -1,5 +1,5 @@
+import { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 
 import ProductCard from 'components/productCard/ProductCard';
 import { useHttp } from 'hooks/http.hook';
@@ -16,22 +16,26 @@ const FavouriteProducts = () => {
   const { getDocumentFieldItem, getDocumentFieldItemLoading, getDocumentFieldItemError } = useHttp();
 
   useEffect(() => {
-    getDocumentFieldItem("users", setFavouriteProducts, email, 'favouriteProducts');
-  }, [email])
+    getDocumentFieldItem('users', setFavouriteProducts, email, 'favouriteProducts');
+  }, [email]);
 
-  const renderContentFunc = () => {
+  const renderContentFunc = useMemo(() => {
     if (favouriteProducts.length >= 1) {
       return (
         <ul className='favouriteProducts'>
-          {
-            favouriteProducts.map(({img, name, volumeOrWeight, price, isDescr}) => {
-              return (
-                <ProductCard key={name} img={img} name={name} weight={volumeOrWeight} volume={volumeOrWeight} price={price} descr={isDescr}/>
-              )
-            })
-          }
+          {favouriteProducts.map(({ img, name, volumeOrWeight, price, isDescr }) => (
+            <ProductCard
+              key={name}
+              img={img}
+              name={name}
+              weight={volumeOrWeight}
+              volume={volumeOrWeight}
+              price={price}
+              descr={isDescr}
+            />
+          ))}
         </ul>
-      )
+      );
     } else {
       return (
         <div className="emptyProfile">
@@ -39,11 +43,9 @@ const FavouriteProducts = () => {
           <div className="emptyProfile__title">No favourite products yet</div>
           <p className="emptyProfile__text">You can add your favorite item from the restaurant menu</p>
         </div>
-      )
+      );
     }
-  }
-
-  const renderContent = renderContentFunc();
+  }, [favouriteProducts]);
 
   const errorMessage = getDocumentFieldItemError ? (
     <ErrorMessage
@@ -53,7 +55,7 @@ const FavouriteProducts = () => {
         margin: 'auto auto'
       }}
     />
-    ) : null;
+  ) : null;
   const loadingMessage = getDocumentFieldItemLoading ? (
     <Spinner
       styles={{
@@ -61,7 +63,7 @@ const FavouriteProducts = () => {
       }}
     />
   ) : null;
-  const content = !(getDocumentFieldItemError || getDocumentFieldItemLoading) ? renderContent : null;
+  const content = !(getDocumentFieldItemError || getDocumentFieldItemLoading) ? renderContentFunc : null;
 
   return (
     <>
@@ -69,8 +71,8 @@ const FavouriteProducts = () => {
       {errorMessage}
       {content}
     </>
-  )
+  );
 
-}
+};
 
-export default FavouriteProducts
+export default FavouriteProducts;

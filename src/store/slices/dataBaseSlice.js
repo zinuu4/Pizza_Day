@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   sauces: [],
@@ -10,7 +10,7 @@ const initialState = {
   newsAndPromotions: [],
   cities: [],
   cityRestaurants: []
-}
+};
 
 const userSlice = createSlice({
   name: 'db',
@@ -46,7 +46,7 @@ const userSlice = createSlice({
   },
 });
 
-const {actions, reducer} = userSlice;
+const { actions, reducer } = userSlice;
 
 export default reducer;
 

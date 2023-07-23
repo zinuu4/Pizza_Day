@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   email: null,
@@ -18,7 +18,7 @@ const initialState = {
   mergedOrder: [],
   totalOrderPrice: 0,
   doneOrderInfo: {time: '', id: '', date: '', orderPrice: ''},
-}
+};
 
 const userSlice = createSlice({
   name: 'user',

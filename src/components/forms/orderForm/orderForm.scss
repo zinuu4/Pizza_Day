@@ -233,4 +233,10 @@
     line-height: 19px;
     letter-spacing: -.0015em;
   }
+  &__restaurant-closed {
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 24px;
+    color: var(--accent);
+  }
 }

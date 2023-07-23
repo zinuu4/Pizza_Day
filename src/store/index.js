@@ -10,7 +10,7 @@ const stringMiddleware = () => (next) => (action) => {
   if (typeof action === 'string') {
     return next({
       type: action
-    })
+    });
   }
   return next(action);
 };
@@ -19,6 +19,6 @@ const store = configureStore({
   reducer: {user, modals, db, firebaseConfig, profile, menu},
   middleware: GetDefaultMiddleware => GetDefaultMiddleware().concat(stringMiddleware),
   devTools: process.env.NODE_ENV !== 'production'
-})
+});
 
 export default store;

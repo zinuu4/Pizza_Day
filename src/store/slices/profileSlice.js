@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   choosenMenuItem: 'Profile'
-}
+};
 
 const userSlice = createSlice({
   name: 'profile',

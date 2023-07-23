@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { useState } from 'react';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserAuthData } from 'store/slices/userSlice';
 
-import { Authentication, RegisterForm } from "../../forms/signUpForm/SignUpForm";
-import { setSignUpModal } from "store/slices/modalsSlice";
-import { useHttp } from "hooks/http.hook";
+import { Authentication, RegisterForm } from '../../forms/signUpForm/SignUpForm';
+import { setSignUpModal } from 'store/slices/modalsSlice';
+import { useHttp } from 'hooks/http.hook';
 import useModalToggle from 'hooks/modalToggleFunctionality';
 
 import './signUpModal.scss';
@@ -25,7 +25,6 @@ const SignUpModal = () => {
   
     createUserWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
-        console.log(user);
         dispatch(
           setUserAuthData({
             email: user.email,
@@ -40,7 +39,7 @@ const SignUpModal = () => {
   };
 
   const {setScroll, handleWrapperClickDispatch} = useModalToggle();
-  setScroll(signUpModal)
+  setScroll(signUpModal);
   
   if (!authentication) {
     return (
@@ -56,7 +55,7 @@ const SignUpModal = () => {
           </div>
         )}
       </>
-    )
+    );
   } else {
     return (
       <>
@@ -64,13 +63,13 @@ const SignUpModal = () => {
           <div className="modal__wrapper">
             <div className="modal signUpModal">
               <RegisterForm
-              handleClick={postUserData}/>
+                handleClick={postUserData}/>
             </div>
           </div>
         )}
       </>
-    )
+    );
   }
-}
+};
 
 export default SignUpModal;

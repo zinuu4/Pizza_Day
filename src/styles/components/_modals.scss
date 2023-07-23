@@ -43,6 +43,7 @@
 .rightSideModal__wrapper {
   width: 100%;
   height: 100vh;
+  display: flex;
   position: fixed;
   z-index: 9;
   left: 0;

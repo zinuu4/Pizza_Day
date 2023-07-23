@@ -5,7 +5,14 @@ import ProductsList from 'components/productsList/ProductsList';
 import './menu.scss';
 
 const Menu = () => {
-  const {pizzaFor155UahTop, pizzaFor129UahTop, pizzaFor115UahTop, pizzaFor99UahTop, saucesTop, drinksTop} = useSelector(state => state.menu);
+  const {
+    pizzaFor155UahTop, 
+    pizzaFor129UahTop, 
+    pizzaFor115UahTop, 
+    pizzaFor99UahTop, 
+    saucesTop, 
+    drinksTop
+  } = useSelector(state => state.menu);
   const [activeMenuItem, setActiveMenuItem] = useState('');
 
   useEffect(() => {
@@ -31,34 +38,34 @@ const Menu = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  })
+  });
 
   const menuItemsData = [
-    {title: "Pizza for 155 uah", topPosition: pizzaFor155UahTop, id: 1,},
-    {title: "Pizza for 129 uah", topPosition: pizzaFor129UahTop, id: 2},
-    {title: "Pizza for 115 uah", topPosition: pizzaFor115UahTop, id: 3},
-    {title: "Pizza for 99 uah", topPosition: pizzaFor99UahTop, id: 4},
-    {title: "Sauces", topPosition: saucesTop, id: 5},
-    {title: "Drinks", topPosition: drinksTop, id: 6},
-  ]
+    {title: 'Pizza for 155 uah', topPosition: pizzaFor155UahTop, id: 1,},
+    {title: 'Pizza for 129 uah', topPosition: pizzaFor129UahTop, id: 2},
+    {title: 'Pizza for 115 uah', topPosition: pizzaFor115UahTop, id: 3},
+    {title: 'Pizza for 99 uah', topPosition: pizzaFor99UahTop, id: 4},
+    {title: 'Sauces', topPosition: saucesTop, id: 5},
+    {title: 'Drinks', topPosition: drinksTop, id: 6},
+  ];
 
   const menuItems = menuItemsData.map(({title, topPosition, id}) => {
     return (
       <li key={id} onClick={() => {
         window.scrollTo({
-         top: topPosition,
-         behavior: 'smooth'
-       });
-     }} className="menu__list-item">
-      <div
-      className='menu__list-item-link'
-      style={{
-        'color': title === activeMenuItem ? 'var(--accent)' : 'var(--text)'
-      }}
-      >{title}</div>
-     </li>
-    )
-  })
+          top: topPosition,
+          behavior: 'smooth'
+        });
+      }} className="menu__list-item">
+        <div
+          className='menu__list-item-link'
+          style={{
+            'color': title === activeMenuItem ? 'var(--accent)' : 'var(--text)'
+          }}
+        >{title}</div>
+      </li>
+    );
+  });
 
   return (
     <>
@@ -74,13 +81,13 @@ const Menu = () => {
             </div>
             <ProductsList/>
           </div>
-          </div>
+        </div>
 
 
       </div>
 
     </>
-  )
-}
+  );
+};
 
 export default Menu;

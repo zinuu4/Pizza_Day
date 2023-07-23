@@ -23,13 +23,13 @@ const AppHeader = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const booleanDeliveryAddress = useMemo(() => !!chosenRestaurant.name, [chosenRestaurant])
-  const booleanName = useMemo(() => !!name, [name])
+  const booleanDeliveryAddress = useMemo(() => !!chosenRestaurant.name, [chosenRestaurant]);
+  const booleanName = useMemo(() => !!name, [name]);
 
   const handleProfileClick = () => {
-    navigate('/profile')
-    dispatch(setChoosenMenuItem('Favourite products'))
-  }
+    navigate('/profile');
+    dispatch(setChoosenMenuItem('Favourite products'));
+  };
 
   const rightContent = useMemo(() => {
     if (booleanName) {
@@ -40,41 +40,43 @@ const AppHeader = () => {
               <div className='header__profile__loyalty-points'>0 points</div>
               <div className='header__profile__loyalty-text'>Loyalty Program
                 <div className='loyalty__info'>
-                <div className='loyalty__info__title'>Як це працює?</div>
-                <div className='loyalty__info__text'>
+                  <div className='loyalty__info__title'>Як це працює?</div>
+                  <div className='loyalty__info__text'>
                 📈 Бонуси нараховуються в розмірі 1% від кожної покупки зареєстрованого клієнта
-                <br/><br/>
+                    <br/><br/>
                 💰 Бонусами можна оплатити не більше 50% від суми замовлення
-                <br/><br/>
+                    <br/><br/>
                 💳 Бонусний рахунок доступний з наступного замовлення
-                <br/><br/>
+                    <br/><br/>
                 📆 Термін дії бонусів - 395 днів з моменту покупки
+                  </div>
                 </div>
-              </div>
               </div>
             </div>
             <img className='header__profile__icon' onClick={handleProfileClick} src={heart} alt="favourites products" />
-            <img onClick={() => dispatch(setNotificationsModal(true))} className='header__profile__icon' src={bell} alt="notifications" />
+            <img 
+              onClick={() => dispatch(setNotificationsModal(true))} 
+              className='header__profile__icon' 
+              src={bell} 
+              alt="notifications" />
             <Link to='/profile'>
               <img className='header__profile__avatar' src={avatar} alt="profile" />
             </Link>
           </div>
           <NotificationsModal/>
         </>
-      )
+      );
     } else {
       return (
         <div className="options">
           <select className="options__languages">
             <option value="English">English</option>
-            <option value="Ukrainian">Українська</option>
-            <option value="Russian">Русский</option>
           </select>
           <button onClick={() => dispatch(setLoginModal(true))} className="options__login">
             Login
           </button>
         </div>
-      )
+      );
     }
   }, [booleanName]);
 
@@ -105,7 +107,7 @@ const AppHeader = () => {
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default AppHeader
+export default AppHeader;

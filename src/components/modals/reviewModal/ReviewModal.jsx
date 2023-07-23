@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Formik, Form, Field, ErrorMessage, useField } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import { setReviewModal } from 'store/slices/modalsSlice';
@@ -30,7 +30,7 @@ const ReviewModal = () => {
     setGratitudeModal(true);
     resetForm();
     setTimeout(() => setGratitudeModal(false), 5000);
-  }
+  };
 
   const MemoizedReviewModal = React.memo(() => (
     <div className="modal__wrapper" onClick={(e) => handleWrapperClickDispatch(e, setReviewModal)}>
@@ -38,7 +38,13 @@ const ReviewModal = () => {
 
         <div className="reviewModal__top">
           <div className="reviewModal__title">Give feedback</div>
-          <img onClick={() => dispatch(setReviewModal(false))} className='reviewModal__close' src={close} alt="Close review modal" />
+          <button type='button' onClick={() => dispatch(setReviewModal(false))} className='btn-close'>
+            <img 
+              className='icon-close' 
+              src={close} 
+              alt="Close review modal" 
+            />
+          </button>
         </div>
 
         <div className='reviewModal__content'>
@@ -103,7 +109,9 @@ const ReviewModal = () => {
                     name="rulesAgreement"
                     type="checkbox"
                   />
-                  <div> I agree with the rules <a href="https://www.eatery.club/privacy_policy.pdf">for the processing of personal data</a></div>
+                  <div> I agree with the rules 
+                    <a href="https://www.eatery.club/privacy_policy.pdf">for the processing of personal data</a>
+                  </div>
                 </div>
                 <ErrorMessage className='form__error' name='rulesAgreement' component='div'/>
 
@@ -126,24 +134,28 @@ const ReviewModal = () => {
 
       </div>
     </div>
-  ))
+  ));
 
   const MemoizedGratitudeModal = React.memo(() => (
-    <div onClick={(e) => handleWrapperClick(e, setGratitudeModal)} style={{'display': gratitudeModal ? 'flex' : 'none'}} className='modal__wrapper'>
+    <div 
+      onClick={(e) => handleWrapperClick(e, setGratitudeModal)} 
+      style={{'display': gratitudeModal ? 'flex' : 'none'}} 
+      className='modal__wrapper'
+    >
       <div style={{'display': gratitudeModal ? 'flex' : 'none'}} className='modal gratitudeModal'>
         <img onClick={() => setGratitudeModal(false)} className='gratitudeModal__close' src={close} alt="close modal" />
         <div className='gratitudeModal__status'>Successfully sent</div>
         <div className='gratitudeModal__gratitude'>Thanks for your review!</div>
       </div>
     </div>
-  ))
+  ));
 
   return (
     <>
       {reviewModal && <MemoizedReviewModal />}
       {gratitudeModal && <MemoizedGratitudeModal />}
     </>
-  )
-}
+  );
+};
 
 export default ReviewModal;

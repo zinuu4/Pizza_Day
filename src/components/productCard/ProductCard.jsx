@@ -15,10 +15,10 @@ import productCardImages from 'assets/productCard/productCardImages';
 
 import './productCard.scss';
 
-const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) => {
-  const {email, favouriteProducts} = useSelector(state => state.user);
+const ProductCard = ({ img, name, weight, volume, price, descr, id, additives }) => {
+  const { email, favouriteProducts } = useSelector(state => state.user);
 
-  const [totalPrice, setTotalPrice] = useState(parseInt(price.replace(/[^\d]/g, "")));
+  const [totalPrice, setTotalPrice] = useState(parseInt(price.replace(/[^\d]/g, '')));
   const [choosenAdditives, setChoosenAdditives] = useState([]);
   const [counter, setCounter] = useState(1);
   const [modal, setModal] = useState(false);
@@ -26,7 +26,7 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
 
   const dispatch = useDispatch();
 
-  const {postFavouriteProduct, deleteFavouriteProduct} = useHttp();
+  const { postFavouriteProduct, deleteFavouriteProduct } = useHttp();
 
   const { svgMinus, svgHeart } = productCardImages({ counter, isItFavProducts });
 
@@ -40,10 +40,10 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
       if (!isItFavProducts) {
         const volumeOrWeight = volume || weight;
         const isDescr = descr || null;
-        postFavouriteProduct('users', email, {img, name, volumeOrWeight, price, isDescr})
+        postFavouriteProduct('users', email, {img, name, volumeOrWeight, price, isDescr});
         setIsItFavProducts(true);
       } else if (isItFavProducts) {
-        deleteFavouriteProduct('users', email, setFavouriteProducts, name)
+        deleteFavouriteProduct('users', email, setFavouriteProducts, name);
         setIsItFavProducts(false);
       }
     } else {
@@ -52,7 +52,7 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
   };
 
   const {setScroll, handleWrapperClick} = useModalToggle();
-  setScroll(modal)
+  setScroll(modal);
 
   const renderAdditivesFunc = () => {
     if (additives) {
@@ -96,11 +96,11 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
             {renderAdditives}
           </ul>
         </>
-      )
+      );
     } else {
       return null;
     }
-  }
+  };
   const checkAdditives = checkAdditivesFunc();
 
   return (
@@ -133,79 +133,82 @@ const ProductCard = ({img, name, weight, volume, price, descr, id, additives}) =
         </div>
       </li>
 
-      <div
-      style={{
-        'display': modal ? 'flex' : 'none'
-      }}
-      onClick={(e) => handleWrapperClick(e, setModal)}
-      className='modal__wrapper'
-    >
-      <div
-        style={{
-          'display': modal ? 'flex' : 'none'
-        }}
-        className='modal modal__productCard animate__animated animate__fadeInUp custom-animation'
-      >
-        <img onClick={() => setModal(false)} className='card__close' src={close} alt='close' />
-        <img className='modal__productCard__img' src={img} alt={name} />
-        <div className='modal__productCard__title-wrapper'>
-          <div className='modal__productCard__title'>{name}</div>
-          <div 
-            onClick={() => {
-              handleFavouriteClick();
-            }} 
-            className='card__favorite'
-          >
-            <span>{svgHeart}</span>
+      {modal && (
+        <div onClick={(e) => handleWrapperClick(e, setModal)} className='modal__wrapper'>
+          <div className='modal modal__productCard animate__animated animate__fadeInUp custom-animation'>
+            <button className='btn-close' onClick={() => setModal(false)}>
+              <img className='icon-close' src={close} alt='close' />
+            </button>
+            <img className='modal__productCard__img' src={img} alt={name} />
+            <div className='modal__productCard__title-wrapper'>
+              <div className='modal__productCard__title'>{name}</div>
+              <div 
+                onClick={() => {
+                  handleFavouriteClick();
+                }} 
+                className='card__favorite'
+              >
+                <span>{svgHeart}</span>
+              </div>
+            </div>
+            <div className='modal__productCard__grams'>{weight || volume}</div>
+            <div className='modal__productCard__price'>{price}</div>
+            <div className='modal__productCard__descr'>{descr}</div>
+            {checkAdditives}
+            <div className='modal__productCard__bottom'>
+              <div className='counter__wrapper'>
+                <button 
+                  onClick={() => setCounter(prev => prev - 1)} 
+                  disabled={counter === 1}
+                  style={{
+                    'borderColor': counter === 1 ? 'var(--input)' : 'var(--accent)'
+                  }}
+                  className='counter__btn'
+                >
+                  <span className='counter__minus'>{svgMinus}</span>
+                </button>
+                <span className='counter'>{counter}</span>
+                <button
+                  onClick={() => setCounter(prev => prev + 1)} 
+                  className='counter__btn'
+                  style={{
+                    'borderColor': 'var(--accent)'
+                  }}
+                >
+                  <img src={plusYellow} alt="counter plus" />
+                </button>
+              </div>
+              <button
+                onClick={() => {
+                  const items = [];
+                  for (let i = 0; i < counter; i++) {
+                    items.push({ 
+                      img, 
+                      name, 
+                      weight, 
+                      volume, 
+                      price: `${totalPrice}`, 
+                      descr, 
+                      id, 
+                      additives: choosenAdditives, 
+                      uuid: uuidv4() 
+                    });
+                  }
+                  dispatch(addItemToOrder(items));
+                  setModal(false);
+                }} 
+                className='modal__productCard__add-btn'
+              >
+                <span className='modal__productCard__text'>Add:</span>
+                <span style={{'fontWeight': '500'}}>{totalPrice * counter} ₴</span>
+              </button>
+            </div>
           </div>
         </div>
-        <div className='modal__productCard__grams'>{weight || volume}</div>
-        <div className='modal__productCard__price'>{price}</div>
-        <div className='modal__productCard__descr'>{descr}</div>
-        {checkAdditives}
-        <div className='modal__productCard__bottom'>
-          <div className='counter__wrapper'>
-            <button 
-              onClick={() => setCounter(prev => prev - 1)} 
-              disabled={counter == 1}
-              style={{
-                'borderColor': counter == 1 ? 'var(--input)' : 'var(--accent)'
-              }}
-              className='counter__btn'
-            >
-              <span className='counter__minus'>{svgMinus}</span>
-            </button>
-            <span className='counter'>{counter}</span>
-            <button
-              onClick={() => setCounter(prev => prev + 1)} 
-              className='counter__btn'
-              style={{
-                'borderColor': 'var(--accent)'
-              }}
-            >
-              <img src={plusYellow} alt="counter plus" />
-            </button>
-          </div>
-          <button
-          onClick={() => {
-            const items = [];
-            for (let i = 0; i < counter; i++) {
-              items.push({ img, name, weight, volume, price: `${totalPrice}`, descr, id, additives: choosenAdditives, uuid: uuidv4() });
-            }
-            dispatch(addItemToOrder(items))
-            setModal(false)
-          }} 
-          className='modal__productCard__add-btn'
-          >
-            <span className='modal__productCard__text'>Add:</span>
-            <span style={{'fontWeight': '500'}}>{totalPrice * counter} ₴</span>
-          </button>
-        </div>
-      </div>
-    </div>
+      )}
 
     </>
-  )
-}
+  );
+};
 
 export default ProductCard;

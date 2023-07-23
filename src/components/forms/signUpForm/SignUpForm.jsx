@@ -1,11 +1,9 @@
-import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Formik, Form, Field, ErrorMessage, useField } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import { setBasicUserData } from 'store/slices/userSlice';
 import { setSignUpModal, setLoginModal } from 'store/slices/modalsSlice';
-import { useHttp } from 'hooks/http.hook';
 
 import './signUpForm.scss';
 import close from 'assets/close/closeYellow.svg';
@@ -14,16 +12,16 @@ const Authentication = ({error, handleClick}) => {
   const dispatch = useDispatch();
 
   const handleSubmit = ({email, password}) => {
-    handleClick(email, password)
-  }
+    handleClick(email, password);
+  };
 
   const renderErrorFunc = () => {
     if ((!!error)) {
       return (
         <div className='signUp__error'>{error}</div>
-      )
+      );
     }
-  }
+  };
 
   const renderError = renderErrorFunc();
 
@@ -43,13 +41,17 @@ const Authentication = ({error, handleClick}) => {
             .required('Required'),
         })
       }      
-      onSubmit = {handleSubmit}
+      onSubmit = { handleSubmit }
     >
       {({isValid, dirty, isSubmitting}) => (
         <Form className='signUp__fields'>
           <h5 className='signUp__title'>Authentication</h5>
-          <img onClick={() => dispatch(setSignUpModal(false))} className='signUp__close' src={close} alt="close modal" />
-          <div className='signUp__descr'>Give a birthday present, save the shipping address and talk about promotions</div>
+          <button onClick={() => dispatch(setSignUpModal(false))} className='btn-close'>
+            <img className='icon-close' src={close} alt="close modal" />
+          </button>
+          <div className='signUp__descr'>
+            Give a birthday present, save the shipping address and talk about promotions
+          </div>
 
           <label className='signUp__label'>Email*</label>
           <Field
@@ -82,24 +84,24 @@ const Authentication = ({error, handleClick}) => {
             }}
           >Authentication</button>
           <button onClick={() => {
-            dispatch(setLoginModal(true))
-            dispatch(setSignUpModal(false))
+            dispatch(setLoginModal(true));
+            dispatch(setSignUpModal(false));
           }} className='signUp__btn signUp__btn-or'>Or Sign in</button>
 
         </Form>
       )}
     </Formik>
-  )
-}
+  );
+};
 
 const RegisterForm = ({handleClick}) => {
   const {email} = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   const handleSubmit = ({name, surname, birthday, gender}) => {
-    handleClick('users', setBasicUserData, name, surname, birthday, gender, email)
+    handleClick('users', setBasicUserData, name, surname, birthday, gender, email);
     dispatch(setSignUpModal(false));
-  }
+  };
 
   return (
     <Formik
@@ -125,8 +127,12 @@ const RegisterForm = ({handleClick}) => {
     >
       <Form className='signUp__fields'>
         <h5 className='signUp__title'>Registration</h5>
-        <img onClick={() => dispatch(setSignUpModal(false))} className='signUp__close' src={close} alt="close modal" />
-        <div className='signUp__descr'>Give a birthday present, save the shipping address and talk about promotions</div>
+        <button onClick={() => dispatch(setSignUpModal(false))} className='btn-close'>
+          <img className='icon-close' src={close} alt="close modal" />
+        </button>
+        <div className='signUp__descr'>
+          Give a birthday present, save the shipping address and talk about promotions
+        </div>
 
         <label className='signUp__label'>Name*</label>
         <Field
@@ -175,7 +181,7 @@ const RegisterForm = ({handleClick}) => {
 
       </Form>
     </Formik>
-  )
-}
+  );
+};
 
-export { Authentication, RegisterForm};
+export { Authentication, RegisterForm };

@@ -13,14 +13,6 @@
     width: 154px;
     height: 154px;
   }
-  &__close {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    cursor: pointer;
-  }
   &__image {
     display: block;
     width: 100%;
@@ -97,7 +89,7 @@
     font-weight: 700;
   }
   &__plus-btn {
-    padding: 7px;
+    padding: 5px;
     line-height: 0;
     background-color: var(--accent);
     border-radius: 6px;
@@ -105,8 +97,8 @@
     outline: none;
   }
   &__plus-img {
-    width: 11px;
-    height: 11px;
+    width: 16px;
+    height: 16px;
   }
 }
 
@@ -175,6 +167,8 @@
   }
   &__orderModification-item-label {
     font-weight: 400;
+    margin-bottom: 0;
+    display: flex;
   }
   &__orderModification-type {
     margin-left: 13px;

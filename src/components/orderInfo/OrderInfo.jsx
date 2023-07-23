@@ -5,7 +5,7 @@ import check from 'assets/orderInfo/check.svg';
 import pencil from 'assets/orderInfo/pencilEdit.svg';
 import dish from 'assets/orderInfo/dish.svg';
 import bicycle from 'assets/orderInfo/bicycleMan.svg';
-import checked from 'assets/orderInfo/checked.svg'
+import checked from 'assets/orderInfo/checked.svg';
 
 const OrderInfo = () => {
   const { doneOrderInfo } = useSelector(state => state.user);
@@ -93,7 +93,7 @@ const OrderInfo = () => {
       </div>
 
     </section>
-  )
-}
+  );
+};
 
 export default OrderInfo;

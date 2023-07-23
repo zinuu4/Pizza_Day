@@ -85,9 +85,11 @@
     font-weight: 500;
     display: block;
     margin-bottom: 25px;
+    transition: opacity .3s ease-in-out;
   }
   &__info-phone:hover {
     color: #faaf3f;
+    opacity: .6;
   }
   &__info-about {
     display: flex;

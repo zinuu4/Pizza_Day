@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   firebaseConfig: {
@@ -10,7 +10,7 @@ const initialState = {
     appId: process.env.REACT_APP_FIREBASE_APP_ID,
     measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID 
   }
-}
+};
 
 const userSlice = createSlice({
   name: 'firebaseConfig',
@@ -18,6 +18,6 @@ const userSlice = createSlice({
   reducers: {},
 });
 
-const {actions, reducer} = userSlice;
+const { reducer } = userSlice;
 
 export default reducer;

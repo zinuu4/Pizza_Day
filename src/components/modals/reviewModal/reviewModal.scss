@@ -12,9 +12,6 @@
     line-height: 1.25;
     letter-spacing: -.0045em;
   }
-  &__close {
-    cursor: pointer;
-  }
   &__address {
     margin-bottom: 32px;
   }
@@ -79,6 +76,11 @@
   }
   &__checkbox-wrapper a {
     color: var(--accent);
+    margin-left: 3px;
+    transition: opacity .3s ease-in-out;
+  }
+  &__checkbox-wrapper a:hover {
+    opacity: .7;
   }
   &__btn {
     width: 273px;
