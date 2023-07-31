@@ -1,25 +1,22 @@
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 
-import AppHeader from 'components/appHeader/AppHeader';
-import ChooseAddress from 'components/chooseAddress/ChooseAddress';
+import AppHeader from "components/appHeader/AppHeader";
+import ChooseAddress from "components/chooseAddress/ChooseAddress";
 
-import './pageChooseAdress.scss';
+import "./pageChooseAdress.scss";
 
 const PageChooseAddress = () => {
   return (
     <>
       <Helmet>
-        <meta
-          name="description"
-          content="Choose address"
-        />
+        <meta name="description" content="Choose address" />
         <title>Choose address</title>
       </Helmet>
-      <AppHeader/>
+      <AppHeader />
       <div className="divider"></div>
       <div className="choose-address">
         <div className="choose-address__img"></div>
-        <ChooseAddress/>
+        <ChooseAddress />
       </div>
     </>
   );

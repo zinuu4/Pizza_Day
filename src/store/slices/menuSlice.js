@@ -1,16 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  pizzaFor155UahTop: '',
-  pizzaFor129UahTop: '',
-  pizzaFor115UahTop: '',
-  pizzaFor99UahTop: '',
-  saucesTop: '',
-  drinksTop: '',
+  pizzaFor155UahTop: "",
+  pizzaFor129UahTop: "",
+  pizzaFor115UahTop: "",
+  pizzaFor99UahTop: "",
+  saucesTop: "",
+  drinksTop: "",
 };
 
 const userSlice = createSlice({
-  name: 'menu',
+  name: "menu",
   initialState,
   reducers: {
     setProductsTop: (state, action) => {
@@ -20,7 +20,7 @@ const userSlice = createSlice({
       state.pizzaFor99UahTop = action.payload.pizzaFor99UahTop;
       state.saucesTop = action.payload.saucesTop;
       state.drinksTop = action.payload.drinksTop;
-    }
+    },
   },
 });
 
@@ -28,6 +28,4 @@ const { actions, reducer } = userSlice;
 
 export default reducer;
 
-export const {
-  setProductsTop
-} = actions;
+export const { setProductsTop } = actions;

@@ -1,27 +1,35 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   email: null,
   token: null,
   id: null,
-  name: '',
-  surname: '',
-  gender: '',
-  birthday: '',
-  city: '',
-  avatar: 'https://firebasestorage.googleapis.com/v0/b/auth-pizza-day.appspot.com/o/users%2FbasicUserAvatar.jpeg?alt=media&token=f42c8e42-4a8b-4fec-962a-854cfd1bfdca',
-  chosenCity: '',
-  chosenRestaurant: {name: '', id: '', address: '', timeOpen: '', lat: 1, lng: 1},
+  name: "",
+  surname: "",
+  gender: "",
+  birthday: "",
+  city: "",
+  avatar:
+    "https://firebasestorage.googleapis.com/v0/b/auth-pizza-day.appspot.com/o/users%2FbasicUserAvatar.jpeg?alt=media&token=f42c8e42-4a8b-4fec-962a-854cfd1bfdca",
+  chosenCity: "Bila Tserkva",
+  chosenRestaurant: {
+    name: "",
+    id: "",
+    address: "",
+    timeOpen: "",
+    lat: 1,
+    lng: 1,
+  },
   favouriteProducts: [],
   historyOfOrders: [],
   order: [],
   mergedOrder: [],
   totalOrderPrice: 0,
-  doneOrderInfo: {time: '', id: '', date: '', orderPrice: ''},
+  doneOrderInfo: { time: "", id: "", date: "", orderPrice: "" },
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     setUserAuthData: (state, action) => {
@@ -31,36 +39,37 @@ const userSlice = createSlice({
     },
     setBasicUserData: (state, action) => {
       const { name, surname, birthday, gender, city, avatar } = action.payload;
-    
+
       if (name) {
         state.name = name;
       }
-    
+
       if (surname) {
         state.surname = surname;
       }
-    
+
       if (birthday) {
         state.birthday = birthday;
       }
-    
+
       if (gender) {
         state.gender = gender;
       }
-    
+
       if (city) {
         state.city = city;
       }
-    
+
       if (avatar) {
         state.avatar = avatar;
       }
     },
-    
+
     removeUser: (state) => {
       state.email = null;
       state.birthday = null;
-      state.avatar = 'https://firebasestorage.googleapis.com/v0/b/auth-pizza-day.appspot.com/o/users%2FbasicUserAvatar.jpeg?alt=media&token=f42c8e42-4a8b-4fec-962a-854cfd1bfdca';
+      state.avatar =
+        "https://firebasestorage.googleapis.com/v0/b/auth-pizza-day.appspot.com/o/users%2FbasicUserAvatar.jpeg?alt=media&token=f42c8e42-4a8b-4fec-962a-854cfd1bfdca";
       state.name = null;
       state.surname = null;
       state.city = null;
@@ -91,10 +100,10 @@ const userSlice = createSlice({
       }
     },
     deleteItemFromOrder: (state, action) => {
-      state.order = state.order.filter(item => item.uuid !== action.payload);
+      state.order = state.order.filter((item) => item.uuid !== action.payload);
     },
     deleteItemsFromOrder: (state, action) => {
-      state.order = state.order.filter(item => item.name !== action.payload);
+      state.order = state.order.filter((item) => item.name !== action.payload);
     },
     setFavouriteProducts: (state, action) => {
       state.favouriteProducts = action.payload;
@@ -107,11 +116,11 @@ const userSlice = createSlice({
     },
     setDoneOrderInfo: (state, action) => {
       state.doneOrderInfo = action.payload;
-    }
+    },
   },
 });
 
-const {actions, reducer} = userSlice;
+const { actions, reducer } = userSlice;
 
 export default reducer;
 
@@ -129,5 +138,5 @@ export const {
   setMergedOrder,
   deleteItemsFromOrder,
   setHistoryOfOrders,
-  setDoneOrderInfo
+  setDoneOrderInfo,
 } = actions;

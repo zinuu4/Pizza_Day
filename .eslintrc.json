@@ -5,10 +5,6 @@
   ],
   "rules": {
     "no-console": "warn",
-    "prefer-const": "error",
-    "quotes": ["warn", "single"],
-    "indent": ["warn", 2],
-    "max-len": ["warn", {"code": 120}],
-    "semi": ["warn", "always"]
+    "prefer-const": "error"
   }
 }

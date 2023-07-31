@@ -111,7 +111,7 @@
   padding: 24px;
   &__img {
     width: 100%;
-    max-height: 400px;
+    max-height: 340px;
   }
   &__title-wrapper {
     display: flex;
@@ -145,6 +145,10 @@
     white-space: pre-wrap;
     margin-bottom: 16px;
   }
+  &__orderModification {
+    height: 90px;
+    overflow: hidden;
+  }
   &__orderModification-title {
     font-size: 16px;
     line-height: 21px;
@@ -153,6 +157,8 @@
     margin-bottom: 15px;
   }
   &__orderModification-list {
+    overflow-y: scroll;
+    height: 100%;
     padding: 0;
   }
   &__orderModification-item {
@@ -164,6 +170,7 @@
     padding: 0 16px 0 10px;
     background-color: var(--background);
     border-radius: 8px;
+    position: relative;
   }
   &__orderModification-item-label {
     font-weight: 400;
@@ -175,7 +182,7 @@
   }
   &__orderModification-price {
     position: absolute;
-    right: 37px;
+    right: 12px;
     color: var(--accent);
     font-weight: 500;
   }

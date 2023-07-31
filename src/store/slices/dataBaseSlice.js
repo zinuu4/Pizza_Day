@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   sauces: [],
@@ -9,11 +9,11 @@ const initialState = {
   pizzaFor99Uah: [],
   newsAndPromotions: [],
   cities: [],
-  cityRestaurants: []
+  cityRestaurants: [],
 };
 
 const userSlice = createSlice({
-  name: 'db',
+  name: "db",
   initialState,
   reducers: {
     setSauces: (state, action) => {

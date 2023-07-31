@@ -1,52 +1,50 @@
-import { useDispatch } from 'react-redux';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { useDispatch } from "react-redux";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
-import { setLoginModal, setSignUpModal } from 'store/slices/modalsSlice';
-import close from 'assets/close/closeYellow.svg';
-import './loginForm.scss';
+import { setLoginModal, setSignUpModal } from "store/slices/modalsSlice";
+import close from "assets/close/closeYellow.svg";
+import "./loginForm.scss";
 
-const LoginForm = ({handleClick}) => {
+const LoginForm = ({ handleClick }) => {
   const dispatch = useDispatch();
 
-  const handleSubmit = ({email, password}) => {
+  const handleSubmit = ({ email, password }) => {
     dispatch(setLoginModal(false));
     handleClick(email, password);
   };
 
   return (
     <Formik
-      initialValues = {{
-        email: '',
-        password: '',
-        agreement: false
+      initialValues={{
+        email: "",
+        password: "",
+        agreement: false,
       }}
-      validationSchema={
-        Yup.object({
-          email: Yup.string()
-            .email('Invalid email address')
-            .required('Required'),
-          password: Yup.string()
-            .min(8, 'Minimum 8 symbols')
-            .required('Required'),
-          agreement:  Yup.boolean()
-            .required('Сonsent required')
-            .oneOf([true], 'Сonsent required')
-        })
-      }
-      onSubmit={ handleSubmit }
+      validationSchema={Yup.object({
+        email: Yup.string().email("Invalid email address").required("Required"),
+        password: Yup.string().min(8, "Minimum 8 symbols").required("Required"),
+        agreement: Yup.boolean()
+          .required("Сonsent required")
+          .oneOf([true], "Сonsent required"),
+      })}
+      onSubmit={handleSubmit}
     >
-      {({isValid, dirty, isSubmitting}) => (
+      {({ isValid, dirty, isSubmitting }) => (
         <Form>
-          <h5 className='login__title'>Login to the site</h5>
-          <button onClick={() => dispatch(setLoginModal(false))} className='btn-close'>
-            <img className='icon-close' src={close} alt="close modal" />
+          <h5 className="login__title">Login to the site</h5>
+          <button
+            onClick={() => dispatch(setLoginModal(false))}
+            className="btn-close"
+          >
+            <img className="icon-close" src={close} alt="close modal" />
           </button>
-          <div className='signUp__descr'>
-            Give a birthday present, save the shipping address and talk about promotions
+          <div className="login__descr">
+            Give a birthday present, save the shipping address and talk about
+            promotions
           </div>
 
-          <label className='login__label'>Email*</label>
+          <label className="login__label">Email*</label>
           <Field
             id="email"
             name="email"
@@ -54,9 +52,9 @@ const LoginForm = ({handleClick}) => {
             placeholder="email"
             className="login__input"
           />
-          <ErrorMessage className='login__error' name="email" component="div" />
+          <ErrorMessage className="login__error" name="email" component="div" />
 
-          <label className='login__label'>Password*</label>
+          <label className="login__label">Password*</label>
           <Field
             id="password"
             name="password"
@@ -64,37 +62,49 @@ const LoginForm = ({handleClick}) => {
             placeholder="password"
             className="login__input"
           />
-          <ErrorMessage className='login__error' name="password" component="div" />
+          <ErrorMessage
+            className="login__error"
+            name="password"
+            component="div"
+          />
 
-          <label className='login__input__label'>
-            <Field
-              id="agreement"
-              name="agreement"
-              type="checkbox"
-            />
-            <span className='login__input__span'>By clicking Continue, you agree to 
-              <a href='https://www.eatery.club/privacy_policy.pdf'>collection and processing of personal data</a>
+          <label className="login__input__label">
+            <Field id="agreement" name="agreement" type="checkbox" />
+            <span className="login__input__span">
+              By clicking Continue, you agree to
+              <a href="https://www.eatery.club/privacy_policy.pdf">
+                collection and processing of personal data
+              </a>
             </span>
           </label>
 
-          <button  
-            className='login__btn' 
-            type='submit'
-            disabled={!isValid || !dirty || isSubmitting} 
+          <button
+            className="login__btn"
+            type="submit"
+            disabled={!isValid || !dirty || isSubmitting}
             style={{
-              'backgroundColor': (!isValid || !dirty || isSubmitting) ? 'var(--input)' : 'var(--accent)',
-              'color': (!isValid || !dirty || isSubmitting) ? 'var(--disabled)' : 'var(--accentContent)',
+              backgroundColor:
+                !isValid || !dirty || isSubmitting
+                  ? "var(--input)"
+                  : "var(--accent)",
+              color:
+                !isValid || !dirty || isSubmitting
+                  ? "var(--disabled)"
+                  : "var(--accentContent)",
             }}
-          >Sign in</button>
+          >
+            Sign in
+          </button>
 
-          <button 
+          <button
             onClick={() => {
               dispatch(setLoginModal(false));
               dispatch(setSignUpModal(true));
-            }} 
-            className='login__btn login__btn-or'
-          >Or Sign up</button>
-
+            }}
+            className="login__btn login__btn-or"
+          >
+            Or Sign up
+          </button>
         </Form>
       )}
     </Formik>

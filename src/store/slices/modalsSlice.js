@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   signUpModal: false,
@@ -6,11 +6,11 @@ const initialState = {
   deliveryModal: false,
   notificationsModal: false,
   bannerInfoModal: false,
-  reviewModal: false
+  reviewModal: false,
 };
 
 const userSlice = createSlice({
-  name: 'modals',
+  name: "modals",
   initialState,
   reducers: {
     setSignUpModal: (state, action) => {
@@ -34,7 +34,7 @@ const userSlice = createSlice({
   },
 });
 
-const {actions, reducer} = userSlice;
+const { actions, reducer } = userSlice;
 
 export default reducer;
 
@@ -44,5 +44,5 @@ export const {
   setDeliveryModal,
   setNotificationsModal,
   setBannerInfoModal,
-  setReviewModal
+  setReviewModal,
 } = actions;

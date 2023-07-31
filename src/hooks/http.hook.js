@@ -1,16 +1,25 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { initializeApp } from 'firebase/app';
-import { collection, getDocs, setDoc, doc, getDoc, getFirestore, updateDoc, arrayUnion, deleteDoc } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  collection,
+  getDocs,
+  setDoc,
+  doc,
+  getDoc,
+  getFirestore,
+  updateDoc,
+  arrayUnion,
+  deleteDoc,
+} from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export const useHttp = () => {
-  const {firebaseConfig} = useSelector(state => state.firebaseConfig);
   const dispatch = useDispatch();
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const db = getFirestore();
   const storage = getStorage();
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const [getDataLoading, setGetDataLoading] = useState(false);
   const [getDataError, setGetDataError] = useState(false);
@@ -28,37 +37,40 @@ export const useHttp = () => {
     } catch (e) {
       setGetDataLoading(false);
       setGetDataError(true);
-      console.error('Error getting documents:', e);
     }
   };
 
-  const [getDataByDocumentLoading, setGetDataByDocumentLoading] = useState(false);
-  const [getDataByDocumentError, setGetDataByDocumentError] = useState(false);
-
   const getDataByDocument = async (collectionName, setFunc, documentId) => {
-    setGetDataByDocumentLoading(true);
+    setLoading(true);
     try {
       const docRef = doc(collection(db, collectionName), documentId);
       const docSnapshot = await getDoc(docRef);
       if (docSnapshot.exists()) {
         const newData = {
           id: docSnapshot.id,
-          ...docSnapshot.data()
+          ...docSnapshot.data(),
         };
         dispatch(setFunc(newData));
-        setGetDataByDocumentLoading(false);
+        setLoading(false);
       } else {
-        setGetDataByDocumentLoading(false);
-        console.log('Document does not exist');
+        setLoading(false);
+        setError(true);
       }
     } catch (e) {
-      setGetDataByDocumentLoading(false);
-      setGetDataByDocumentError(true);
-      console.error('Error getting document:', e);
+      setLoading(false);
+      setError(true);
     }
   };
 
-  const postUserData = async (collectionName, setFunc, name, surname, birthday, gender, email) => {
+  const postUserData = async (
+    collectionName,
+    setFunc,
+    name,
+    surname,
+    birthday,
+    gender,
+    email
+  ) => {
     try {
       const userDocRef = doc(db, collectionName, email);
       const userData = {
@@ -67,18 +79,23 @@ export const useHttp = () => {
         birthday,
         gender,
         email,
-        favouriteProducts: []
+        favouriteProducts: [],
       };
-      console.log('lol');
       await setDoc(userDocRef, userData);
       await dispatch(setFunc(userData));
-      console.log(email, 'user data posted');
-    } catch (e) {
-      console.error('Error adding document: ', e);
-    }
+    } catch (e) {}
   };
 
-  const changeUserData = async (collectionName, setFunc, name, surname, birthday, city, gender, email) => {
+  const changeUserData = async (
+    collectionName,
+    setFunc,
+    name,
+    surname,
+    birthday,
+    city,
+    gender,
+    email
+  ) => {
     try {
       const userDocRef = doc(db, collectionName, email);
       const userDataToUpdate = {
@@ -91,108 +108,102 @@ export const useHttp = () => {
 
       await updateDoc(userDocRef, userDataToUpdate);
       dispatch(setFunc(userDataToUpdate));
-      console.log(email, 'user data changed');
-    } catch (e) {
-      console.error('Error updating document: ', e);
-    }
+    } catch (e) {}
   };
 
   const deleteUserData = async (collectionName, setFunc, email) => {
     try {
       const userDocRef = doc(db, collectionName, email);
-      
+
       await deleteDoc(userDocRef);
-  
+
       dispatch(setFunc());
-  
-      console.log(email, 'user data deleted');
-    } catch (e) {
-      console.error('Error deleting document: ', e);
-    }
+    } catch (e) {}
   };
 
   const changeUserAvatar = async (file, collectionName, setFunc, email) => {
     const fileRef = ref(storage, `users/${email}.avatar`);
-    
+
     const snapshot = await uploadBytes(fileRef, file);
     const avatar = await getDownloadURL(fileRef);
 
     try {
       const userDocRef = doc(db, collectionName, email);
       const userDataToUpdate = {
-        avatar
+        avatar,
       };
 
       await updateDoc(userDocRef, userDataToUpdate);
       dispatch(setFunc(userDataToUpdate));
-      console.log(email, 'user avatar changed');
-    } catch (e) {
-      console.error('Error updating document: ', e);
-    }
+    } catch (e) {}
   };
 
   const postFavouriteProduct = async (collectionName, email, obj) => {
     try {
       const userDocRef = doc(db, collectionName, email);
-  
+
       await updateDoc(userDocRef, {
         favouriteProducts: arrayUnion(obj),
       });
-
-      console.log(email, 'favourite products posted');
-    } catch (e) {
-      console.error('Error adding document: ', e);
-    }
+    } catch (e) {}
   };
 
-  const deleteFavouriteProduct = async (collectionName, email, setFunc, objNameToRemove) => {
+  const deleteFavouriteProduct = async (
+    collectionName,
+    email,
+    setFunc,
+    objNameToRemove
+  ) => {
     try {
       const userDocRef = doc(db, collectionName, email);
-  
+
       const userDocSnapshot = await getDoc(userDocRef);
       if (!userDocSnapshot.exists()) {
-        console.error('Document does not exist');
         return;
       }
-  
+
       const existingData = userDocSnapshot.data();
-      if (!existingData.favouriteProducts || !Array.isArray(existingData.favouriteProducts)) {
-        console.error('favouriteProducts is not an array or does not exist');
+      if (
+        !existingData.favouriteProducts ||
+        !Array.isArray(existingData.favouriteProducts)
+      ) {
         return;
       }
-  
-      const updatedFavouriteProducts = existingData.favouriteProducts.filter((item) => item.name !== objNameToRemove);
-  
+
+      const updatedFavouriteProducts = existingData.favouriteProducts.filter(
+        (item) => item.name !== objNameToRemove
+      );
+
       await updateDoc(userDocRef, {
         favouriteProducts: updatedFavouriteProducts,
       });
       dispatch(setFunc(updatedFavouriteProducts));
-      console.log('Document updated with name: ', email);
-    } catch (e) {
-      console.error('Error updating document: ', e);
-    }
+    } catch (e) {}
   };
 
-  const [getDocumentFieldItemLoading, setgetDocumentFieldItemLoading] = useState(false);
-  const [getDocumentFieldItemError, setgetDocumentFieldItemError] = useState(false);
-
-  const getDocumentFieldItem = async (collectionName, setFunc, email, itemName) => {
-    setgetDocumentFieldItemLoading(true);
+  const getDocumentFieldItem = async (
+    collectionName,
+    setFunc,
+    email,
+    itemName
+  ) => {
+    setLoading(true);
     try {
       const userDocRef = doc(db, collectionName, email);
-  
+
       const userDocSnapshot = await getDoc(userDocRef);
-      const existingData = userDocSnapshot.exists() ? userDocSnapshot.data() : {};
-  
+      const existingData = userDocSnapshot.exists()
+        ? userDocSnapshot.data()
+        : {};
+
       const items = existingData[itemName] || [];
 
       dispatch(setFunc(items));
-      setgetDocumentFieldItemLoading(false);
+      setLoading(false);
       return items;
     } catch (e) {
-      setgetDocumentFieldItemLoading(false);
-      setgetDocumentFieldItemError(true);
-      console.error('Error fetching \'favouriteProducts\' array data: ', e);
+      setLoading(false);
+      setError(true);
       return [];
     }
   };
@@ -203,30 +214,27 @@ export const useHttp = () => {
       const reviewData = {
         name,
         email,
-        review
+        review,
       };
 
       await setDoc(userDocRef, reviewData);
-      console.log(email, 'Review posted');
-    } catch (e) {
-      console.error('Error adding document: ', e);
-    }
+    } catch (e) {}
   };
 
   const postOrder = async ({
     collectionName,
     setFunc,
-    email, 
-    receivingMethod, 
-    time, 
-    cashPayment, 
-    cardPayment, 
-    numberOfPerson, 
-    comment, 
-    order, 
-    date, 
-    orderPrice, 
-    id
+    email,
+    receivingMethod,
+    time,
+    cashPayment,
+    cardPayment,
+    numberOfPerson,
+    comment,
+    order,
+    date,
+    orderPrice,
+    id,
   }) => {
     try {
       const userDocRef = doc(db, collectionName, email);
@@ -235,11 +243,11 @@ export const useHttp = () => {
         const result = {};
         Object.entries(obj).forEach(([key, value]) => {
           if (value !== undefined) {
-            if (typeof value === 'object' && !Array.isArray(value)) {
+            if (typeof value === "object" && !Array.isArray(value)) {
               result[key] = removeUndefined(value);
             } else if (Array.isArray(value)) {
               result[key] = value.map((item) =>
-                typeof item === 'object' ? removeUndefined(item) : item
+                typeof item === "object" ? removeUndefined(item) : item
               );
             } else {
               result[key] = value;
@@ -275,30 +283,25 @@ export const useHttp = () => {
       } else {
         await setDoc(userDocRef, { orders: [orderData] });
       }
-      dispatch(setFunc({time, id, date, orderPrice}));
-    } catch (e) {
-      console.error('Error adding order: ', e);
-    }
+      dispatch(setFunc({ time, id, date, orderPrice }));
+    } catch (e) {}
   };
 
-
-  return { 
-    getData, 
-    getDataLoading, 
-    getDataError, 
-    postUserData, 
-    getDataByDocument, 
-    getDataByDocumentLoading, 
-    getDataByDocumentError, 
-    postFavouriteProduct, 
-    getDocumentFieldItem, 
-    getDocumentFieldItemLoading, 
-    getDocumentFieldItemError, 
-    deleteFavouriteProduct, 
-    changeUserData, 
-    changeUserAvatar, 
-    deleteUserData, 
-    postReview, 
-    postOrder 
+  return {
+    loading,
+    error,
+    getData,
+    getDataLoading,
+    getDataError,
+    postUserData,
+    getDataByDocument,
+    postFavouriteProduct,
+    getDocumentFieldItem,
+    deleteFavouriteProduct,
+    changeUserData,
+    changeUserAvatar,
+    deleteUserData,
+    postReview,
+    postOrder,
   };
 };

@@ -1,11 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  choosenMenuItem: 'Profile'
+  choosenMenuItem: "Profile",
 };
 
 const userSlice = createSlice({
-  name: 'profile',
+  name: "profile",
   initialState,
   reducers: {
     setChoosenMenuItem: (state, action) => {
@@ -14,10 +14,8 @@ const userSlice = createSlice({
   },
 });
 
-const {actions, reducer} = userSlice;
+const { actions, reducer } = userSlice;
 
 export default reducer;
 
-export const {
-  setChoosenMenuItem
-} = actions;
+export const { setChoosenMenuItem } = actions;

@@ -1,25 +1,23 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { useDispatch, useSelector } from "react-redux";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
-import { setBasicUserData } from 'store/slices/userSlice';
-import { setSignUpModal, setLoginModal } from 'store/slices/modalsSlice';
+import { setBasicUserData } from "store/slices/userSlice";
+import { setSignUpModal, setLoginModal } from "store/slices/modalsSlice";
 
-import './signUpForm.scss';
-import close from 'assets/close/closeYellow.svg';
+import "./signUpForm.scss";
+import close from "assets/close/closeYellow.svg";
 
-const Authentication = ({error, handleClick}) => {
+const Authentication = ({ error, handleClick }) => {
   const dispatch = useDispatch();
 
-  const handleSubmit = ({email, password}) => {
+  const handleSubmit = ({ email, password }) => {
     handleClick(email, password);
   };
 
   const renderErrorFunc = () => {
-    if ((!!error)) {
-      return (
-        <div className='signUp__error'>{error}</div>
-      );
+    if (!!error) {
+      return <div className="signUp__error">{error}</div>;
     }
   };
 
@@ -27,33 +25,31 @@ const Authentication = ({error, handleClick}) => {
 
   return (
     <Formik
-      initialValues = {{
-        email: '',
-        password: '',
+      initialValues={{
+        email: "",
+        password: "",
       }}
-      validationSchema = {
-        Yup.object({
-          email: Yup.string()
-            .email('Invalid email address')
-            .required('Required'),
-          password: Yup.string()
-            .min(8, 'Minimum 8 symbols')
-            .required('Required'),
-        })
-      }      
-      onSubmit = { handleSubmit }
+      validationSchema={Yup.object({
+        email: Yup.string().email("Invalid email address").required("Required"),
+        password: Yup.string().min(8, "Minimum 8 symbols").required("Required"),
+      })}
+      onSubmit={handleSubmit}
     >
-      {({isValid, dirty, isSubmitting}) => (
-        <Form className='signUp__fields'>
-          <h5 className='signUp__title'>Authentication</h5>
-          <button onClick={() => dispatch(setSignUpModal(false))} className='btn-close'>
-            <img className='icon-close' src={close} alt="close modal" />
+      {({ isValid, dirty, isSubmitting }) => (
+        <Form className="signUp__fields">
+          <h5 className="signUp__title">Authentication</h5>
+          <button
+            onClick={() => dispatch(setSignUpModal(false))}
+            className="btn-close"
+          >
+            <img className="icon-close" src={close} alt="close modal" />
           </button>
-          <div className='signUp__descr'>
-            Give a birthday present, save the shipping address and talk about promotions
+          <div className="signUp__descr">
+            Give a birthday present, save the shipping address and talk about
+            promotions
           </div>
 
-          <label className='signUp__label'>Email*</label>
+          <label className="signUp__label">Email*</label>
           <Field
             id="email"
             name="email"
@@ -61,9 +57,13 @@ const Authentication = ({error, handleClick}) => {
             placeholder="email"
             className="signUp__input"
           />
-          <ErrorMessage className='signUp__error' name="email" component="div" />
+          <ErrorMessage
+            className="signUp__error"
+            name="email"
+            component="div"
+          />
 
-          <label className='signUp__label'>Password*</label>
+          <label className="signUp__label">Password*</label>
           <Field
             id="password"
             name="password"
@@ -71,70 +71,92 @@ const Authentication = ({error, handleClick}) => {
             placeholder="password"
             className="signUp__input"
           />
-          <ErrorMessage className='signUp__error' name="password" component="div" />
+          <ErrorMessage
+            className="signUp__error"
+            name="password"
+            component="div"
+          />
           {renderError}
 
-          <button 
-            className="signUp__btn" 
-            type='submit'
-            disabled={!isValid || !dirty || isSubmitting} 
+          <button
+            className="signUp__btn"
+            type="submit"
+            disabled={!isValid || !dirty || isSubmitting}
             style={{
-              'backgroundColor': (!isValid || !dirty || isSubmitting) ? 'var(--input)' : 'var(--accent)',
-              'color': (!isValid || !dirty || isSubmitting) ? 'var(--disabled)' : 'var(--accentContent)',
+              backgroundColor:
+                !isValid || !dirty || isSubmitting
+                  ? "var(--input)"
+                  : "var(--accent)",
+              color:
+                !isValid || !dirty || isSubmitting
+                  ? "var(--disabled)"
+                  : "var(--accentContent)",
             }}
-          >Authentication</button>
-          <button onClick={() => {
-            dispatch(setLoginModal(true));
-            dispatch(setSignUpModal(false));
-          }} className='signUp__btn signUp__btn-or'>Or Sign in</button>
-
+          >
+            Authentication
+          </button>
+          <button
+            onClick={() => {
+              dispatch(setLoginModal(true));
+              dispatch(setSignUpModal(false));
+            }}
+            className="signUp__btn signUp__btn-or"
+          >
+            Or Sign in
+          </button>
         </Form>
       )}
     </Formik>
   );
 };
 
-const RegisterForm = ({handleClick}) => {
-  const {email} = useSelector(state => state.user);
+const RegisterForm = ({ handleClick }) => {
+  const { email } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const handleSubmit = ({name, surname, birthday, gender}) => {
-    handleClick('users', setBasicUserData, name, surname, birthday, gender, email);
+  const handleSubmit = ({ name, surname, birthday, gender }) => {
+    handleClick(
+      "users",
+      setBasicUserData,
+      name,
+      surname,
+      birthday,
+      gender,
+      email
+    );
     dispatch(setSignUpModal(false));
   };
 
   return (
     <Formik
-      initialValues = {{
-        name: '',
-        surname: '',
-        birthday: '',
-        gender: ''
+      initialValues={{
+        name: "",
+        surname: "",
+        birthday: "",
+        gender: "",
       }}
-      validationSchema = {
-        Yup.object({
-          name: Yup.string()
-            .required('Required'),
-          surname: Yup.string()
-            .required('Required'),
-          birthday: Yup.string()
-            .required('Required'),
-          gender: Yup.string()
-            .required('Required')
-        })
-      }      
+      validationSchema={Yup.object({
+        name: Yup.string().required("Required"),
+        surname: Yup.string().required("Required"),
+        birthday: Yup.string().required("Required"),
+        gender: Yup.string().required("Required"),
+      })}
       onSubmit={handleSubmit}
     >
-      <Form className='signUp__fields'>
-        <h5 className='signUp__title'>Registration</h5>
-        <button onClick={() => dispatch(setSignUpModal(false))} className='btn-close'>
-          <img className='icon-close' src={close} alt="close modal" />
+      <Form className="signUp__fields">
+        <h5 className="signUp__title">Registration</h5>
+        <button
+          onClick={() => dispatch(setSignUpModal(false))}
+          className="btn-close"
+        >
+          <img className="icon-close" src={close} alt="close modal" />
         </button>
-        <div className='signUp__descr'>
-          Give a birthday present, save the shipping address and talk about promotions
+        <div className="signUp__descr">
+          Give a birthday present, save the shipping address and talk about
+          promotions
         </div>
 
-        <label className='signUp__label'>Name*</label>
+        <label className="signUp__label">Name*</label>
         <Field
           id="name"
           name="name"
@@ -142,9 +164,9 @@ const RegisterForm = ({handleClick}) => {
           placeholder="name"
           className="signUp__input"
         />
-        <ErrorMessage className='signUp__error' name="name" component="div" />
+        <ErrorMessage className="signUp__error" name="name" component="div" />
 
-        <label className='signUp__label'>Surname*</label>
+        <label className="signUp__label">Surname*</label>
         <Field
           id="surname"
           name="surname"
@@ -152,9 +174,13 @@ const RegisterForm = ({handleClick}) => {
           placeholder="surname"
           className="signUp__input"
         />
-        <ErrorMessage className='signUp__error' name="surname" component="div" />
+        <ErrorMessage
+          className="signUp__error"
+          name="surname"
+          component="div"
+        />
 
-        <label className='signUp__label'>Birthday*</label>
+        <label className="signUp__label">Birthday*</label>
         <Field
           id="birthday"
           name="birthday"
@@ -162,23 +188,23 @@ const RegisterForm = ({handleClick}) => {
           placeholder="birthday"
           className="signUp__input"
         />
-        <ErrorMessage className='signUp__error' name="birthday" component="div" />
+        <ErrorMessage
+          className="signUp__error"
+          name="birthday"
+          component="div"
+        />
 
-        <label className='signUp__label'>Gender*</label>
-        <Field
-          id="gender"
-          name="gender"
-          as="select"
-          className="signUp__input"
-        >
-          <option value='Male'>Male</option>
-          <option value='Female'>Female</option>
-          <option value='Not specified'>Not specified</option>
+        <label className="signUp__label">Gender*</label>
+        <Field id="gender" name="gender" as="select" className="signUp__input">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Not specified">Not specified</option>
         </Field>
-        <ErrorMessage className='signUp__error' name="gender" component="div" />
+        <ErrorMessage className="signUp__error" name="gender" component="div" />
 
-        <button className="signUp__btn" type='submit'>Register</button>
-
+        <button className="signUp__btn" type="submit">
+          Register
+        </button>
       </Form>
     </Formik>
   );

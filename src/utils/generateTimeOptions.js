@@ -7,12 +7,15 @@ export function generateTimeOptions() {
 
   const options = [];
   while (startTime <= endTime) {
-    const formattedTime = startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const formattedTime = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const nextTime = new Date(startTime);
     nextTime.setTime(nextTime.getTime() + interval * 60000);
-    const formattedNextTime = nextTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const formattedNextTime = nextTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    options.push({ value: `${formattedTime} - ${formattedNextTime}`, label: `${formattedTime} - ${formattedNextTime}` });
+    options.push({ 
+      value: `${formattedTime} - ${formattedNextTime}`, 
+      label: `${formattedTime} - ${formattedNextTime}` 
+    });
     startTime.setTime(startTime.getTime() + interval * 60000);
   }
 
