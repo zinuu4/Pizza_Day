@@ -1,20 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-import pageUp from "../../assets/imgFooter/footerPageUp.svg";
-import logo from "../../assets/logo/logo.jpeg";
-import masterCard from "../../assets/imgFooter/footerMasterCard.png";
-import visa from "../../assets/imgFooter/footerVisa.png";
-import facebook from "../../assets/imgFooter/footerFacebook.svg";
-import instagram from "../../assets/imgFooter/footerInstagram.svg";
-import tiktok from "../../assets/imgFooter/footerTikTok.svg";
+import pageUp from '../../assets/imgFooter/footerPageUp.svg';
+import logo from '../../assets/logo/logo.jpeg';
+import masterCard from '../../assets/imgFooter/footerMasterCard.png';
+import visa from '../../assets/imgFooter/footerVisa.png';
+import facebook from '../../assets/imgFooter/footerFacebook.svg';
+import instagram from '../../assets/imgFooter/footerInstagram.svg';
+import tiktok from '../../assets/imgFooter/footerTikTok.svg';
 
-import "./appFooter.scss";
+import './appFooter.scss';
 
 const AppFooter = () => {
   const handlePageUp = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   };
   return (
