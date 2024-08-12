@@ -1,0 +1,21 @@
+services:
+  # Development Service
+  client-dev:
+    build:
+      context: .
+      target: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env.local
+
+  # Production Service
+  client-prod:
+    build:
+      context: .
+      target: production
+    ports:
+      - "80:80"
