@@ -1,22 +1,27 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
 
-import { setNewsAndPromotions } from "store/slices/dataBaseSlice";
-import { useHttp } from "hooks/http.hook";
-import useModalToggle from "hooks/modalToggleFunctionality";
+import 'swiper/css';
+import 'swiper/css/navigation';
 
-import Spinner from "components/userAlerts/spinner/Spinner";
-import ErrorMessage from "components/userAlerts/errorMessage/ErrorMessage";
+import { setNewsAndPromotions } from 'store/slices/dataBaseSlice';
+import { useHttp } from 'hooks/http.hook';
+import useModalToggle from 'hooks/modalToggleFunctionality';
 
-import "./mainSlider.scss";
-import close from "assets/close/closeGrey.svg";
-import { nextSvgCode } from "assets/mainSlider/nextSvgCode";
+import Spinner from 'components/userAlerts/spinner/Spinner';
+import ErrorMessage from 'components/userAlerts/errorMessage/ErrorMessage';
+
+import './mainSlider.scss';
+import close from 'assets/close/closeGrey.svg';
+import { nextSvgCode } from 'assets/mainSlider/nextSvgCode';
 
 const MainSlider = () => {
   const { newsAndPromotions } = useSelector((state) => state.db);
 
   const [modal, setModal] = useState(false);
-  const [transform, setTransform] = useState("0");
+  const [transform, setTransform] = useState('0');
   const [offset, setOffset] = useState(0);
   const [prevdisabled, setPrevDisabled] = useState(false);
   const [nextdisabled, setNextDisabled] = useState(false);
@@ -31,7 +36,7 @@ const MainSlider = () => {
   setScroll(modal);
 
   useEffect(() => {
-    getData("news and promotions", setNewsAndPromotions);
+    getData('news and promotions', setNewsAndPromotions);
   }, []);
 
   const handleSlide = (increment) => {
@@ -45,9 +50,13 @@ const MainSlider = () => {
 
   const slides = newsAndPromotions.map(({ img, id }) => {
     return (
-      <div onClick={() => setModal(id)} key={id} className="slider__slide">
+      <SwiperSlide
+        onClick={() => setModal(id)}
+        key={id}
+        className="slider__slide"
+      >
         <img className="slider__slide-img" src={img} alt={id} />
-      </div>
+      </SwiperSlide>
     );
   });
   const modals = newsAndPromotions.map(({ img, id, time, title, descr }) => {
@@ -87,18 +96,18 @@ const MainSlider = () => {
   const errorMessage = getDataError ? (
     <ErrorMessage
       styles={{
-        width: "250px",
-        height: "250px",
-        display: "block",
-        margin: "0 auto",
+        width: '250px',
+        height: '250px',
+        display: 'block',
+        margin: '0 auto',
       }}
     />
   ) : null;
   const loadingMessage = getDataLoading ? (
     <Spinner
       styles={{
-        display: "block",
-        margin: "0 auto",
+        display: 'block',
+        margin: '0 auto',
       }}
     />
   ) : null;
@@ -134,19 +143,35 @@ const MainSlider = () => {
   const modalsContent = !(getDataError || getDataLoading) ? modals : null;
 
   return (
-    <>
-      <section className="slider">
-        <div className="container">
-          <h1 className="slider__title">News and promotions</h1>
-          <div className="slider__wrapper">
-            {loadingMessage}
-            {errorMessage}
-            {slidesContent}
-          </div>
-        </div>
-      </section>
+    // <>
+    //   <section className="slider">
+    //     <div className="container">
+    //       <h1 className="slider__title">News and promotions</h1>
+    //       <div className="slider__wrapper">
+    //         {loadingMessage}
+    //         {errorMessage}
+    //         {slidesContent}
+    //       </div>
+    //     </div>
+    //   </section>
+    //   {modalsContent}
+    // </>
+    <section className="container">
+      <h1 className="slider__title">News and promotions</h1>
+      <Swiper
+        slidesPerView={3}
+        spaceBetween={30}
+        direction="vertical"
+        navigation={true}
+        modules={[Navigation]}
+        className="mySwiper"
+      >
+        {slides}
+      </Swiper>
+      {loadingMessage}
+      {errorMessage}
       {modalsContent}
-    </>
+    </section>
   );
 };
 
